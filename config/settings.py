@@ -3,7 +3,7 @@ Django settings for backend project
 """
 
 from pathlib import Path
-from env import settings
+from .env import settings
 from datetime import timedelta
 
 BASE_DIR = Path(__file__).resolve().parent.parent
