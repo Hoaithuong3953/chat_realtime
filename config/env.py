@@ -1,5 +1,6 @@
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from pydantic import Field
+from typing import Literal
 
 class Settings(BaseSettings):
     """
@@ -45,6 +46,20 @@ class Settings(BaseSettings):
     REFRESH_TOKEN_EXPIRE_DAYS: int = Field(
         default=7,
         description="Refresh token expiration time in days (default 7 days)"
+    )
+
+    # Logging configuration
+    LOG_LEVEL: Literal["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"] = Field(
+        default="INFO",
+        description="Logging level (default INFO)",
+    )
+    LOG_FORMAT: str = Field(
+        default="{asctime} | {levelname} | {module}:{funcName}:{lineno} - {message}",
+        description="Logging format (can be overridden by LOG_FORMAT in .env)"
+    )
+    LOG_DATE_FORMAT: str = Field(
+        default="%Y-%m-%d %H:%M:%S",
+        description="Logging date format (can be overridden by LOG_DATE_FORMAT in .env)"
     )
 
 settings = Settings()
