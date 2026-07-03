@@ -26,9 +26,11 @@ def custom_exception_handler(exc, context):
         exc: The exception instance
         context: The context in which the exception occurred
     """
-    
+    if isinstance(exc, AppException):
+        app_exc = exc
+
     # Handle DRF exceptions
-    if isinstance(exc, (AuthenticationFailed, NotAuthenticated)):
+    elif isinstance(exc, (AuthenticationFailed, NotAuthenticated)):
         app_exc = UnauthorizedException(details=exc.detail)
     
     elif isinstance(exc, PermissionDenied):
@@ -41,13 +43,9 @@ def custom_exception_handler(exc, context):
         app_exc = NotFoundException(details=exc.detail)
     
     else:
-        status = getattr(exc, "status_code", None)
-        if status is None:
-            status = HTTPStatus.INTERNAL_SERVER_ERROR
         app_exc = AppException(
             message="An unexpected error occurred.",
             details={},
-            http_status=status,
         )
 
     return Response(
