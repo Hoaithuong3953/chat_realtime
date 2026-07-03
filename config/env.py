@@ -54,7 +54,7 @@ class Settings(BaseSettings):
         description="Logging level (default INFO)",
     )
     LOG_FORMAT: str = Field(
-        default="{asctime} | {levelname} | {module}:{funcName}:{lineno} - {message}",
+        default="{asctime} | {levelname} | {name} | {message}",
         description="Logging format (can be overridden by LOG_FORMAT in .env)"
     )
     LOG_DATE_FORMAT: str = Field(

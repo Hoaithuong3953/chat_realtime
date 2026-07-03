@@ -106,9 +106,15 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+PASSWORD_HASHERS = [
+    "django.contrib.auth.hashers.BCryptSHA256PasswordHasher"
+]
+
+AUTH_USER_MODEL = "users.User"
+
 # Internationalization
 LANGUAGE_CODE = "en-us"
-TIME_ZONE = "Asia/Ho_Chi_Minh"
+TIME_ZONE = "UTC"
 USE_I18N = True
 USE_TZ = True
 
@@ -137,6 +143,13 @@ LOGGING = {
         "console": {
             "class": "logging.StreamHandler",
             "formatter": "default",
+        },
+    },
+    "loggers": {
+        "django.request": {
+            "handlers": ["console"],
+            "level": "ERROR",
+            "propagate": False,
         },
     },
     "root": {
