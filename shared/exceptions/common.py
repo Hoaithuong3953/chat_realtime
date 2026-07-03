@@ -7,7 +7,7 @@ class ValidationException(AppException):
     HTTP status code: 400 Bad Request
     """
     error_code = "VALIDATION_ERROR"
-    message = "Validation failed for the provided data"
+    message = "Validation failed for the provided data."
     http_status = HTTPStatus.BAD_REQUEST
 
 class UnauthorizedException(AppException):
@@ -16,7 +16,7 @@ class UnauthorizedException(AppException):
     HTTP status code: 401 Unauthorized
     """
     error_code = "UNAUTHORIZED"
-    message = "Authentication is required"
+    message = "Authentication is required."
     http_status = HTTPStatus.UNAUTHORIZED
 
 class ForbiddenException(AppException):
@@ -25,7 +25,7 @@ class ForbiddenException(AppException):
     HTTP status code: 403 Forbidden
     """
     error_code = "FORBIDDEN"
-    message = "Permission denied"
+    message = "Permission denied."
     http_status = HTTPStatus.FORBIDDEN
 
 class NotFoundException(AppException):
@@ -34,7 +34,7 @@ class NotFoundException(AppException):
     HTTP status code: 404 Not Found
     """
     error_code = "NOT_FOUND"
-    message = "The requested resource was not found"
+    message = "The requested resource was not found."
     http_status = HTTPStatus.NOT_FOUND
 
 class ConflictException(AppException):
@@ -43,7 +43,7 @@ class ConflictException(AppException):
     HTTP status code: 409 Conflict
     """
     error_code = "CONFLICT"
-    message = "Conflict occurred with the current state of the resource"
+    message = "Conflict occurred with the current state of the resource."
     http_status = HTTPStatus.CONFLICT
 
 class RateLimitException(AppException):
@@ -52,5 +52,5 @@ class RateLimitException(AppException):
     HTTP status code: 429 Too Many Requests
     """
     error_code = "RATE_LIMIT_EXCEEDED"
-    message = "Rate limit exceeded. Please try again later"
+    message = "Rate limit exceeded. Please try again later."
     http_status = HTTPStatus.TOO_MANY_REQUESTS
