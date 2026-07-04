@@ -1,5 +1,4 @@
-from django.db import transaction
-from rest_framework.exceptions import ValidationError
+from django.db import IntegrityError, transaction
 
 from apps.users.exception import DuplicateUserException
 from apps.users.models import User
@@ -13,12 +12,17 @@ class AuthService:
     """Service layer for authentication business logic"""
 
     @staticmethod
+    @transaction.atomic
     def register_user(request: RegisterRequest) -> RegisterResponse:
         """
         Register new user and return success response
         Raises ValidationError for business errors
         """
-        logger.debug(f"Register user started with data: {request}")
+        if User.objects.email_exists(request.email):
+            raise DuplicateUserException("email")
+
+        if User.objects.username_exists(request.username):
+            raise DuplicateUserException("username")
 
         try:
             # Validate data
@@ -31,23 +35,12 @@ class AuthService:
             password = validated_data['password']
             name = validated_data['name']
 
-            with transaction.atomic():
-                if User.objects.email_exists(email):
-                    logger.warning(f"Duplicate email: {email}")
-                    raise DuplicateUserException(field=email)
-                
-                if User.objects.username_exists(username):
-                    logger.warning(f"Duplicate username: {username}")
-                    raise DuplicateUserException(field=username)
-
-                user = User.objects.create_user(
-                    email=email,
-                    username=username,
-                    password=password,
-                    name=name
-                )
-
-            logger.info(f"User created successfully with id={user.id}, email={user.email}")
+            user = User.objects.create_user(
+                email=email,
+                username=username,
+                password=password,
+                name=name
+            )
 
             return RegisterResponse(
                 id=user.id,
@@ -59,11 +52,11 @@ class AuthService:
                 created_at=user.created_at,
             )
 
-        except DuplicateUserException:
-            raise
-        except ValidationError as e:
-            logger.warning(f"Validation failed: {e.detail}")
-            raise
+        except IntegrityError as e:
+            if "email" in str(e):
+                raise DuplicateUserException("email")
+            if "username" in str(e):
+                raise DuplicateUserException("username")
         except Exception as e:
             logger.exception(f"Unexpected error in register user: {str(e)}")
             raise
