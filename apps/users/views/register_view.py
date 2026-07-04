@@ -1,9 +1,11 @@
+from http import HTTPStatus
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 
 from apps.users.services.auth_service import AuthService
 from shared.responses import APIResponse
+from apps.users.serializers import RegisterSerializer
 from apps.users.dto import RegisterRequest
 
 class RegisterView(APIView):
@@ -18,13 +20,16 @@ class RegisterView(APIView):
         """
         Handle user registration request
         """
-        dto = RegisterRequest(**request.data)
+        serializer = RegisterSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
 
-        user_data = AuthService.register_user(dto)
+        request_dto = RegisterRequest(**serializer.validated_data)
+        response_dto = AuthService.register_user(request_dto)
+
         return Response(
             APIResponse.success(
                 message="Register successfully.",
-                data=user_data
+                data=response_dto.model_dump(mode="json"),
             ),
-            status=201
+            status=HTTPStatus.CREATED
         )

@@ -2,7 +2,6 @@ from django.db import IntegrityError, transaction
 
 from apps.users.exception import DuplicateUserException
 from apps.users.models import User
-from apps.users.serializers import RegisterSerializer
 from apps.users.dto import RegisterRequest, RegisterResponse
 from shared.logging import get_logger
 
@@ -25,21 +24,11 @@ class AuthService:
             raise DuplicateUserException("username")
 
         try:
-            # Validate data
-            serializer = RegisterSerializer(data=request)
-            serializer.is_valid(raise_exception=True)
-            validated_data = serializer.validated_data
-
-            email = validated_data["email"]
-            username = validated_data["username"]
-            password = validated_data['password']
-            name = validated_data['name']
-
             user = User.objects.create_user(
-                email=email,
-                username=username,
-                password=password,
-                name=name
+                email=request.email,
+                username=request.username,
+                password=request.password,
+                name=request.name,
             )
 
             return RegisterResponse(
