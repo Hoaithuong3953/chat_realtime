@@ -7,9 +7,6 @@ class UserManager(BaseUserManager):
 
     def create_user(self, email: str, username: str, password: str, name: str, **extra_fields):
         """Create and return a regular user"""        
-        email = email.strip().lower()
-        username = username.strip()
-
         extra_fields.setdefault("is_active", True)
         extra_fields.setdefault("role", UserRole.USER)
 
@@ -38,8 +35,8 @@ class UserManager(BaseUserManager):
     
     def email_exists(self, email: str) -> bool:
         """Check if email already exists"""
-        return self.filter(email=self.normalize_email(email).lower()).exists()
+        return self.filter(email=email).exists()
 
     def username_exists(self, username: str) -> bool:
         """Check if username already exists"""
-        return self.filter(username=username.strip()).exists()
+        return self.filter(username=username).exists()
