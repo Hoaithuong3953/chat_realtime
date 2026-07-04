@@ -1,6 +1,7 @@
 from rest_framework import serializers
 
 from apps.users.dto import RegisterRequest
+from apps.users.constants import PASSWORD_MIN_LENGTH
 
 class RegisterSerializer(serializers.Serializer):
     """
@@ -19,8 +20,10 @@ class RegisterSerializer(serializers.Serializer):
     )
     password = serializers.CharField(
         write_only=True,
+        min_length=PASSWORD_MIN_LENGTH,
         error_messages={
             "blank": "Password is required.",
+            "min_length": f"Password must be at least {PASSWORD_MIN_LENGTH} characters long."
         },
     )
     name = serializers.CharField(

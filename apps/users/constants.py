@@ -1,0 +1,9 @@
+"""
+Constants used by the users module
+"""
+
+USERNAME_MIN_LENGTH = 3
+USERNAME_MAX_LENGTH = 50
+NAME_MIN_LENGTH = 2
+NAME_MAX_LENGTH = 100
+PASSWORD_MIN_LENGTH = 8
