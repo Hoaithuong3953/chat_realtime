@@ -1,5 +1,5 @@
 """
-Constants and enumerations used by the users module
+Enumerations used by the users module
 """
 from django.db import models
 

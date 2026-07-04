@@ -3,7 +3,7 @@ from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 
 from shared.database.models import BaseSoftDeleteModel
 from .user_manager import UserManager
-from apps.users.constants import UserRole
+from apps.users.enums import UserRole
 
 class User(BaseSoftDeleteModel, AbstractBaseUser, PermissionsMixin):
     """Custom User model"""
