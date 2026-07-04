@@ -4,6 +4,7 @@ from rest_framework.permissions import AllowAny
 
 from apps.users.services.auth_service import AuthService
 from shared.responses import APIResponse
+from apps.users.dto import RegisterRequest
 
 class RegisterView(APIView):
     """
@@ -17,7 +18,9 @@ class RegisterView(APIView):
         """
         Handle user registration request
         """
-        user_data = AuthService.register_user(request.data)
+        dto = RegisterRequest(**request.data)
+
+        user_data = AuthService.register_user(dto)
         return Response(
             APIResponse.success(
                 message="Register successfully.",
