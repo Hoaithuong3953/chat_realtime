@@ -1,6 +1,5 @@
 from rest_framework import serializers
 
-from apps.users.dto import RegisterRequest
 from apps.users.constants import PASSWORD_MIN_LENGTH
 
 class RegisterSerializer(serializers.Serializer):
@@ -39,7 +38,3 @@ class RegisterSerializer(serializers.Serializer):
     def validate_username(self, value: str) -> str:
         """Normalize the username"""
         return value.strip()
-
-    def to_dto(self) -> RegisterRequest:
-        """Convert validated serializer data to application DTO"""
-        return RegisterRequest.model_validate(self.validated_data)

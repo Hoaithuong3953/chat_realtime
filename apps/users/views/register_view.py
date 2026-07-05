@@ -6,6 +6,7 @@ from rest_framework.permissions import AllowAny
 from apps.users.services.auth_service import AuthService
 from shared.responses import APIResponse
 from apps.users.serializers import RegisterSerializer
+from apps.users.dto import RegisterRequest
 
 class RegisterView(APIView):
     """
@@ -22,7 +23,9 @@ class RegisterView(APIView):
         serializer = RegisterSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
-        response_dto = AuthService.register_use(serializer.to_dto())
+        response_dto = AuthService.register_use(
+            RegisterRequest.model_validate(serializer.validated_data)
+        )
 
         return Response(
             APIResponse.success(
