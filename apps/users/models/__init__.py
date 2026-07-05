@@ -1,10 +1,10 @@
 """
 Export models for User module
 """
-from .user_manager import UserManager
 from .user_models import User
+from .refresh_tokens_models import RefreshToken
 
 __all__ = [
-    "UserManager",
     "User",
+    "RefreshToken",
 ]

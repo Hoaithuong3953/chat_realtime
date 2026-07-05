@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 
 from shared.database.models import BaseSoftDeleteModel
-from .user_manager import UserManager
+from apps.users.managers import UserManager
 from apps.users.enums import UserRole
 
 class User(BaseSoftDeleteModel, AbstractBaseUser, PermissionsMixin):
