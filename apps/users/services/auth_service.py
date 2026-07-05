@@ -2,7 +2,10 @@ from django.db import IntegrityError, transaction
 
 from apps.users.exception import DuplicateUserException
 from apps.users.models import User
-from apps.users.dto import RegisterRequest, RegisterResponse
+from apps.users.dto import (
+    RegisterRequest,
+    RegisterResponse,
+)
 from shared.logging import get_logger
 
 logger = get_logger(__name__)
@@ -31,15 +34,7 @@ class AuthService:
                 name=request.name,
             )
 
-            return RegisterResponse(
-                id=user.id,
-                email=user.email,
-                username=user.username,
-                name=user.name,
-                role=user.role,
-                is_active=user.is_active,
-                created_at=user.created_at,
-            )
+            return RegisterResponse.model_validate(user)
 
         except IntegrityError as e:
             if "email" in str(e):
