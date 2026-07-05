@@ -47,6 +47,10 @@ class Settings(BaseSettings):
         default=7,
         description="Refresh token expiration time in days (default 7 days)"
     )
+    JWT_SECRET_KEY: str = Field(
+        ...,
+        description="Secret key of JWT to generate refresh token"
+    )
 
     # Logging configuration
     LOG_LEVEL: Literal["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"] = Field(
