@@ -6,9 +6,6 @@ from apps.users.dto import (
     RegisterRequest,
     RegisterResponse,
 )
-from shared.logging import get_logger
-
-logger = get_logger(__name__)
 
 class AuthService:
     """Service layer for authentication business logic"""
@@ -34,13 +31,10 @@ class AuthService:
                 name=request.name,
             )
 
-            return RegisterResponse.model_validate(user)
-
         except IntegrityError as e:
             if "email" in str(e):
                 raise DuplicateUserException("email")
             if "username" in str(e):
                 raise DuplicateUserException("username")
-        except Exception as e:
-            logger.exception(f"Unexpected error in register user: {str(e)}")
-            raise
+            
+        return RegisterResponse.model_validate(user)
