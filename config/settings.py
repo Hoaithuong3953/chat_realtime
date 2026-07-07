@@ -3,8 +3,9 @@ Django settings for backend project
 """
 
 from pathlib import Path
-from .env import settings
 from datetime import timedelta
+
+from shared.config.env import settings
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 

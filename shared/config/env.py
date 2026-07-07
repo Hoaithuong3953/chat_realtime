@@ -51,6 +51,10 @@ class Settings(BaseSettings):
         ...,
         description="Secret key of JWT to generate refresh token"
     )
+    JWT_ALGORITHM: str = Field(
+        default="HS256",
+        description="Algorithm for JWT"
+    )
 
     # Logging configuration
     LOG_LEVEL: Literal["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"] = Field(
