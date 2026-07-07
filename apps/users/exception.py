@@ -1,4 +1,4 @@
-from shared.exceptions.common import ConflictException
+from shared.exceptions.common import ConflictException, UnauthorizedException
 
 class DuplicateUserException(ConflictException):
     """
@@ -9,3 +9,11 @@ class DuplicateUserException(ConflictException):
 
     def __init__(self, field: str):
         super().__init__(message=f"{field} already exists.")
+
+class InvalidCredentialsException(UnauthorizedException):
+    """
+    Exception raised when login information is wrong
+    HTTP status code: 401 Unauthorized
+    """
+    error_code = "INVALID_CREDENTIALS"
+    message = "Invalid email/username or password"
