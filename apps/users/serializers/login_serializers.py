@@ -9,11 +9,12 @@ class LoginSerializer(serializers.Serializer):
     """Login request serializer"""
     identifier = serializers.CharField(
         min_length=IDENTIFIER_MIN_LENGTH,
-        error_message={
-            "blank": "Email or username are required"
+        error_messages={
+            "blank": "Email or username are required",
+            "min_length": f"Email or username must be at least {IDENTIFIER_MIN_LENGTH} characters long."
         },
     )
-    password = serializers.Serializer(
+    password = serializers.CharField(
         min_length=PASSWORD_MIN_LENGTH,
         write_only=True,
         error_messages={
