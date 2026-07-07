@@ -6,7 +6,7 @@ from apps.users.managers import RefreshTokenManager
 
 class RefreshToken(BaseModel):
     """Refresh Token model"""
-    user_id = models.OneToOneField(
+    user = models.OneToOneField(
         User,
         on_delete=models.CASCADE,
         unique=True,
