@@ -12,6 +12,16 @@ class RefreshTokenManager(models.Manager):
             expires_in=expires_in,
         )
     
+    def upsert_token(self, user, refresh_token, expires_in):
+        return self.update_or_create(
+            user=user,
+            defaults={
+                "refresh_token": refresh_token,
+                "expires_in": expires_in,
+                "revoked_at": None,
+            }
+        )
+
     def get_valid(self, refresh_token):
         return self.filter(
             refresh_token=refresh_token,
