@@ -1,5 +1,3 @@
-from http import HTTPStatus
-
 from rest_framework.exceptions import (
     AuthenticationFailed,
     NotAuthenticated,
@@ -17,6 +15,9 @@ from .common import (
     NotFoundException,
 )
 from shared.responses import APIResponse
+from shared.logging import get_logger
+
+logger = get_logger(__name__)
 
 def custom_exception_handler(exc, context):
     """
@@ -43,6 +44,15 @@ def custom_exception_handler(exc, context):
         app_exc = NotFoundException(details=exc.detail)
     
     else:
+        request = context.get("request")
+        view = context.get("view")
+        logger.exception(
+            "Unhandled exception. view=%s method=%s path=%s",
+            view.__class__.__name__ if view else "unknown",
+            request.method if request else "?",
+            request.path if request else "?",
+            exc_info=exc,
+        )
         app_exc = AppException(
             message="An unexpected error occurred.",
             details={},
