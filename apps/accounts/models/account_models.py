@@ -10,7 +10,7 @@ class Account(BaseSoftDeleteModel, AbstractBaseUser):
     Custom user model for authentication and authorization
     """
     email = models.EmailField(unique=True)
-    username = models.CharField(max_length=50, unique=True)
+    username = models.CharField(max_length=30, unique=True)
     role = models.CharField(
         max_length=10,
         choices=Role.choices,
