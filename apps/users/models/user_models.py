@@ -1,32 +1,25 @@
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
+from django.conf import settings
 
 from shared.database.models import BaseSoftDeleteModel
-from apps.users.managers import UserManager
-from apps.users.enums import UserRole
 
-class User(BaseSoftDeleteModel, AbstractBaseUser, PermissionsMixin):
-    """Custom User model"""
-    email = models.EmailField(max_length=255, unique=True)
-    username = models.CharField(max_length=50, unique=True)
-    name = models.CharField(max_length=100)
-    role = models.CharField(
-        max_length=10,
-        choices=UserRole.choices,
-        default=UserRole.USER,
+class User(BaseSoftDeleteModel):
+    """
+    Represents the profile information associated with an account
+    """
+    account = models.OneToOneField(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="user_profile",
     )
-    is_active = models.BooleanField(default=True)
-    is_staff = models.BooleanField(default=False)
-    is_superuser = models.BooleanField(default=False)
-
-    objects = UserManager()
-
-    USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = ["username", "name"]
+    full_name = models.CharField(max_length=100)
+    phone_number = models.CharField(max_length=20, blank=True)
+    address = models.CharField(max_length=255, blank=True)
+    date_of_birth = models.DateField(null=True, blank=True)
 
     class Meta:
         db_table = "user"
         ordering = ["-created_at"]
 
     def __str__(self):
-        return f"{self.email} ({self.username})"
+        return self.full_name

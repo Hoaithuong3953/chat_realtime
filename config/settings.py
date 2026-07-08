@@ -26,6 +26,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "rest_framework",
     "apps.users",
+    "apps.accounts",
 ]
 
 MIDDLEWARE = [
@@ -112,7 +113,7 @@ PASSWORD_HASHERS = [
     "django.contrib.auth.hashers.BCryptSHA256PasswordHasher"
 ]
 
-AUTH_USER_MODEL = "users.User"
+AUTH_USER_MODEL = "accounts.Account"
 
 # Internationalization
 LANGUAGE_CODE = "en-us"
