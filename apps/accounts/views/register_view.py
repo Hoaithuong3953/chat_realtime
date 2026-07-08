@@ -3,10 +3,10 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 
-from apps.users.services.auth_service import AuthService
+from apps.accounts.services import RegisterService
 from shared.responses import APIResponse
-from apps.users.serializers import RegisterSerializer
-from apps.users.dto import RegisterRequest
+from apps.accounts.serializers import RegisterSerializer
+from apps.accounts.dtos import RegisterRequest
 
 class RegisterView(APIView):
     """
@@ -14,7 +14,6 @@ class RegisterView(APIView):
     Public endpoint (no authentication required)
     """
     permission_classes = [AllowAny]
-    authentication_classes = []
     
     def post(self, request):
         """
@@ -23,7 +22,7 @@ class RegisterView(APIView):
         serializer = RegisterSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
-        response_dto = AuthService.register_use(
+        response_dto = RegisterService.register(
             RegisterRequest.model_validate(serializer.validated_data)
         )
 
