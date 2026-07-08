@@ -23,3 +23,11 @@ class AccountManager(BaseUserManager):
         account.save(using=self._db)
 
         return account
+
+    def email_exists(self, email: str) -> bool:
+        """Check if email already exists"""
+        return self.filter(email=email).exists()
+
+    def username_exists(self, username: str) -> bool:
+        """Check if username already exists"""
+        return self.filter(username=username).exists()
