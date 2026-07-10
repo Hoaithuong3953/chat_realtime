@@ -1,4 +1,5 @@
 from django.contrib.auth.base_user import BaseUserManager
+from django.db.models import Q
 
 from apps.accounts.enums import Role
 
@@ -31,3 +32,9 @@ class AccountManager(BaseUserManager):
     def username_exists(self, username: str) -> bool:
         """Check if username already exists"""
         return self.filter(username=username).exists()
+    
+    def get_by_identifier(self, identifier: str):
+        """Get user by username or email"""
+        return self.filter(
+            Q(email=identifier) | Q(username=identifier)
+        ).first()
