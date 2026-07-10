@@ -1,13 +1,13 @@
 from django.db import models
 
 from shared.database.models import BaseModel
-from .user_models import User
-from apps.users.managers import RefreshTokenManager
+from apps.accounts.models import Account
+from apps.accounts.managers import RefreshTokenManager
 
 class RefreshToken(BaseModel):
     """Refresh Token model"""
-    user = models.OneToOneField(
-        User,
+    account = models.OneToOneField(
+        Account,
         on_delete=models.CASCADE,
         unique=True,
     )
@@ -21,4 +21,4 @@ class RefreshToken(BaseModel):
         db_table = "refresh_tokens"
 
     def __str__(self):
-        return str(self.user_id)
+        return str(self.account.id)
