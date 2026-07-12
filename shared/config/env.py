@@ -48,6 +48,20 @@ class Settings(BaseSettings):
         description="Refresh token expiration time in days (default 7 days)"
     )
 
+    # Cookie configuration
+    REFRESH_COOKIE_NAME: str = Field(
+        default="refresh_token",
+        description="Name of refresh token cookie"
+    )
+    REFRESH_COOKIE_SECURE: bool = Field(
+        default=False,
+        description="Only send cookie over HTTPS"
+    )
+    REFRESH_COOKIE_SAMESITE: Literal["Lax", "Strict", "None"] = Field(
+        default="Lax",
+        description="SameSite policy"
+    )
+
     # Logging configuration
     LOG_LEVEL: Literal["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"] = Field(
         default="INFO",

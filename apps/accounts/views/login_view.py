@@ -6,6 +6,7 @@ from rest_framework.response import Response
 from apps.accounts.serializers import LoginSerializer
 from apps.accounts.services import LoginService
 from apps.accounts.dtos import LoginRequest
+from shared.security.cookie_service import CookieService
 from shared.responses import APIResponse
 
 class LoginView(APIView):
@@ -26,10 +27,19 @@ class LoginView(APIView):
             LoginRequest.model_validate(serializer.validated_data)
         )
 
-        return Response(
+        response = Response(
             APIResponse.success(
                 message="Login successfully.",
-                data=response_dto.model_dump(mode="json"),
+                data={
+                    "access_token": response_dto.access_token
+                },
             ),
             status=HTTPStatus.OK,
         )
+
+        CookieService.set_refresh_token(
+            response=response,
+            refresh_token=response_dto.refresh_token,
+        )
+
+        return response
