@@ -31,3 +31,8 @@ class AccountDisabledException(ForbiddenException):
     """
     error_code = "ACCOUNT_DISABLED"
     message = "Account is disabled."
+
+class InvalidRefreshTokenException(UnauthorizedException):
+
+    error_code = "INVALID_REFRESH_TOKEN"
+    message = "Refresh token is invalid."
