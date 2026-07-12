@@ -1,12 +1,15 @@
 import secrets
 from django.utils import timezone
+from datetime import timedelta
 
-from shared.config.jwt import jwt_config
+from shared.config.env import settings
 
 class RefreshTokenService:
     """Creates refresh tokens and manages their lifetime"""
 
-    REFRESH_TOKEN_LIFETIME = jwt_config.refresh_lifetime
+    REFRESH_TOKEN_LIFETIME = timedelta(
+        days=settings.REFRESH_TOKEN_EXPIRE_DAYS
+    )
 
     @staticmethod   
     def generate_refresh_token() -> str:
