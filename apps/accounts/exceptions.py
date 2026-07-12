@@ -1,4 +1,4 @@
-from shared.exceptions.common import ConflictException, UnauthorizedException
+from shared.exceptions.common import ConflictException, UnauthorizedException, ForbiddenException
 
 class EmailAlreadyExistsException(ConflictException):
     """
@@ -23,3 +23,11 @@ class InvalidCredentialsException(UnauthorizedException):
     """
     error_code = "INVALID_CREDENTIALS"
     message = "Invalid email/username or password"
+
+class AccountDisabledException(ForbiddenException):
+    """
+    Exception raised when account is not active
+    HTTP status code: 403 Forbidden
+    """
+    error_code = "ACCOUNT_DISABLED"
+    message = "Account is disabled."

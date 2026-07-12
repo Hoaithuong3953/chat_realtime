@@ -1,7 +1,7 @@
 from django.db import transaction
 from django.contrib.auth.models import update_last_login
 
-from apps.accounts.exceptions import InvalidCredentialsException
+from apps.accounts.exceptions import InvalidCredentialsException, AccountDisabledException
 from apps.accounts.dtos import LoginRequest, LoginResponse
 from apps.accounts.models import Account, RefreshToken
 from shared.security import (
@@ -22,6 +22,7 @@ class LoginService:
 
         Raises:
             InvalidCredentialsException: If the email/username or password is incorrect
+            AccountDisabledException: If the account is not active (is_active=False)
         """
         account = Account.objects.get_by_identifier(
             dto.identifier,
@@ -32,6 +33,9 @@ class LoginService:
 
         if not account.check_password(dto.password):
             raise InvalidCredentialsException()
+        
+        if account.is_active == False:
+            raise AccountDisabledException()
         
         access_token = JWTService.generate_access_token(user_id=account.id)
         refresh_token = RefreshTokenService.generate_refresh_token()
