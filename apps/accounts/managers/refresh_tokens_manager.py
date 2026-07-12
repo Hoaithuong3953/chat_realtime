@@ -1,4 +1,3 @@
-from datetime import timezone
 from django.db import models
 
 class RefreshTokenManager(models.Manager):
@@ -19,4 +18,20 @@ class RefreshTokenManager(models.Manager):
                 "expires_in": expires_in,
                 "revoked_at": None,
             }
+        )
+    
+    def find_by_hash(self, refresh_token):
+        return (
+            self.select_related("account")
+            .filter(refresh_token=refresh_token)
+            .first()
+        )
+    
+    def rotate_token(self, account_id, refresh_token, expires_in):
+        return self.filter(
+            account_id=account_id,
+        ).update(
+            refresh_token=refresh_token,
+            expires_in=expires_in,
+            revoked_at=None,
         )
