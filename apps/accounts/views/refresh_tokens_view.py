@@ -19,7 +19,7 @@ class RefreshView(APIView):
             settings.REFRESH_COOKIE_NAME
         )
 
-        response_dto = RefreshService.refresh(
+        result = RefreshService.refresh(
             refresh_token=refresh_token,
         )
 
@@ -27,7 +27,7 @@ class RefreshView(APIView):
             APIResponse.success(
                 message="Refresh token successfully.",
                 data={
-                    "access_token": response_dto.access_token
+                    "access_token": result.access_token
                 },
             ),
             status=HTTPStatus.OK,
@@ -35,7 +35,7 @@ class RefreshView(APIView):
 
         CookieService.set_refresh_token(
             response=response,
-            refresh_token=response_dto.refresh_token,
+            refresh_token=result.refresh_token,
         )
 
         return response

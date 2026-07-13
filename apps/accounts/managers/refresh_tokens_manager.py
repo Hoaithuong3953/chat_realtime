@@ -20,10 +20,13 @@ class RefreshTokenManager(models.Manager):
             }
         )
     
-    def find_by_hash(self, refresh_token):
+    def find_active_by_hash(self, refresh_token):
         return (
             self.select_related("account")
-            .filter(refresh_token=refresh_token)
+            .filter(
+                refresh_token=refresh_token,
+                revoked_at__isnull=True,
+            )
             .first()
         )
     

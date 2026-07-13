@@ -8,4 +8,5 @@ from .refresh_tokens_view import RefreshView
 __all__ = [
     "RegisterView",
     "LoginView",
+    "RefreshView",
 ]

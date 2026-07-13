@@ -12,14 +12,11 @@ class RefreshService:
     @staticmethod
     @transaction.atomic
     def refresh(refresh_token: str) -> RefreshTokenResponse:
-        refresh_token = TokenHasher.hash_token(refresh_token)
+        hashed_refresh_token  = TokenHasher.hash_token(refresh_token)
 
-        refresh = RefreshToken.objects.find_by_hash(refresh_token)
+        refresh = RefreshToken.objects.find_active_by_hash(hashed_refresh_token)
 
         if refresh is None:
-            raise InvalidRefreshTokenException()
-
-        if refresh.revoked_at is not None:
             raise InvalidRefreshTokenException()
 
         if refresh.expires_in <= timezone.now():
