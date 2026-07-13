@@ -1,4 +1,9 @@
-from shared.exceptions.common import ConflictException, UnauthorizedException, ForbiddenException
+from shared.exceptions.common import (
+    ConflictException,
+    UnauthorizedException,
+    ForbiddenException,
+    NotFoundException,
+)
 
 class EmailAlreadyExistsException(ConflictException):
     """
@@ -33,6 +38,17 @@ class AccountDisabledException(ForbiddenException):
     message = "Account is disabled."
 
 class InvalidRefreshTokenException(UnauthorizedException):
-
+    """
+    Exception raised when refresh token is invalid
+    HTTP status code: 401 Unauthorized
+    """
     error_code = "INVALID_REFRESH_TOKEN"
     message = "Refresh token is invalid."
+
+class AccountNotFoundException(NotFoundException):
+    """
+    Exception raised when account can not found
+    HTTP status code: 404 Not Found
+    """
+    error_code = "ACCOUNT_NOT_FOUND"
+    message = "Account not found."

@@ -4,6 +4,7 @@ Export DTOs for Account module
 from .register_dto import RegisterRequest, RegisterResponse
 from .login_dto import LoginRequest, LoginResponse
 from .refresh_tokens_dto import RefreshTokenResponse
+from .me_dto import MeResponse
 
 __all__ = [
     "RegisterRequest",
@@ -11,4 +12,5 @@ __all__ = [
     "LoginRequest",
     "LoginResponse",
     "RefreshTokenResponse",
+    "MeResponse",
 ]
