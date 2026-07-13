@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 
 class RefreshTokenManager(models.Manager):
     """Manager for Refresh Token model"""
@@ -37,4 +38,15 @@ class RefreshTokenManager(models.Manager):
             refresh_token=refresh_token,
             expires_in=expires_in,
             revoked_at=None,
+        )
+    
+    def revoke_by_hash(self, refresh_token):
+        return (
+            self.filter(
+                refresh_token=refresh_token,
+                revoked_at__isnull=True,
+            )
+            .update(
+                revoked_at=timezone.now(),
+            )
         )

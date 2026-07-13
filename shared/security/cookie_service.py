@@ -17,3 +17,11 @@ class CookieService:
             max_age=settings.REFRESH_TOKEN_EXPIRE_DAYS*24*60*60,
             path="/api/v1/auth",
         )
+
+    @staticmethod
+    def delete_refresh_token(response: HttpResponse) -> None:
+        response.delete_cookie(
+            key=settings.REFRESH_COOKIE_NAME,
+            samesite=settings.REFRESH_COOKIE_SAMESITE,
+            path="/api/v1/auth",
+        )
