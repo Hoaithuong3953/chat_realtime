@@ -13,9 +13,11 @@ class User(BaseSoftDeleteModel):
         related_name="user_profile",
     )
     full_name = models.CharField(max_length=100)
-    phone_number = models.CharField(max_length=20, blank=True)
-    address = models.CharField(max_length=255, blank=True)
-    date_of_birth = models.DateField(null=True, blank=True)
+    avatar_url = models.URLField(max_length=500, blank=True, null=True)
+    phone_number = models.CharField(max_length=20, blank=True, null=True)
+    address = models.CharField(max_length=255, blank=True, null=True)
+    dob = models.DateField(null=True, blank=True)
+    bio = models.TextField(blank=True, null=True)
 
     class Meta:
         db_table = "user"
