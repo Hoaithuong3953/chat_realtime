@@ -1,6 +1,7 @@
 from django.db import models
 from django.conf import settings
 
+from apps.users.managers import UserManager
 from shared.database.models import BaseSoftDeleteModel
 
 class User(BaseSoftDeleteModel):
@@ -18,6 +19,8 @@ class User(BaseSoftDeleteModel):
     address = models.CharField(max_length=255, blank=True, null=True)
     dob = models.DateField(null=True, blank=True)
     bio = models.TextField(blank=True, null=True)
+
+    objects = UserManager()
 
     class Meta:
         db_table = "users"
