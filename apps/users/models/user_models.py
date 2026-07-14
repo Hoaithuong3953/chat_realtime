@@ -20,7 +20,7 @@ class User(BaseSoftDeleteModel):
     bio = models.TextField(blank=True, null=True)
 
     class Meta:
-        db_table = "user"
+        db_table = "users"
         ordering = ["-created_at"]
 
     def __str__(self):

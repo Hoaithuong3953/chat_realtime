@@ -24,7 +24,7 @@ class Account(BaseSoftDeleteModel, AbstractBaseUser):
     objects = AccountManager()
 
     class Meta:
-        db_table = "account"
+        db_table = "accounts"
 
     def __str__(self):
         return f"{self.email} ({self.username})"
