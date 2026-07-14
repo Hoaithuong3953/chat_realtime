@@ -39,10 +39,6 @@ class AccountManager(BaseUserManager):
             Q(email=identifier) | Q(username=identifier)
         ).first()
     
-    def get_by_id_with_user(self, account_id):
-        """Get user by id"""
-        return (
-            self.select_related("user_profile")
-            .filter(id=account_id)
-            .first()
-        )
+    def get_by_id(self, account_id):
+        """Get account by id"""
+        return self.filter(id=account_id).first()

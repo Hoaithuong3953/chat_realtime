@@ -11,7 +11,6 @@ class MeResponse(BaseModel):
     id: UUID = Field(description="Unique user account ID")
     email: EmailStr = Field(description="The email address")
     username: str = Field(description="The username")
-    full_name: str = Field(description="The display name")
     role: Role = Field(description="The role of user account (USER, ADMIN)")
     is_active: bool = Field(description="Status of user account")
     created_at: datetime = Field(description="User account creation time")
