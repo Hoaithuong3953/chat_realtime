@@ -1,5 +1,4 @@
 import re
-from django.core.validators import RegexValidator
 from rest_framework import serializers
 
 from apps.accounts.constants import (
@@ -7,6 +6,7 @@ from apps.accounts.constants import (
     USERNAME_MIN_LENGTH,
     PASSWORD_MIN_LENGTH,
     FULL_NAME_MIN_LENGTH,
+    FULL_NAME_MAX_LENGTH,
     USERNAME_PATTERN,
     PASSWORD_UPPERCASE_PATTERN,
     PASSWORD_LOWERCASE_PATTERN,
@@ -25,19 +25,15 @@ class RegisterSerializer(serializers.Serializer):
         },
     )
 
-    username = serializers.CharField(
+    username = serializers.RegexField(
         min_length=USERNAME_MIN_LENGTH,
         max_length=USERNAME_MAX_LENGTH,
-        validators=[
-            RegexValidator(
-                regex=USERNAME_PATTERN,
-                message=("Username must start with a letter and contain only letters, numbers, '.', '_' or '-'.")
-            )
-        ],
+        regex=USERNAME_PATTERN,
         error_messages={
             "blank": "Username is required.",
             "min_length": f"Username must be at least {USERNAME_MIN_LENGTH} characters.",
             "max_length": f"Username must not exceed {USERNAME_MAX_LENGTH} characters.",
+            "invalid": "Username must start with a letter and contain only letters, numbers, '.', '_' or '-'."
         },
     )
 
@@ -52,9 +48,11 @@ class RegisterSerializer(serializers.Serializer):
 
     full_name = serializers.CharField(
         min_length=FULL_NAME_MIN_LENGTH,
+        max_length=FULL_NAME_MAX_LENGTH,
         error_messages={
             "blank": "Full name is required.",
             "min_length": f"Fullname must be at least {FULL_NAME_MIN_LENGTH} characters long.",
+            "max_length": f"Fullname must not exceed {FULL_NAME_MAX_LENGTH} characters long.",
         },
     )
 
