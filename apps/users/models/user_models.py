@@ -2,7 +2,7 @@ from django.db import models
 from django.conf import settings
 
 from apps.users.managers import UserManager
-from shared.database.models import BaseSoftDeleteModel
+from shared.base_models import BaseSoftDeleteModel
 
 class User(BaseSoftDeleteModel):
     """

@@ -5,8 +5,8 @@ from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny
 
 from apps.accounts.services import LogoutService
-from shared.responses.api_response import APIResponse
-from shared.config.env import settings
+from shared.api_response import APIResponse
+from shared.env import settings
 from shared.security.cookie_service import CookieService
 
 class LogoutView(APIView):

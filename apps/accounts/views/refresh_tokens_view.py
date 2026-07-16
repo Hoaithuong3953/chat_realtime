@@ -4,8 +4,8 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from apps.accounts.services import RefreshService
-from shared.responses.api_response import APIResponse
-from shared.config.env import settings
+from shared.api_response import APIResponse
+from shared.env import settings
 from shared.security.cookie_service import CookieService
 
 

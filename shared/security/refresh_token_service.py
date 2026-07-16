@@ -2,7 +2,7 @@ import secrets
 from django.utils import timezone
 from datetime import timedelta
 
-from shared.config.env import settings
+from shared.env import settings
 
 class RefreshTokenService:
     """Creates refresh tokens and manages their lifetime"""

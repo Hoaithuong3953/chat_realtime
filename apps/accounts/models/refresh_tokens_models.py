@@ -1,6 +1,6 @@
 from django.db import models
 
-from shared.database.models import BaseModel
+from shared.base_models import BaseModel
 from apps.accounts.models import Account
 from apps.accounts.managers import RefreshTokenManager
 

@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 
 from apps.accounts.services import RegisterService
-from shared.responses import APIResponse
+from shared.api_response import APIResponse
 from apps.accounts.serializers import RegisterSerializer
 from apps.accounts.dtos import RegisterRequest
 

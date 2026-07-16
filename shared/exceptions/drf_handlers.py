@@ -14,8 +14,8 @@ from .common import (
     ForbiddenException,
     NotFoundException,
 )
-from shared.responses import APIResponse
-from shared.logging import get_logger
+from shared.api_response import APIResponse
+from shared.logger import get_logger
 
 logger = get_logger(__name__)
 

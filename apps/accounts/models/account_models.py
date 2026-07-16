@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser
 
 from apps.accounts.managers.account_manager import AccountManager
-from shared.database.models import BaseSoftDeleteModel
+from shared.base_models import BaseSoftDeleteModel
 from apps.accounts.enums import Role
 
 class Account(BaseSoftDeleteModel, AbstractBaseUser):

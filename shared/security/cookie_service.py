@@ -1,6 +1,6 @@
 from django.http import HttpResponse
 
-from shared.config.env import settings
+from shared.env import settings
 
 class CookieService:
     """Service for managing authentication-related HTTP cookies"""

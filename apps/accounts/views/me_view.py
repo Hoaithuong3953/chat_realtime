@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from http import HTTPStatus
 
 from apps.accounts.services.me_service import MeService
-from shared.responses import APIResponse
+from shared.api_response import APIResponse
 
 class MeView(APIView):
 

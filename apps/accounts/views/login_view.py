@@ -7,7 +7,7 @@ from apps.accounts.serializers import LoginSerializer
 from apps.accounts.services import LoginService
 from apps.accounts.dtos import LoginRequest
 from shared.security.cookie_service import CookieService
-from shared.responses import APIResponse
+from shared.api_response import APIResponse
 
 class LoginView(APIView):
     """
