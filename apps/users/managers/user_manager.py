@@ -14,3 +14,17 @@ class UserManager(models.Manager):
 
         user.save(update_fields=[*fields.keys(), "updated_at"])
         return user
+
+    def get_all_active(self, q):
+        """Get all active user for search"""
+        queryset = (
+            self.select_related("account")
+            .filter(account__is_active=True)
+        )
+
+        if q:
+            queryset = queryset.filter(
+                full_name__icontains=q
+            )
+
+        return queryset.order_by("-created_at")
