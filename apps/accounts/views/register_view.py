@@ -1,14 +1,12 @@
 from http import HTTPStatus
-from rest_framework.views import APIView
-from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 
 from apps.accounts.services import RegisterService
-from shared.api_response import APIResponse
 from apps.accounts.serializers import RegisterSerializer
 from apps.accounts.dtos import RegisterRequest
+from shared.base_api_view import BaseApiView
 
-class RegisterView(APIView):
+class RegisterView(BaseApiView):
     """
     View for user registration
     Public endpoint (no authentication required)
@@ -26,10 +24,8 @@ class RegisterView(APIView):
             RegisterRequest.model_validate(serializer.validated_data)
         )
 
-        return Response(
-            APIResponse.success(
-                message="Register successfully.",
-                data=response_dto.model_dump(mode="json"),
-            ),
-            status=HTTPStatus.CREATED,
+        return self.success_respone(
+            message="Register successfully.",
+            data=response_dto.model_dump(mode="json"),
+            http_status=HTTPStatus.CREATED,
         )

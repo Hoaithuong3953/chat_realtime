@@ -1,13 +1,9 @@
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from http import HTTPStatus
-
 from apps.users.serializers.get_user_serializer import GetUsersSerializer
 from apps.users.services.user_service import UserService
 from apps.users.dtos.get_user_dto import GetUsersRequest
-from shared.api_response import APIResponse
+from shared.base_api_view import BaseApiView
 
-class UserView(APIView):
+class UserView(BaseApiView):
     """
     View for user listing
     Private endpoint (authentication required)
@@ -26,10 +22,7 @@ class UserView(APIView):
             )
         )
 
-        return Response(
-            APIResponse.success(
-                message="Get users successfully.",
-                data=result.model_dump(mode="json"),
-            ),
-            status=HTTPStatus.OK,
+        return self.success_respone(
+            message="Get users successfully.",
+            data=result.model_dump(mode="json"),
         )

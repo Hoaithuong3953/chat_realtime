@@ -1,15 +1,12 @@
-from http import HTTPStatus
-from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny
-from rest_framework.response import Response
 
 from apps.accounts.serializers import LoginSerializer
 from apps.accounts.services import LoginService
 from apps.accounts.dtos import LoginRequest
 from shared.security.cookie_service import CookieService
-from shared.api_response import APIResponse
+from shared.base_api_view import BaseApiView
 
-class LoginView(APIView):
+class LoginView(BaseApiView):
     """
     View for user authentication
     Public endpoint (No authentication required)
@@ -27,14 +24,9 @@ class LoginView(APIView):
             LoginRequest.model_validate(serializer.validated_data)
         )
 
-        response = Response(
-            APIResponse.success(
-                message="Login successfully.",
-                data={
-                    "access_token": response_dto.access_token
-                },
-            ),
-            status=HTTPStatus.OK,
+        response = self.success_respone(
+            message="Login successfully.",
+            data={"access_token": response_dto.access_token},
         )
 
         CookieService.set_refresh_token(

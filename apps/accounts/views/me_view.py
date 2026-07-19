@@ -1,19 +1,13 @@
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from http import HTTPStatus
-
 from apps.accounts.services.me_service import MeService
-from shared.api_response import APIResponse
+from shared.base_api_view import BaseApiView
 
-class MeView(APIView):
+class MeView(BaseApiView):
 
     def get(self, request):
+        """Handle get current account information request"""
         result = MeService.me(account_id=request.user.id)
 
-        return Response(
-            APIResponse.success(
-                message="Get current user successfully.",
-                data=result.model_dump(mode="json")
-            ),
-            status=HTTPStatus.OK
+        return self.success_respone(
+            message="Get current user successfully.",
+            data=result.model_dump(mode="json"),
         )

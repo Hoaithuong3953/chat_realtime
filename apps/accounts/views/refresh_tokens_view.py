@@ -1,20 +1,16 @@
-from http import HTTPStatus
 from rest_framework.permissions import AllowAny
-from rest_framework.response import Response
-from rest_framework.views import APIView
 
 from apps.accounts.services import RefreshService
-from shared.api_response import APIResponse
 from shared.env import settings
 from shared.security.cookie_service import CookieService
+from shared.base_api_view import BaseApiView
 
-
-class RefreshView(APIView):
+class RefreshView(BaseApiView):
 
     permission_classes = [AllowAny]
 
     def post(self, request):
-
+        """Handle generate a new access token request"""
         refresh_token = request.COOKIES.get(
             settings.REFRESH_COOKIE_NAME
         )
@@ -23,14 +19,11 @@ class RefreshView(APIView):
             refresh_token=refresh_token,
         )
 
-        response = Response(
-            APIResponse.success(
-                message="Refresh token successfully.",
-                data={
-                    "access_token": result.access_token
-                },
-            ),
-            status=HTTPStatus.OK,
+        response = self.success_respone(
+            message="Refresh token successfully.",
+            data={
+                "access_token": result.access_token
+            },
         )
 
         CookieService.set_refresh_token(

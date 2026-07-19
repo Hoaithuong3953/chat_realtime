@@ -1,26 +1,21 @@
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from http import HTTPStatus
-
 from apps.users.services import ProfileService
 from apps.users.dtos import UpdateProfileRequest
 from apps.users.serializers import UpdateProfileSerializer
-from shared.api_response import APIResponse
+from shared.base_api_view import BaseApiView
 
-class ProfileView(APIView):
+class ProfileView(BaseApiView):
     
     def get(self, request):
+        """Handle get user information request"""
         result = ProfileService.get_profile(account_id=request.user.id)
 
-        return Response(
-            APIResponse.success(
-                message="Get profile successfully.",
-                data=result.model_dump(mode="json")
-            ),
-            status=HTTPStatus.OK
+        return self.success_respone(
+            message="Get profile successfully.",
+            data=result.model_dump(mode="json")
         )
     
     def patch(self, request):
+        """Handle update user information request"""
         serializer = UpdateProfileSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
@@ -31,10 +26,7 @@ class ProfileView(APIView):
             dto=dto,
         )
 
-        return Response(
-            APIResponse.success(
-                message="Profile updated successfully.",
-                data=result.model_dump(mode="json")
-            ),
-            status=HTTPStatus.OK,
+        return self.success_respone(
+            message="Profile updated successfully.",
+            data=result.model_dump(mode="json")
         )
