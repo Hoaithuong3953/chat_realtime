@@ -15,4 +15,8 @@ urlpatterns = [
         "api/v1/users/",
         include("apps.users.urls")
     ),
+    path(
+        "api/v1/chats/",
+        include("apps.chats.urls")
+    )
 ]
