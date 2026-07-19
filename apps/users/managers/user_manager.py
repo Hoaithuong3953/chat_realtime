@@ -10,6 +10,13 @@ class UserManager(models.Manager):
     def get_by_id(self, user_id):
         """Get user by id"""
         return self.filter(id=user_id).first()
+    
+    def get_active_users(self):
+        """Get all active users"""
+        return (
+            self.select_related("account")
+            .filter(account__is_active=True)
+        )
 
     def update_profile(self, user, **fields):
         """Update user profile information"""
@@ -19,12 +26,9 @@ class UserManager(models.Manager):
         user.save(update_fields=[*fields.keys(), "updated_at"])
         return user
 
-    def get_all_active(self, q):
+    def search_active_users(self, q):
         """Get all active user for search"""
-        queryset = (
-            self.select_related("account")
-            .filter(account__is_active=True)
-        )
+        queryset = self.get_active_users()
 
         if q:
             queryset = queryset.filter(

@@ -15,7 +15,7 @@ class UserService:
         """
         Get all active user for search
         """
-        queryset = User.objects.get_all_active(
+        queryset = User.objects.search_active_users(
             q=dto.q,
         )
 
