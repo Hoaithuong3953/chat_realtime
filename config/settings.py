@@ -27,6 +27,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "apps.users",
     "apps.accounts",
+    "apps.chats",
 ]
 
 MIDDLEWARE = [

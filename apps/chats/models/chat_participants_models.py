@@ -1,23 +1,20 @@
 from django.db import models
-from config import settings
 
 from apps.chats.constants import ROLE_MAX_LENGTH
 from apps.chats.enums import ChatRole
-from .chat_models import ChatModel
 
-class ChatParticipantModel(models.Model):
+class ChatParticipant(models.Model):
     """Represents the participants who join in a chat room"""
     chat = models.ForeignKey(
-        ChatModel,
-        on_delete=models.CASCADE,
-        related_name="participants",
-    )
-    account = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
+        "chats.Chat",
         on_delete=models.CASCADE,
         related_name="chat_participants",
     )
-
+    user = models.ForeignKey(
+        "users.User",
+        on_delete=models.CASCADE,
+        related_name="chat_participants",
+    )
     role = models.CharField(
         max_length=ROLE_MAX_LENGTH,
         choices=ChatRole.choices,
@@ -30,7 +27,7 @@ class ChatParticipantModel(models.Model):
         db_table = "chat_participants"
         constraints = [
             models.UniqueConstraint(
-                fields=["chat", "account"],
+                fields=["chat", "user"],
                 name="uq_chat_participant",
             )
         ]

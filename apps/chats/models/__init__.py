@@ -1,10 +1,10 @@
 """
-Export models for Account module
+Export models for Chat module
 """
-from .chat_models import ChatModel
-from .chat_participants_models import ChatParticipantModel
+from .chat_models import Chat
+from .chat_participants_models import ChatParticipant
 
 __all__ = [
-    "ChatModel",
-    "ChatParticipantModel",
+    "Chat",
+    "ChatParticipant",
 ]

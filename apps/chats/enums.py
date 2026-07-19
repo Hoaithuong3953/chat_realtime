@@ -5,7 +5,7 @@ from django.db import models
 
 class ChatType(models.TextChoices):
     """Available type for chat"""
-    DIRECT = "DIRECT", "direct"
+    PRIVATE = "PRIVATE", "private"
     GROUP = "GROUP", "group"
 
 class ChatRole(models.TextChoices):
