@@ -4,6 +4,7 @@ from django.db import models
 from apps.chats.constants import AVATAR_URL_MAX_LENGTH, TITLE_MAX_LENGTH, TYPE_MAX_LENGTH
 from shared.base_models import BaseSoftDeleteModel
 from apps.chats.enums import ChatType
+from apps.chats.managers import ChatManager
 
 class Chat(BaseSoftDeleteModel):
     """Represents the chat information"""
@@ -19,6 +20,8 @@ class Chat(BaseSoftDeleteModel):
         through="ChatParticipant",
         related_name="chats",
     )
+
+    objects = ChatManager()
 
     class Meta:
         db_table = "chats"

@@ -6,6 +6,10 @@ class UserManager(models.Manager):
     def get_by_account_id(self, account_id):
         """Get user information by id"""
         return self.filter(account_id=account_id).first()
+    
+    def get_by_id(self, user_id):
+        """Get user by id"""
+        return self.filter(id=user_id).first()
 
     def update_profile(self, user, **fields):
         """Update user profile information"""

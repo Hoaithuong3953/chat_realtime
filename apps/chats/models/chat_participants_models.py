@@ -2,6 +2,7 @@ from django.db import models
 
 from apps.chats.constants import ROLE_MAX_LENGTH
 from apps.chats.enums import ChatRole
+from apps.chats.managers.chat_participant_manager import ChatParticipantManager
 
 class ChatParticipant(models.Model):
     """Represents the participants who join in a chat room"""
@@ -29,6 +30,8 @@ class ChatParticipant(models.Model):
     )
     joined_at = models.DateTimeField(auto_now_add=True)
     left_at = models.DateTimeField(blank=True, null=True)
+
+    objects = ChatParticipantManager()
 
     class Meta:
         db_table = "chat_participants"
