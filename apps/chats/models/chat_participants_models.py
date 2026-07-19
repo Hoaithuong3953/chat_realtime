@@ -20,6 +20,13 @@ class ChatParticipant(models.Model):
         choices=ChatRole.choices,
         default=ChatRole.MEMBER,
     )
+    last_seen_message = models.ForeignKey(
+        "chat_messages.Message",
+        on_delete=models.SET_NULL,
+        related_name="last_seen_participants",
+        null=True,
+        blank=True,
+    )
     joined_at = models.DateTimeField(auto_now_add=True)
     left_at = models.DateTimeField(blank=True, null=True)
 
