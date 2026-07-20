@@ -24,3 +24,9 @@ class ChatManager(models.Manager):
             type=ChatType.PRIVATE,
             private_key=private_key,
         )
+    
+    def create_group_chat(self, title: str):
+        return self.create(
+            type=ChatType.GROUP,
+            title=title,
+        )

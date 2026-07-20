@@ -17,6 +17,12 @@ class UserManager(models.Manager):
             self.select_related("account")
             .filter(account__is_active=True)
         )
+    
+    def get_active_users_by_ids(self, user_ids):
+        return (
+            self.get_active_users()
+            .filter(id__in=user_ids)
+        )
 
     def update_profile(self, user, **fields):
         """Update user profile information"""
