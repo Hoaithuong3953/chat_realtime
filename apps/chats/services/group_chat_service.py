@@ -1,3 +1,5 @@
+from uuid import UUID
+
 from django.db import transaction
 
 from apps.chats.dtos import (
@@ -7,10 +9,16 @@ from apps.chats.dtos import (
     UpdateGroupChatRequest,
     GetGroupChatResponse,
 )
-from apps.chats.exceptions import InvalidMemberException
+from apps.chats.exceptions import (
+    InvalidMemberException,
+    ChatNotFoundException,
+    AccessDeniedException,
+    InvalidChatTypeException,
+)
 from apps.users.models import User
 from apps.chats.models.chat_models import Chat
 from apps.chats.models.chat_participants_models import ChatParticipant
+from apps.chats.enums import ChatType
 
 class GroupChatService:
 
@@ -57,4 +65,42 @@ class GroupChatService:
             type=chat.type,
             title=chat.title,
             member_count=len(active_ids)+1,
+        )
+
+    @staticmethod
+    def get(chat_id: UUID, current_user_id: UUID) -> GetGroupChatResponse:
+        """
+        Get a exist group chat
+
+        Raises:
+            ChatNotFoundException: if the group chat does not exist
+            AccessDeniedException: if a user is not a member of the group
+            InvalidChatTypeException: if type of chat is not GROUP
+        """
+        chat = Chat.objects.get_chat_by_id(chat_id)
+
+        if chat is None:
+            raise ChatNotFoundException()
+        
+        if chat.type != ChatType.GROUP:
+            raise InvalidChatTypeException()
+        
+        is_member = ChatParticipant.objects.is_member(
+            chat_id=chat_id,
+            user_id=current_user_id,
+        )
+
+        if is_member == False:
+            raise AccessDeniedException()
+        
+        owner = ChatParticipant.objects.get_owner(chat_id=chat.id)
+        member_count = ChatParticipant.objects.get_member_count(chat_id=chat.id)
+        
+        return GetGroupChatResponse(
+            chat_id=chat.id,
+            title=chat.title,
+            avatar_url=chat.avatar_url or None,
+            owner_id=owner.user_id,
+            member_count=member_count,
+            created_at=chat.created_at,
         )

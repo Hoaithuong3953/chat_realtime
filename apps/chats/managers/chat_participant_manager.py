@@ -30,3 +30,23 @@ class ChatParticipantManager(models.Manager):
             user_id=user_id,
             role=ChatRole.OWNER,
         )
+    
+    def is_member(self, chat_id: UUID, user_id: UUID) -> bool:
+        """Check if a user is a member of group"""
+        return self.filter(
+            chat_id=chat_id,
+            user_id=user_id,
+        ).exists()
+    
+    def get_owner(self, chat_id: UUID):
+        """Get owner user of the group chat"""
+        return self.filter(
+            chat_id=chat_id,
+            role=ChatRole.OWNER,
+        ).select_related("user").first()
+    
+    def get_member_count(self, chat_id: UUID) -> int:
+        """The number of members in the group"""
+        return self.filter(
+            chat_id=chat_id
+        ).count()

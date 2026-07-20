@@ -1,3 +1,4 @@
+from uuid import UUID
 from django.db import models
 
 from apps.chats.enums import ChatType
@@ -26,7 +27,14 @@ class ChatManager(models.Manager):
         )
     
     def create_group_chat(self, title: str):
+        """Create a new group chat"""
         return self.create(
             type=ChatType.GROUP,
             title=title,
         )
+    
+    def get_chat_by_id(self, chat_id: UUID):
+        """Retrieve existing a chat"""
+        return self.filter(
+            id=chat_id,
+        ).first()

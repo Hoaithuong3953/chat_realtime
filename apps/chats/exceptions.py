@@ -3,6 +3,7 @@ from uuid import UUID
 from shared.exceptions.common import (
     NotFoundException,
     ConflictException,
+    ForbiddenException,
 )
 
 # Exception for create private chat
@@ -45,3 +46,27 @@ class InvalidMemberException(NotFoundException):
                 "member_ids": member_ids,
             }
         )
+
+class ChatNotFoundException(NotFoundException):
+    """
+    Exception raised when group chat not found
+    HTTP status code: 404 Not Found
+    """
+    error_code = "CHAT_NOT_FOUND"
+    message = "Group chat not found."
+
+class AccessDeniedException(ForbiddenException):
+    """
+    Exception raised when user is not a member of group chat
+    HTTP status code: 403 Forbidden
+    """
+    error_code = "ACCESS_DENIED"
+    message = "You are not a member of this group."
+
+class InvalidChatTypeException(ConflictException):
+    """
+    Exception raised when type of chat is wrong
+    HTTP status code: 409 Conflict
+    """
+    error_code = "INVALID_CHAT_TYPE"
+    message = "This operation is only supported for group chats."
