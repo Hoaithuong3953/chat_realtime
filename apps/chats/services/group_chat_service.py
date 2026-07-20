@@ -16,7 +16,7 @@ from apps.chats.exceptions import (
     InvalidChatTypeException,
     InsufficientPermissionException,
 )
-from apps.users.models import User
+from apps.users.user_models import User
 from apps.chats.models.chat_models import Chat
 from apps.chats.models.chat_participants_models import ChatParticipant
 from apps.chats.enums import ChatType
@@ -112,7 +112,9 @@ class GroupChatService:
         Update information for the group chat
 
         Raises:
-            ChatNotFoundException: if 
+            ChatNotFoundException: if the group chat does not exist
+            InsufficientPermissionException: if user is not the owner of the group
+            InvalidChatTypeException: if type of chat is not GROUP
         """
         chat = Chat.objects.get_chat_by_id(chat_id)
 

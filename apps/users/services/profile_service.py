@@ -1,6 +1,6 @@
 from apps.users.dtos import GetProfileResponse, UpdateProfileRequest, UpdateProfileResponse
 from apps.users.exceptions import UserNotFoundException
-from apps.users.models import User
+from apps.users.user_models import User
 
 class ProfileService:
     

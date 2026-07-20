@@ -1,7 +1,7 @@
 from django.db import models
 from django.conf import settings
 
-from apps.users.managers import UserManager
+from apps.users.user_manager import UserManager
 from apps.users.constants import (
     FULL_NAME_MAX_LENGTH,
     AVATAR_URL_MAX_LENGTH,

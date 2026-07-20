@@ -3,7 +3,7 @@ from django.db import IntegrityError, transaction
 from apps.accounts.exceptions import EmailAlreadyExistsException, UsernameAlreadyExistsException
 from apps.accounts.dtos.register_dto import RegisterRequest, RegisterResponse
 from apps.accounts.models import Account
-from apps.users.models import User
+from apps.users.user_models import User
 
 class RegisterService:
     """

@@ -8,7 +8,7 @@ from apps.chats.exceptions import (
     SelfChatNotAllowedException,
 )
 from apps.chats.models import Chat, ChatParticipant
-from apps.users.models import User
+from apps.users.user_models import User
 
 class PrivateChatService:
     
