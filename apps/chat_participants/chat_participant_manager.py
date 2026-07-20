@@ -1,7 +1,7 @@
 from uuid import UUID
 from django.db import models
 
-from apps.chats.enums import ChatRole
+from apps.chat_participants.enums import ParticipantRole
 
 class ChatParticipantManager(models.Manager):
     """
@@ -28,7 +28,7 @@ class ChatParticipantManager(models.Manager):
         return self.create(
             chat_id=chat_id,
             user_id=user_id,
-            role=ChatRole.OWNER,
+            role=ParticipantRole.OWNER,
         )
     
     def is_member(self, chat_id: UUID, user_id: UUID) -> bool:
@@ -43,14 +43,14 @@ class ChatParticipantManager(models.Manager):
         return self.filter(
             chat_id=chat_id,
             user_id=user_id,
-            role=ChatRole.OWNER,
+            role=ParticipantRole.OWNER,
         ).exists()
     
     def get_owner(self, chat_id: UUID):
         """Get owner user of the group chat"""
         return self.filter(
             chat_id=chat_id,
-            role=ChatRole.OWNER,
+            role=ParticipantRole.OWNER,
         ).select_related("user").first()
     
     def get_member_count(self, chat_id: UUID) -> int:

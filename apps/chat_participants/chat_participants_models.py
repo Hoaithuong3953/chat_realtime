@@ -1,7 +1,7 @@
 from django.db import models
 
 from apps.chats.constants import ROLE_MAX_LENGTH
-from apps.chats.enums import ChatRole
+from apps.chat_participants.enums import ParticipantRole
 from apps.chat_participants.chat_participant_manager import ChatParticipantManager
 
 class ChatParticipant(models.Model):
@@ -18,8 +18,8 @@ class ChatParticipant(models.Model):
     )
     role = models.CharField(
         max_length=ROLE_MAX_LENGTH,
-        choices=ChatRole.choices,
-        default=ChatRole.MEMBER,
+        choices=ParticipantRole.choices,
+        default=ParticipantRole.MEMBER,
     )
     last_seen_message = models.ForeignKey(
         "chat_messages.Message",
