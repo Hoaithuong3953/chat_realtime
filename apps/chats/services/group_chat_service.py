@@ -18,7 +18,7 @@ from apps.chats.exceptions import (
 )
 from apps.users.user_models import User
 from apps.chats.chat_models import Chat
-from apps.chats.models.chat_participants_models import ChatParticipant
+from apps.chat_participants.chat_participants_models import ChatParticipant
 from apps.chats.enums import ChatType
 
 class GroupChatService:

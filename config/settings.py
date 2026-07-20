@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     "apps.users",
     "apps.accounts",
     "apps.chats",
+    "apps.chat_participants",
     "apps.chat_messages",
 ]
 

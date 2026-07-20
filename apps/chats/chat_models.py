@@ -23,7 +23,7 @@ class Chat(BaseSoftDeleteModel):
     private_key = models.CharField(max_length=PRIVATE_KEY_MAX_LENGTH, unique=True, null=True, blank=True)
     participants = models.ManyToManyField(
         "users.User",
-        through="ChatParticipant",
+        through="chat_participants.ChatParticipant",
         related_name="chats",
     )
 
