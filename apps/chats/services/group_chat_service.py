@@ -17,7 +17,7 @@ from apps.chats.exceptions import (
     InsufficientPermissionException,
 )
 from apps.users.user_models import User
-from apps.chats.models.chat_models import Chat
+from apps.chats.chat_models import Chat
 from apps.chats.models.chat_participants_models import ChatParticipant
 from apps.chats.enums import ChatType
 

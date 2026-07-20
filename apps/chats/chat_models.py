@@ -9,7 +9,7 @@ from apps.chats.constants import (
 )
 from shared.base_models import BaseSoftDeleteModel
 from apps.chats.enums import ChatType
-from apps.chats.managers import ChatManager
+from apps.chats.chat_manager import ChatManager
 
 class Chat(BaseSoftDeleteModel):
     """Represents the chat information"""
