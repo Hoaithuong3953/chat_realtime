@@ -38,3 +38,11 @@ class ChatManager(models.Manager):
         return self.filter(
             id=chat_id,
         ).first()
+    
+    def update_group_chat_info(self, chat, **fields):
+        """Update group chat information"""
+        for field, value in fields.items():
+            setattr(chat, field, value)
+
+        chat.save(update_fields=[*fields.keys(), "updated_at"])
+        return chat

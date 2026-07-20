@@ -14,6 +14,7 @@ from apps.chats.exceptions import (
     ChatNotFoundException,
     AccessDeniedException,
     InvalidChatTypeException,
+    InsufficientPermissionException,
 )
 from apps.users.models import User
 from apps.chats.models.chat_models import Chat
@@ -104,3 +105,32 @@ class GroupChatService:
             member_count=member_count,
             created_at=chat.created_at,
         )
+
+    @staticmethod
+    def update(chat_id: UUID, current_user_id: UUID, dto: UpdateGroupChatRequest) -> UpdateGroupChatResponse:
+        """
+        Update information for the group chat
+
+        Raises:
+            ChatNotFoundException: if 
+        """
+        chat = Chat.objects.get_chat_by_id(chat_id)
+
+        if chat is None:
+            raise ChatNotFoundException()
+        
+        if chat.type != ChatType.GROUP:
+            raise InvalidChatTypeException()
+        
+        is_owner = ChatParticipant.objects.is_owner(
+            chat_id=chat.id,
+            user_id=current_user_id,
+        )
+
+        if not is_owner:
+            raise InsufficientPermissionException()
+        
+        data = dto.model_dump(exclude_unset=True)
+        chat = Chat.objects.update_group_chat_info(chat, **data)
+
+        return UpdateGroupChatResponse.model_validate(chat)

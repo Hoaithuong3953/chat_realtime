@@ -70,3 +70,11 @@ class InvalidChatTypeException(ConflictException):
     """
     error_code = "INVALID_CHAT_TYPE"
     message = "This operation is only supported for group chats."
+
+class InsufficientPermissionException(ForbiddenException):
+    """
+    Exception raised when the user does not have permission to update the group
+    HTTP status code: 403 Forbidden
+    """
+    error_code = "INSUFFICIENT_PERMISSION"
+    message = "Only owner can update group information."
