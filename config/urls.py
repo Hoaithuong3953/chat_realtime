@@ -18,5 +18,9 @@ urlpatterns = [
     path(
         "api/v1/chats/",
         include("apps.chats.urls")
-    )
+    ),
+    path(
+        "api/v1/chats/group/<uuid:chat_id>/",
+        include("apps.chat_participants.urls")
+    ),
 ]

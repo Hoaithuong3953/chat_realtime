@@ -67,3 +67,12 @@ class ChatParticipantManager(models.Manager):
                 left_at__isnull=True,
             )
         )
+    
+    def get_existing_members(self, chat_id: UUID, member_id: UUID):
+        return (
+            self.filter(
+                chat_id=chat_id,
+                user_id__in=member_id,
+                left_at__isnull=True,
+            )
+        )

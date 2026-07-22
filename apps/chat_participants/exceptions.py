@@ -1,3 +1,5 @@
+from uuid import UUID
+
 from shared.exceptions.common import (
     NotFoundException,
     ConflictException,
@@ -11,6 +13,13 @@ class InvalidMemberException(NotFoundException):
     """
     error_code = "INVALID_MEMBERS"
     message = "One or more members do not exist or are inactive."
+
+    def __init__(self, *, member_ids: list[UUID]):
+        super().__init__(
+            details={
+                "member_ids": member_ids,
+            }
+        )
 
 class ChatNotFoundException(NotFoundException):
     """
@@ -51,6 +60,13 @@ class MemberAlreadyExistsException(ConflictException):
     """
     error_code = "MEMBER_ALREADY_EXISTS"
     message = "One or more users are already group members."
+
+    def __init__(self, *, member_ids: list[UUID]):
+        super().__init__(
+            details={
+                "member_ids": member_ids,
+            }
+        )
 
 class OwnerRequiredException(ConflictException):
     """
