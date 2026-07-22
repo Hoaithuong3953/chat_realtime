@@ -58,3 +58,12 @@ class ChatParticipantManager(models.Manager):
         return self.filter(
             chat_id=chat_id
         ).count()
+    
+    def get_members_list(self, chat_id: UUID):
+        return (
+            self.select_related("user")
+            .filter(
+                chat_id=chat_id,
+                left_at__isnull=True,
+            )
+        )
