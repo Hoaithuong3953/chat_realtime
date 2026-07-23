@@ -1,5 +1,6 @@
 from uuid import UUID
 from django.db import models
+from django.utils import timezone
 
 from apps.chat_participants.enums import ParticipantRole
 
@@ -36,6 +37,7 @@ class ChatParticipantManager(models.Manager):
         return self.filter(
             chat_id=chat_id,
             user_id=user_id,
+            left_at__isnull=True,
         ).exists()
     
     def is_owner(self, chat_id: UUID, user_id: UUID) -> bool:
@@ -44,6 +46,7 @@ class ChatParticipantManager(models.Manager):
             chat_id=chat_id,
             user_id=user_id,
             role=ParticipantRole.OWNER,
+            left_at__isnull=True,
         ).exists()
     
     def get_owner(self, chat_id: UUID):
@@ -51,6 +54,7 @@ class ChatParticipantManager(models.Manager):
         return self.filter(
             chat_id=chat_id,
             role=ParticipantRole.OWNER,
+            left_at__isnull=True,
         ).select_related("user").first()
     
     def get_member_count(self, chat_id: UUID) -> int:
@@ -68,11 +72,18 @@ class ChatParticipantManager(models.Manager):
             )
         )
     
-    def get_existing_members(self, chat_id: UUID, member_id: UUID):
+    def get_existing_members(self, chat_id: UUID, member_ids: list[UUID]):
         return (
             self.filter(
                 chat_id=chat_id,
-                user_id__in=member_id,
+                user_id__in=member_ids,
                 left_at__isnull=True,
             )
         )
+
+    def delete_member(self, chat_id: UUID, member_id: UUID):
+        return self.filter(
+            chat_id=chat_id,
+            user_id=member_id,
+            left_at__isnull=True,
+        ).update(left_at=timezone.now())

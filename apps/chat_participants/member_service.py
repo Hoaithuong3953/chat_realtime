@@ -16,6 +16,8 @@ from apps.chat_participants.exceptions import (
     InsufficientPermissionException,
     MemberAlreadyExistsException,
     InvalidMemberException,
+    OwnerRequiredException,
+    MemberNotFoundException,
 )
 from apps.chats.enums import ChatType
 from apps.users.user_models import User
@@ -110,3 +112,40 @@ class MemberService:
             id=chat.id,
             member_count=member_count,
         )
+
+    @staticmethod
+    def delete_member(chat_id: UUID, current_user_id: UUID, member_id: UUID) -> None:
+        """
+        Delete a member from the group chat 
+
+        Raises:
+            ChatNotFoundException: if the group chat does not exist
+            InvalidChatTypeException: if type of chat is not GROUP
+            InsufficientPermissionException: if user is not the owner of the group
+            OwnerRequiredException: if remove the last owner from the group
+            MemberNotFoundException: if cannot find the member in the group
+        """
+        chat = Chat.objects.get_chat_by_id(chat_id)
+
+        if chat is None:
+            raise ChatNotFoundException()
+
+        if chat.type != ChatType.GROUP:
+            raise InvalidChatTypeException()
+
+        is_owner = ChatParticipant.objects.is_owner(chat.id, current_user_id)
+        if not is_owner:
+            raise InsufficientPermissionException()
+        
+        owner = ChatParticipant.objects.get_owner(chat.id)
+
+        if owner and member_id==owner.user_id:
+            raise OwnerRequiredException()
+
+        with transaction.atomic():
+            updated = ChatParticipant.objects.delete_member(
+                chat_id=chat.id,
+                member_id=member_id,
+            )
+            if updated == 0:
+                raise MemberNotFoundException()

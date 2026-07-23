@@ -75,3 +75,11 @@ class OwnerRequiredException(ConflictException):
     """
     error_code = "OWNER_REQUIRED"
     message = "Cannot remove the last owner from the group."
+
+class MemberNotFoundException(NotFoundException):
+    """
+    Exception raised when cannot find the member in the group
+    HTTP status code: 404 Not Found
+    """
+    error_code = "MEMBER_NOT_FOUND"
+    message = "Member does not exist in group."
