@@ -16,7 +16,7 @@ from apps.chat_participants.exceptions import (
     AccessDeniedException,
     NotGroupOwnerException,
     MemberAlreadyExistsException,
-    InvalidMemberException,
+    InvalidUserException,
     OwnerRequiredException,
     MemberNotFoundException,
     MemberAlreadyOwnerException,
@@ -77,38 +77,56 @@ class MemberService:
             InvalidMemberException: if member is not exist or is inactive
         """
         chat = Chat.objects.get_chat_by_id(chat_id)
+
+        # Check if the group is existing
         if chat is None:
             raise GroupNotFoundException()
-        
+
+        # Check if the chat is group
         if chat.type != ChatType.GROUP:
             raise InvalidChatTypeException()
 
+        # Check if user is the owner of the group
         is_owner = ChatParticipant.objects.is_owner(chat.id, user_id)
-
         if not is_owner:
             raise NotGroupOwnerException()
-        
-        active_members = User.objects.get_active_users()
 
-        active_ids = {member.id for member in active_members}
+        # Check if the user is inactive or is invalid
+        active_users = User.objects.get_active_users()
+        active_ids = {member.id for member in active_users}
         invalid_ids = list(set(dto.member_ids) - active_ids)
-
         if invalid_ids:
-            raise InvalidMemberException(member_ids=invalid_ids)
-        
-        members = ChatParticipant.objects.get_existing_members(chat.id, dto.member_ids)
-        existing_members = {m.user_id for m in members}
+            raise InvalidUserException(member_ids=invalid_ids)
 
-        if existing_members:
-            raise MemberAlreadyExistsException(member_ids=existing_members)
+        # Check if members is active in group
+        active_members = ChatParticipant.objects.get_active_members(chat.id, dto.member_ids)
+        active_ids = {m.user_id for m in active_members}
+        if active_ids:
+            raise MemberAlreadyExistsException(member_ids=active_ids)
+
+        # Get list if the user has previously joined the group
+        inactive_members = ChatParticipant.objects.get_inactive_members(chat.id, dto.member_ids)
+        inactive_ids = {m.user_id for m in inactive_members}
+
+        new_member_ids = [
+            member_id for member_id in dto.member_ids
+            if member_id not in inactive_ids
+        ] 
         
         with transaction.atomic():
-            ChatParticipant.objects.create_participants(
-                chat_id=chat.id,
-                user_ids=dto.member_ids,
-            )
+            # Add the user has previously joined the group
+            if inactive_ids:
+                ChatParticipant.objects.rejoin_members(chat.id, list(inactive_ids))
+
+            # Add the new users as group members
+            if new_member_ids:
+                ChatParticipant.objects.create_participants(
+                    chat_id=chat.id,
+                    user_ids=dto.member_ids,
+                )
 
             member_count = ChatParticipant.objects.get_member_count(chat_id=chat.id)
+            Chat.objects.update_timestamp(chat.id)
 
         return AddGroupMembersResponse(
             id=chat.id,

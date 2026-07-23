@@ -6,18 +6,18 @@ from shared.exceptions.common import (
     ForbiddenException,
 )
 
-class InvalidMemberException(NotFoundException):
+class InvalidUserException(NotFoundException):
     """
-    Exception raised when member is invalid
+    Exception raised when user is invalid or inactive
     HTTP status code: 404 Not Found
     """
-    error_code = "INVALID_MEMBERS"
-    message = "One or more members do not exist or are inactive."
+    error_code = "INVALID_USERS"
+    message = "One or more users do not exist or are inactive."
 
-    def __init__(self, *, member_ids: list[UUID]):
+    def __init__(self, *, user_ids: list[UUID]):
         super().__init__(
             details={
-                "member_ids": member_ids,
+                "user_ids": user_ids,
             }
         )
 

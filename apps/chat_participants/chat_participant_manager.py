@@ -60,7 +60,8 @@ class ChatParticipantManager(models.Manager):
     def get_member_count(self, chat_id: UUID) -> int:
         """The number of members in the group"""
         return self.filter(
-            chat_id=chat_id
+            chat_id=chat_id,
+            left_at__isnull=True,
         ).count()
     
     def get_members_list(self, chat_id: UUID):
@@ -72,7 +73,7 @@ class ChatParticipantManager(models.Manager):
             )
         )
     
-    def get_existing_members(self, chat_id: UUID, member_ids: list[UUID]):
+    def get_active_members(self, chat_id: UUID, member_ids: list[UUID]):
         return (
             self.filter(
                 chat_id=chat_id,
@@ -105,3 +106,20 @@ class ChatParticipantManager(models.Manager):
             user_id=new_owner_id,
             left_at__isnull=True,
         ).update(role=ParticipantRole.OWNER)
+
+    def rejoin_members(self, chat_id, member_ids):
+        return self.filter(
+            chat_id=chat_id,
+            user_id__in=member_ids,
+            left_at__isnull=False,
+        ).update(
+            left_at=None,
+            joined_at=timezone.now(),
+        )
+
+    def get_inactive_members(self, chat_id: UUID, user_ids: list[UUID]):
+        return self.filter(
+            chat_id=chat_id,
+            user_id__in=user_ids,
+            left_at__isnull=False,
+        )
