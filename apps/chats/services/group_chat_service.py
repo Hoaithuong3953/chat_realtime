@@ -13,7 +13,6 @@ from apps.chats.exceptions import (
     InvalidMemberException,
     GroupNotFoundException,
     AccessDeniedException,
-    InvalidChatTypeException,
     NotGroupOwnerException,
 )
 from apps.users.user_models import User
@@ -31,17 +30,19 @@ class GroupChatService:
         Raises:
             InvalidMemberException: if user is not found, is inactive or adds themselves
         """
+        # Get list active user
         active_members = User.objects.get_active_users_by_ids(dto.member_ids)
 
-        active_ids = {member.id for member in active_members}
-        invalid_ids = list(set(dto.member_ids) - active_ids)
-
+        # Check if add yourself to the group
         if current_user.id in dto.member_ids:
             raise InvalidMemberException(
                 message="Cannot add yourself to the group chat.",
                 member_ids=current_user.id,
             )
 
+        # Check if the member not exist or inactive
+        active_ids = {member.id for member in active_members}
+        invalid_ids = list(set(dto.member_ids) - active_ids)
         if invalid_ids:
             raise InvalidMemberException(
                 message="One or more members do not exist or are inactive.",
@@ -80,12 +81,11 @@ class GroupChatService:
         """
         chat = Chat.objects.get_chat_by_id(chat_id)
 
-        if chat is None:
+        # Check if the group is not exist
+        if not chat or chat.type != ChatType.GROUP:
             raise GroupNotFoundException()
-        
-        if chat.type != ChatType.GROUP:
-            raise InvalidChatTypeException()
-        
+
+        # Check if the user is not member
         is_member = ChatParticipant.objects.is_member(
             chat_id=chat_id,
             user_id=current_user_id,
@@ -93,7 +93,8 @@ class GroupChatService:
 
         if is_member == False:
             raise AccessDeniedException()
-        
+
+        # Get owner id and count the number of members
         owner = ChatParticipant.objects.get_owner(chat_id=chat.id)
         member_count = ChatParticipant.objects.get_member_count(chat_id=chat.id)
         
@@ -118,12 +119,11 @@ class GroupChatService:
         """
         chat = Chat.objects.get_chat_by_id(chat_id)
 
-        if chat is None:
+        # Check if the group is not exist
+        if not chat or chat.type != ChatType.GROUP:
             raise GroupNotFoundException()
-        
-        if chat.type != ChatType.GROUP:
-            raise InvalidChatTypeException()
-        
+
+        # Check if the user is not owner of group
         is_owner = ChatParticipant.objects.is_owner(
             chat_id=chat.id,
             user_id=current_user_id,

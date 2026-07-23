@@ -12,7 +12,6 @@ from apps.chats.chat_models import Chat
 from apps.chat_participants.chat_participants_models import ChatParticipant
 from apps.chat_participants.exceptions import (
     GroupNotFoundException,
-    InvalidChatTypeException,
     AccessDeniedException,
     NotGroupOwnerException,
     MemberAlreadyExistsException,
@@ -38,11 +37,10 @@ class MemberService:
             InvalidChatTypeException: if type of chat is not GROUP
         """
         chat = Chat.objects.get_chat_by_id(chat_id)
-        if chat is None:
+
+        # Check if group chat is exist
+        if not chat or chat.type != ChatType.GROUP:
             raise GroupNotFoundException()
-        
-        if chat.type != ChatType.GROUP:
-            raise InvalidChatTypeException()
         
         is_member = ChatParticipant.objects.is_member(chat.id, user_id)
 
@@ -79,13 +77,9 @@ class MemberService:
         """
         chat = Chat.objects.get_chat_by_id(chat_id)
 
-        # Check if the group is existing
-        if chat is None:
+        # Check if the group is exist
+        if not chat or chat.type != ChatType.GROUP:
             raise GroupNotFoundException()
-
-        # Check if the chat is group
-        if chat.type != ChatType.GROUP:
-            raise InvalidChatTypeException()
 
         # Check if user is the owner of the group
         is_owner = ChatParticipant.objects.is_owner(chat.id, user_id)
@@ -148,18 +142,17 @@ class MemberService:
         """
         chat = Chat.objects.get_chat_by_id(chat_id)
 
-        if chat is None:
+        # Check if group chat is exist
+        if not chat or chat.type != ChatType.GROUP:
             raise GroupNotFoundException()
 
-        if chat.type != ChatType.GROUP:
-            raise InvalidChatTypeException()
-
+        # Check if the user is not owner
         is_owner = ChatParticipant.objects.is_owner(chat.id, current_user_id)
         if not is_owner:
             raise NotGroupOwnerException()
-        
-        owner = ChatParticipant.objects.get_owner(chat.id)
 
+        # Check if the target id is duplicate the owner
+        owner = ChatParticipant.objects.get_owner(chat.id)
         if owner and member_id==owner.user_id:
             raise OwnerRequiredException()
 
@@ -188,12 +181,8 @@ class MemberService:
         chat = Chat.objects.get_chat_by_id(chat_id)
 
         # Check if the group is existing
-        if chat is None:
+        if not chat or chat.type != ChatType.GROUP:
             raise GroupNotFoundException()
-
-        # Check if the chat is group
-        if chat.type != ChatType.GROUP:
-            raise InvalidChatTypeException()
 
         # Check if user is the owner of the group
         is_owner = ChatParticipant.objects.is_owner(chat.id, current_user_id)
@@ -233,12 +222,8 @@ class MemberService:
         chat = Chat.objects.get_chat_by_id(chat_id)
 
         # Check if the group is exist
-        if not chat:
+        if not chat or chat.type != ChatType.GROUP:
             raise GroupNotFoundException()
-
-        # Check if the chat is group
-        if chat.type != ChatType.GROUP:
-            raise InvalidChatTypeException()
 
         # Check if the user is a member of the group
         is_member = ChatParticipant.objects.is_member(chat.id, current_member_id)

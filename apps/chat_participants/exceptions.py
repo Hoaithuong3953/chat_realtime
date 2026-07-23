@@ -37,14 +37,6 @@ class AccessDeniedException(ForbiddenException):
     error_code = "ACCESS_DENIED"
     message = "You are not a member of this group."
 
-class InvalidChatTypeException(ConflictException):
-    """
-    Exception raised when type of chat is wrong
-    HTTP status code: 409 Conflict
-    """
-    error_code = "INVALID_CHAT_TYPE"
-    message = "This operation is only supported for group chats."
-
 class NotGroupOwnerException(ForbiddenException):
     """
     Exception raised when the user is not the owner of the group
