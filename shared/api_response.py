@@ -12,17 +12,17 @@ class APIResponse:
         data: Any | None = None,
         message: str | None = None,
     ):
-        if message is None:
-            return {
-                "status": status,
-                "data": data,
-            }
-        
-        return {
+        response = {
             "status": status,
-            "message": message,
-            "data": data,
         }
+
+        if message is not None:
+            response["message"] = message
+
+        if data is not None:
+            response["data"] = data
+        
+        return response
     
     @staticmethod
     def error(
@@ -32,16 +32,17 @@ class APIResponse:
         message: str | None = None,
         details: dict[str, Any] | None = None,
     ):
-        if details is None:
-            return {
-                "status": status,
-                "error_code": error_code,
-                "message": message,
-            }
-
-        return {
+        response = {
             "status": status,
-            "error_code": error_code,
-            "message": message,
-            "details": details,
         }
+
+        if message is not None:
+            response["error_code"] = error_code
+
+        if message is not None:
+            response["message"] = message
+
+        if details is not None:
+            response["details"] = details
+
+        return response

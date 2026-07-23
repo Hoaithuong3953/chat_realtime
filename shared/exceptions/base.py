@@ -27,10 +27,10 @@ class AppException(Exception):
         if message is not None:
             self.message = message
 
-        self.details = details if details is not None else {}
+        self.details = details
         super().__init__(self.message)
 
-    def to_dict(self) -> dict[str, Any]:
+    def to_dict(self):
         return {
             "error_code": self.error_code,
             "message": self.message,
