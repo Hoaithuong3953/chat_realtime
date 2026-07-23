@@ -82,7 +82,7 @@ class ChatParticipantManager(models.Manager):
             )
         )
 
-    def delete_member(self, chat_id: UUID, member_id: UUID):
+    def leave_member(self, chat_id: UUID, member_id: UUID):
         return self.filter(
             chat_id=chat_id,
             user_id=member_id,

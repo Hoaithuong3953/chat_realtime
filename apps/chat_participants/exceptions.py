@@ -91,4 +91,11 @@ class MemberAlreadyOwnerException(ConflictException):
     """
     error_code = "MEMBER_ALREADY_OWNER"
     message = "Member is already the group owner."
-    
+
+class OwnerMustTransferException(ConflictException):
+    """
+    Exception raised when member is the group owner and wants to leave group
+    HTTP status code: 409 Conflict
+    """
+    error_code = "OWNER_MUST_TRANSFER"
+    message = "The group owner must transfer ownership before leaving the group."

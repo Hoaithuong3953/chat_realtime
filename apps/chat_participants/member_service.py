@@ -20,6 +20,7 @@ from apps.chat_participants.exceptions import (
     OwnerRequiredException,
     MemberNotFoundException,
     MemberAlreadyOwnerException,
+    OwnerMustTransferException,
 )
 from apps.chats.enums import ChatType
 from apps.users.user_models import User
@@ -163,7 +164,7 @@ class MemberService:
             raise OwnerRequiredException()
 
         with transaction.atomic():
-            updated = ChatParticipant.objects.delete_member(
+            updated = ChatParticipant.objects.leave_member(
                 chat_id=chat.id,
                 member_id=member_id,
             )
@@ -219,10 +220,36 @@ class MemberService:
             Chat.objects.update_timestamp(chat.id)
 
     @staticmethod
-    def leave(chat_id: UUID, current_member_id: UUID):
+    def leave(chat_id: UUID, current_member_id: UUID) -> None:
         """
         Allow a member to leave the group chat
 
         Raises:
-            
+            GroupNotFoundException: if the group chat does not exist
+            InvalidChatTypeException: if type of chat is not GROUP
+            MemberNotFoundException: if cannot find the member in the group
+            OwnerMustTransferException: if user is owner and wants to leave group
         """
+        chat = Chat.objects.get_chat_by_id(chat_id)
+
+        # Check if the group is exist
+        if not chat:
+            raise GroupNotFoundException()
+
+        # Check if the chat is group
+        if chat.type != ChatType.GROUP:
+            raise InvalidChatTypeException()
+
+        # Check if the user is a member of the group
+        is_member = ChatParticipant.objects.is_member(chat.id, current_member_id)
+        if not is_member:
+            raise MemberNotFoundException()
+
+        # Check if the user is already the group owner
+        is_owner = ChatParticipant.objects.is_owner(chat.id, current_member_id)
+        if is_owner:
+            raise OwnerMustTransferException()
+
+        with transaction.atomic():
+            ChatParticipant.objects.leave_member(chat_id, current_member_id)
+            Chat.objects.update_timestamp(chat.id)
