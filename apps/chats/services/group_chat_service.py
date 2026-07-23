@@ -11,10 +11,10 @@ from apps.chats.dtos import (
 )
 from apps.chats.exceptions import (
     InvalidMemberException,
-    ChatNotFoundException,
+    GroupNotFoundException,
     AccessDeniedException,
     InvalidChatTypeException,
-    InsufficientPermissionException,
+    NotGroupOwnerException,
 )
 from apps.users.user_models import User
 from apps.chats.chat_models import Chat
@@ -74,14 +74,14 @@ class GroupChatService:
         Get a exist group chat
 
         Raises:
-            ChatNotFoundException: if the group chat does not exist
+            GroupNotFoundException: if the group chat does not exist
             AccessDeniedException: if a user is not a member of the group
             InvalidChatTypeException: if type of chat is not GROUP
         """
         chat = Chat.objects.get_chat_by_id(chat_id)
 
         if chat is None:
-            raise ChatNotFoundException()
+            raise GroupNotFoundException()
         
         if chat.type != ChatType.GROUP:
             raise InvalidChatTypeException()
@@ -112,14 +112,14 @@ class GroupChatService:
         Update information for the group chat
 
         Raises:
-            ChatNotFoundException: if the group chat does not exist
-            InsufficientPermissionException: if user is not the owner of the group
+            GroupNotFoundException: if the group chat does not exist
+            NotGroupOwnerException: if user is not the owner of the group
             InvalidChatTypeException: if type of chat is not GROUP
         """
         chat = Chat.objects.get_chat_by_id(chat_id)
 
         if chat is None:
-            raise ChatNotFoundException()
+            raise GroupNotFoundException()
         
         if chat.type != ChatType.GROUP:
             raise InvalidChatTypeException()
@@ -130,7 +130,7 @@ class GroupChatService:
         )
 
         if not is_owner:
-            raise InsufficientPermissionException()
+            raise NotGroupOwnerException()
         
         data = dto.model_dump(exclude_unset=True)
         chat = Chat.objects.update_group_chat_info(chat, **data)

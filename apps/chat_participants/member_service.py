@@ -10,10 +10,10 @@ from apps.chat_participants.dtos import (
 from apps.chats.chat_models import Chat
 from apps.chat_participants.chat_participants_models import ChatParticipant
 from apps.chat_participants.exceptions import (
-    ChatNotFoundException,
+    GroupNotFoundException,
     InvalidChatTypeException,
     AccessDeniedException,
-    InsufficientPermissionException,
+    NotGroupOwnerException,
     MemberAlreadyExistsException,
     InvalidMemberException,
     OwnerRequiredException,
@@ -30,13 +30,13 @@ class MemberService:
         Get a list of members in the group chat
 
         Raises:
-            ChatNotFoundException: if the group chat does not exist
+            GroupNotFoundException: if the group chat does not exist
             AccessDeniedException: if a user is not a member of the group
             InvalidChatTypeException: if type of chat is not GROUP
         """
         chat = Chat.objects.get_chat_by_id(chat_id)
         if chat is None:
-            raise ChatNotFoundException()
+            raise GroupNotFoundException()
         
         if chat.type != ChatType.GROUP:
             raise InvalidChatTypeException()
@@ -68,15 +68,15 @@ class MemberService:
 
         Raises:
             InvalidMemberException: if user is not found, is inactive or adds themselves
-            ChatNotFoundException: if the group chat does not exist
+            GroupNotFoundException: if the group chat does not exist
             InvalidChatTypeException: if type of chat is not GROUP
-            InsufficientPermissionException: if user is not the owner of the group
+            NotGroupOwnerException: if user is not the owner of the group
             MemberAlreadyExistsException: if user is exists in the group
             InvalidMemberException: if member is not exist or is inactive
         """
         chat = Chat.objects.get_chat_by_id(chat_id)
         if chat is None:
-            raise ChatNotFoundException()
+            raise GroupNotFoundException()
         
         if chat.type != ChatType.GROUP:
             raise InvalidChatTypeException()
@@ -84,7 +84,7 @@ class MemberService:
         is_owner = ChatParticipant.objects.is_owner(chat.id, user_id)
 
         if not is_owner:
-            raise InsufficientPermissionException()
+            raise NotGroupOwnerException()
         
         active_members = User.objects.get_active_users()
 
@@ -119,23 +119,23 @@ class MemberService:
         Delete a member from the group chat 
 
         Raises:
-            ChatNotFoundException: if the group chat does not exist
+            GroupNotFoundException: if the group chat does not exist
             InvalidChatTypeException: if type of chat is not GROUP
-            InsufficientPermissionException: if user is not the owner of the group
+            NotGroupOwnerException: if user is not the owner of the group
             OwnerRequiredException: if remove the last owner from the group
             MemberNotFoundException: if cannot find the member in the group
         """
         chat = Chat.objects.get_chat_by_id(chat_id)
 
         if chat is None:
-            raise ChatNotFoundException()
+            raise GroupNotFoundException()
 
         if chat.type != ChatType.GROUP:
             raise InvalidChatTypeException()
 
         is_owner = ChatParticipant.objects.is_owner(chat.id, current_user_id)
         if not is_owner:
-            raise InsufficientPermissionException()
+            raise NotGroupOwnerException()
         
         owner = ChatParticipant.objects.get_owner(chat.id)
 

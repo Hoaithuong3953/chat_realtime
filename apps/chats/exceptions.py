@@ -47,12 +47,12 @@ class InvalidMemberException(NotFoundException):
             }
         )
 
-class ChatNotFoundException(NotFoundException):
+class GroupNotFoundException(NotFoundException):
     """
     Exception raised when group chat not found
     HTTP status code: 404 Not Found
     """
-    error_code = "CHAT_NOT_FOUND"
+    error_code = "GROUP_NOT_FOUND"
     message = "Group chat not found."
 
 class AccessDeniedException(ForbiddenException):
@@ -71,10 +71,10 @@ class InvalidChatTypeException(ConflictException):
     error_code = "INVALID_CHAT_TYPE"
     message = "This operation is only supported for group chats."
 
-class InsufficientPermissionException(ForbiddenException):
+class NotGroupOwnerException(ForbiddenException):
     """
-    Exception raised when the user does not have permission to update the group
+    Exception raised when the user is not the owner of the group
     HTTP status code: 403 Forbidden
     """
-    error_code = "INSUFFICIENT_PERMISSION"
-    message = "Only owner can update group information."
+    error_code = "NOT_GROUP_OWNER"
+    message = "Only the group owner can perform this action."
