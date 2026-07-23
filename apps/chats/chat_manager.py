@@ -1,5 +1,6 @@
 from uuid import UUID
 from django.db import models
+from django.utils import timezone
 
 from apps.chats.enums import ChatType
 
@@ -46,3 +47,8 @@ class ChatManager(models.Manager):
 
         chat.save(update_fields=[*fields.keys(), "updated_at"])
         return chat
+
+    def update_timestamp(self, chat_id: UUID):
+        self.filter(id=chat_id).update(
+            updated_at=timezone.now()
+        )

@@ -152,6 +152,8 @@ class MemberService:
             if updated == 0:
                 raise MemberNotFoundException()
 
+            Chat.objects.update_timestamp(chat.id)
+
     @staticmethod
     def transfer_ownership(chat_id: UUID, current_user_id: UUID, dto: TransferOwnershipRequest) -> None:
         """
@@ -195,6 +197,8 @@ class MemberService:
                 current_owner_id=current_user_id,
                 new_owner_id=dto.new_owner_id,
             )
+
+            Chat.objects.update_timestamp(chat.id)
 
     @staticmethod
     def leave(chat_id: UUID, current_member_id: UUID):
