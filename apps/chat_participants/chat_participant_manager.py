@@ -87,3 +87,21 @@ class ChatParticipantManager(models.Manager):
             user_id=member_id,
             left_at__isnull=True,
         ).update(left_at=timezone.now())
+
+    def transfer_ownership(
+        self,
+        chat_id: UUID,
+        current_owner_id: UUID,
+        new_owner_id: UUID,
+    ) -> None:
+        self.filter(
+            chat_id=chat_id,
+            user_id=current_owner_id,
+            left_at__isnull=True,
+        ).update(role=ParticipantRole.MEMBER)
+
+        self.filter(
+            chat_id=chat_id,
+            user_id=new_owner_id,
+            left_at__isnull=True,
+        ).update(role=ParticipantRole.OWNER)

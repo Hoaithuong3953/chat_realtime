@@ -1,12 +1,14 @@
 """
 Export DTOs for Chat participants module
 """
-from apps.chat_participants.dtos.get_members_list_dto import MemberItemResponse, GetMembersListResponse
-from apps.chat_participants.dtos.add_members_dto import AddGroupMembersRequest, AddGroupMembersResponse
+from .get_members_list_dto import MemberItemResponse, GetMembersListResponse
+from .add_members_dto import AddGroupMembersRequest, AddGroupMembersResponse
+from .transfer_ownership_dto import TransferOwnershipRequest
 
 __all__ = [
     "MemberItemResponse",
     "GetMembersListResponse",
     "AddGroupMembersRequest",
     "AddGroupMembersResponse",
+    "TransferOwnershipRequest",
 ]

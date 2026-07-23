@@ -6,6 +6,7 @@ from apps.chat_participants.dtos import (
     AddGroupMembersResponse,
     GetMembersListResponse,
     MemberItemResponse,
+    TransferOwnershipRequest,
 )
 from apps.chats.chat_models import Chat
 from apps.chat_participants.chat_participants_models import ChatParticipant
@@ -18,6 +19,7 @@ from apps.chat_participants.exceptions import (
     InvalidMemberException,
     OwnerRequiredException,
     MemberNotFoundException,
+    MemberAlreadyOwnerException,
 )
 from apps.chats.enums import ChatType
 from apps.users.user_models import User
@@ -149,3 +151,56 @@ class MemberService:
             )
             if updated == 0:
                 raise MemberNotFoundException()
+
+    @staticmethod
+    def transfer_ownership(chat_id: UUID, current_user_id: UUID, dto: TransferOwnershipRequest) -> None:
+        """
+        Transfer group ownership to another member
+
+        Raise:
+            GroupNotFoundException: if the group chat does not exist
+            InvalidChatTypeException: if type of chat is not GROUP
+            NotGroupOwnerException: if user is not the owner of the group
+            MemberNotFoundException: if cannot find the member in the group
+            MemberAlreadyOwnerException: if member is already the group owner
+        """
+        chat = Chat.objects.get_chat_by_id(chat_id)
+
+        # Check if the group is existing
+        if chat is None:
+            raise GroupNotFoundException()
+
+        # Check if the chat is group
+        if chat.type != ChatType.GROUP:
+            raise InvalidChatTypeException()
+
+        # Check if user is the owner of the group
+        is_owner = ChatParticipant.objects.is_owner(chat.id, current_user_id)
+        if not is_owner:
+            raise NotGroupOwnerException()
+
+        # Check if the select user is group member
+        is_member = ChatParticipant.objects.is_member(chat.id, dto.new_owner_id)
+        if not is_member:
+            raise MemberNotFoundException()
+
+        # Check if the member is already the group owner
+        owner = ChatParticipant.objects.get_owner(chat.id)
+        if owner and dto.new_owner_id==owner.user_id:
+            raise MemberAlreadyOwnerException()
+
+        with transaction.atomic():
+            ChatParticipant.objects.transfer_ownership(
+                chat_id=chat.id,
+                current_owner_id=current_user_id,
+                new_owner_id=dto.new_owner_id,
+            )
+
+    @staticmethod
+    def leave(chat_id: UUID, current_member_id: UUID):
+        """
+        Allow a member to leave the group chat
+
+        Raises:
+            
+        """

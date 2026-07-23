@@ -83,3 +83,12 @@ class MemberNotFoundException(NotFoundException):
     """
     error_code = "MEMBER_NOT_FOUND"
     message = "Member does not exist in group."
+
+class MemberAlreadyOwnerException(ConflictException):
+    """
+    Exception raised when member is already the group owner
+    HTTP status code: 409 Conflict
+    """
+    error_code = "MEMBER_ALREADY_OWNER"
+    message = "Member is already the group owner."
+    
