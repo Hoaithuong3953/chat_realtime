@@ -3,6 +3,7 @@ from django.db import models
 from apps.chat_messages.constants import TYPE_MAX_LENGTH, TEXT_CONTENT_MAX_LENGTH
 from apps.chat_messages.enums import MessageType
 from shared.base_models import BaseSoftDeleteModel
+from apps.chat_messages.message_manager import MessageManager
 
 class Message(BaseSoftDeleteModel):
     """Represents the content of user message"""
@@ -30,6 +31,8 @@ class Message(BaseSoftDeleteModel):
         blank=True,
     )
     revoked_at = models.DateTimeField(null=True, blank=True)
+
+    objects = MessageManager()
 
     class Meta:
         db_table = "messages"

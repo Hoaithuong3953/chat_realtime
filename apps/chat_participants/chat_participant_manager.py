@@ -48,6 +48,20 @@ class ChatParticipantManager(models.Manager):
             role=ParticipantRole.OWNER,
             left_at__isnull=True,
         ).exists()
+
+    def is_participant(self, chat_id: UUID, user_id: UUID) -> bool:
+        """Check if a user is a part of chat"""
+        return self.filter(
+            chat_id=chat_id,
+            user_id=user_id,
+        ).exists()
+
+    def get_participant(self, chat_id: UUID, user_id: UUID):
+        """Get participant infomation"""
+        return self.filter(
+            chat_id=chat_id,
+            user_id=user_id,
+        ).first()
     
     def get_owner(self, chat_id: UUID):
         """Get owner user of the group chat"""
