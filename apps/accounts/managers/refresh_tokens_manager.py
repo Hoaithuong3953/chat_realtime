@@ -1,7 +1,12 @@
+from __future__ import annotations
+from typing import TYPE_CHECKING
 from django.db import models
 from django.utils import timezone
 
-class RefreshTokenManager(models.Manager):
+if TYPE_CHECKING:
+    from apps.accounts.models import RefreshToken
+
+class RefreshTokenManager(models.Manager["RefreshToken"]):
     """Manager for Refresh Token model"""
 
     def create_token(self, account, refresh_token, expires_in):

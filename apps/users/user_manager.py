@@ -1,6 +1,11 @@
+from __future__ import annotations
+from typing import TYPE_CHECKING
 from django.db import models
 
-class UserManager(models.Manager):
+if TYPE_CHECKING:
+    from apps.users.user_models import User
+
+class UserManager(models.Manager["User"]):
     """Manager for User model"""
     
     def get_by_account_id(self, account_id):

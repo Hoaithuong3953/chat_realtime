@@ -1,9 +1,14 @@
+from __future__ import annotations
+from typing import TYPE_CHECKING
 from uuid import UUID
 from django.db import models
 
 from apps.chat_messages.enums import MessageType
 
-class MessageManager(models.Manager):
+if TYPE_CHECKING:
+    from apps.chat_messages.models import Message
+
+class MessageManager(models.Manager["Message"]):
     """
     Manager for Chat Message model
 

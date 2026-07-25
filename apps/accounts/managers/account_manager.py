@@ -1,9 +1,15 @@
+from __future__ import annotations
+from typing import TYPE_CHECKING
 from django.contrib.auth.base_user import BaseUserManager
 from django.db.models import Q
 
+
 from apps.accounts.enums import Role
 
-class AccountManager(BaseUserManager):
+if TYPE_CHECKING:
+    from apps.accounts.models import Account
+
+class AccountManager(BaseUserManager["Account"]):
     """
     Manager for Account model
 

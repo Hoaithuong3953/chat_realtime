@@ -31,7 +31,7 @@ class ChatParticipant(models.Model):
     joined_at = models.DateTimeField(auto_now_add=True)
     left_at = models.DateTimeField(blank=True, null=True)
 
-    objects = ChatParticipantManager()
+    objects: ChatParticipantManager = ChatParticipantManager()
 
     class Meta:
         db_table = "chat_participants"

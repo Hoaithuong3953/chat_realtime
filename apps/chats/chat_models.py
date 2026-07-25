@@ -27,7 +27,7 @@ class Chat(BaseSoftDeleteModel):
         related_name="chats",
     )
 
-    objects = ChatManager()
+    objects: ChatManager = ChatManager()
 
     class Meta:
         db_table = "chats"

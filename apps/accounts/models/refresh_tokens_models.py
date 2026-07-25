@@ -15,7 +15,7 @@ class RefreshToken(BaseModel):
     expires_in = models.DateTimeField()
     revoked_at = models.DateTimeField(null=True, blank=True)
 
-    objects = RefreshTokenManager()
+    objects: RefreshTokenManager = RefreshTokenManager()
 
     class Meta:
         db_table = "refresh_tokens"

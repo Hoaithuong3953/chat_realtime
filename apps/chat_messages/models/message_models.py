@@ -32,7 +32,7 @@ class Message(BaseSoftDeleteModel):
     )
     revoked_at = models.DateTimeField(null=True, blank=True)
 
-    objects = MessageManager()
+    objects: MessageManager = MessageManager()
 
     class Meta:
         db_table = "messages"

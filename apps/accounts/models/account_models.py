@@ -21,7 +21,7 @@ class Account(BaseSoftDeleteModel, AbstractBaseUser):
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["username"]
 
-    objects = AccountManager()
+    objects: AccountManager = AccountManager()
 
     class Meta:
         db_table = "accounts"

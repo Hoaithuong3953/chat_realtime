@@ -1,10 +1,15 @@
+from __future__ import annotations
+from typing import TYPE_CHECKING
 from uuid import UUID
 from django.db import models
 from django.utils import timezone
 
 from apps.chat_participants.enums import ParticipantRole
 
-class ChatParticipantManager(models.Manager):
+if TYPE_CHECKING:
+    from apps.chat_participants.chat_participants_models import ChatParticipant
+
+class ChatParticipantManager(models.Manager["ChatParticipant"]):
     """
     Manager for Chat Participant model
 
@@ -79,6 +84,7 @@ class ChatParticipantManager(models.Manager):
         ).count()
     
     def get_members_list(self, chat_id: UUID):
+        """Retrieve all member in group"""
         return (
             self.select_related("user")
             .filter(
@@ -88,6 +94,7 @@ class ChatParticipantManager(models.Manager):
         )
     
     def get_active_members(self, chat_id: UUID, member_ids: list[UUID]):
+        """Retrieve members is active in group from list"""
         return (
             self.filter(
                 chat_id=chat_id,
@@ -97,6 +104,7 @@ class ChatParticipantManager(models.Manager):
         )
 
     def leave_member(self, chat_id: UUID, member_id: UUID):
+        """Update user has left the group"""
         return self.filter(
             chat_id=chat_id,
             user_id=member_id,
@@ -109,6 +117,7 @@ class ChatParticipantManager(models.Manager):
         current_owner_id: UUID,
         new_owner_id: UUID,
     ) -> None:
+        """Transfer ownership to another user"""
         self.filter(
             chat_id=chat_id,
             user_id=current_owner_id,
@@ -122,6 +131,7 @@ class ChatParticipantManager(models.Manager):
         ).update(role=ParticipantRole.OWNER)
 
     def rejoin_members(self, chat_id, member_ids):
+        """Add users who have previously left the group"""
         return self.filter(
             chat_id=chat_id,
             user_id__in=member_ids,
@@ -132,6 +142,7 @@ class ChatParticipantManager(models.Manager):
         )
 
     def get_inactive_members(self, chat_id: UUID, user_ids: list[UUID]):
+        """Retrieve users who have previously left the group"""
         return self.filter(
             chat_id=chat_id,
             user_id__in=user_ids,

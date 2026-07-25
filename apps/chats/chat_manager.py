@@ -1,10 +1,15 @@
+from __future__ import annotations
 from uuid import UUID
 from django.db import models
 from django.utils import timezone
+from typing import TYPE_CHECKING
 
 from apps.chats.enums import ChatType
 
-class ChatManager(models.Manager):
+if TYPE_CHECKING:
+    from apps.chats.chat_models import Chat
+
+class ChatManager(models.Manager["Chat"]):
     """
     Manager for Chat model
 

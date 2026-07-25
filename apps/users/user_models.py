@@ -27,7 +27,7 @@ class User(BaseSoftDeleteModel):
     dob = models.DateField(null=True, blank=True)
     bio = models.TextField(max_length=BIO_MAX_LENGTH, blank=True, null=True)
 
-    objects = UserManager()
+    objects: UserManager = UserManager()
 
     class Meta:
         db_table = "users"
