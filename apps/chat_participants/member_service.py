@@ -117,7 +117,7 @@ class MemberService:
             if new_member_ids:
                 ChatParticipant.objects.create_participants(
                     chat_id=chat.id,
-                    user_ids=dto.member_ids,
+                    user_ids=new_member_ids,
                 )
 
             member_count = ChatParticipant.objects.get_member_count(chat_id=chat.id)
