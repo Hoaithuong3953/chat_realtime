@@ -121,7 +121,7 @@ class MemberService:
                 )
 
             member_count = ChatParticipant.objects.get_member_count(chat_id=chat.id)
-            Chat.objects.update_timestamp(chat.id)
+            Chat.objects.update_last_activity(chat.id)
 
         return AddGroupMembersResponse(
             id=chat.id,
@@ -164,7 +164,7 @@ class MemberService:
             if updated == 0:
                 raise MemberNotFoundException()
 
-            Chat.objects.update_timestamp(chat.id)
+            Chat.objects.update_last_activity(chat.id)
 
     @staticmethod
     def transfer_ownership(chat_id: UUID, current_user_id: UUID, dto: TransferOwnershipRequest) -> None:
@@ -206,7 +206,7 @@ class MemberService:
                 new_owner_id=dto.new_owner_id,
             )
 
-            Chat.objects.update_timestamp(chat.id)
+            Chat.objects.update_last_activity(chat.id)
 
     @staticmethod
     def leave(chat_id: UUID, current_member_id: UUID) -> None:
@@ -237,4 +237,4 @@ class MemberService:
 
         with transaction.atomic():
             ChatParticipant.objects.leave_member(chat_id, current_member_id)
-            Chat.objects.update_timestamp(chat.id)
+            Chat.objects.update_last_activity(chat.id)

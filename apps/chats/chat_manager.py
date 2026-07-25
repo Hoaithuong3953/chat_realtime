@@ -53,7 +53,8 @@ class ChatManager(models.Manager["Chat"]):
         chat.save(update_fields=[*fields.keys(), "updated_at"])
         return chat
 
-    def update_timestamp(self, chat_id: UUID):
+    def update_last_activity(self, chat_id: UUID) -> None:
+        """Update the chat's last activity timestamp"""
         self.filter(id=chat_id).update(
-            updated_at=timezone.now()
+            last_activity_at=timezone.now()
         )
