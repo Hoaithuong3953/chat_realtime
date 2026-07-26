@@ -2,6 +2,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 from uuid import UUID
 from django.db import models
+from django.db.models import Q
 
 from apps.chat_messages.enums import MessageType
 
@@ -36,3 +37,23 @@ class MessageManager(models.Manager["Message"]):
             chat_id=chat_id,
             id=message_id,
         ).first()
+
+    def get_chat_history(
+        self,
+        chat_id: UUID,
+        cursor: str | None,
+        limit: int,
+    ):
+        """Get list messages from a chat"""
+        qs = (
+            self.filter(chat_id=chat_id)
+            .order_by("-created_at", "-id")
+        )
+
+        if cursor:
+            qs = qs.filter(
+                Q(created_at__lt=cursor.created_at) | 
+                (Q(created_at=cursor.created_at)&Q(id__lt=cursor.message_id))
+            )
+
+        return list(qs[:limit])

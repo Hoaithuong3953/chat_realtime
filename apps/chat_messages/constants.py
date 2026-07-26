@@ -5,3 +5,7 @@ Constants used by the chats module
 # Validation field chat model constants
 TYPE_MAX_LENGTH = 10
 TEXT_CONTENT_MAX_LENGTH = 1000
+
+LIMIT_MESSAGE_MIN_VALUE=1
+LIMIT_MESSAGE_MAX_VALUE=100
+LIMIT_MESSAGE_DEFAULT_VALUE=20

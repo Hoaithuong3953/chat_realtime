@@ -1,4 +1,4 @@
-from shared.exceptions.common import NotFoundException, ForbiddenException
+from shared.exceptions.common import NotFoundException, ForbiddenException, ValidationException
 
 class ChatNotFoundException(NotFoundException):
     """
@@ -23,3 +23,11 @@ class ReplyMessageNotFoundException(NotFoundException):
     """
     error_code = "REPLY_MESSAGE_NOT_FOUND"
     message = "Replied messages not found."
+
+class InvalidCursorException(ValidationException):
+    """
+    Exception raised when the cursor is not in an invalid format
+    HTTP status code: 400 Bad Request
+    """
+    error_code = "INVALID_CURSOR"
+    message = "Invalid pagination cursor."

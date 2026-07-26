@@ -3,6 +3,7 @@ from http import HTTPStatus
 from rest_framework.views import APIView
 from django.utils.functional import cached_property
 from rest_framework.response import Response
+from rest_framework.request import Request
 
 from .api_response import APIResponse
 
