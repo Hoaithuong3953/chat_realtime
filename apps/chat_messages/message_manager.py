@@ -3,8 +3,9 @@ from typing import TYPE_CHECKING
 from uuid import UUID
 from django.db import models
 from django.db.models import Q
+from django.utils import timezone
 
-from apps.chat_messages.enums import MessageType
+from apps.chat_messages.enums import MessageType, MessageStatus
 
 if TYPE_CHECKING:
     from apps.chat_messages.models import Message
@@ -57,3 +58,9 @@ class MessageManager(models.Manager["Message"]):
             )
 
         return list(qs[:limit])
+
+    def recall(self, message: Message):
+        message.status = MessageStatus.RECALLED
+        message.recalled_at = timezone.now()
+        message.save(update_fields=["status", "recalled_at"])
+        return message
