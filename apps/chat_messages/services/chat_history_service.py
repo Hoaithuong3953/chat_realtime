@@ -68,8 +68,10 @@ class ChatHistoryService:
                     sender_id=message.user_id,
                     chat_id=message.chat_id,
                     content=message.text_content,
+                    status=message.status,
                     message_type=message.message_type,
                     created_at=message.created_at,
+                    recalled_at=message.recalled_at,
                 ) for message in messages_list
             ],
             pagination=PaginationResponse(

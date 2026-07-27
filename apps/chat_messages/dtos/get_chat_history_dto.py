@@ -2,7 +2,7 @@ from datetime import datetime
 from uuid import UUID
 from pydantic import BaseModel, ConfigDict, Field
 
-from apps.chat_messages.enums import MessageType
+from apps.chat_messages.enums import MessageType, MessageStatus
 
 class GetChatHistoryRequest(BaseModel):
     """Request DTO for get chat history"""
@@ -19,8 +19,10 @@ class MessageItemResponse(BaseModel):
     chat_id: UUID = Field(description="Chat ID")
     sender_id: UUID = Field(description="Sender ID")
     content: str = Field(description="Message content")
+    status: MessageStatus = Field(description="Current status of the message")
     message_type: MessageType = Field(description="Message type")
     created_at: datetime = Field(description="The time of sending message")
+    recalled_at: datetime | None = Field("The time that the message was recalled")
 
 class PaginationResponse(BaseModel):
     """Pagination metadata for get chat history"""
