@@ -1,7 +1,7 @@
 from django.db import models
 
-from apps.chat_messages.constants import TYPE_MAX_LENGTH, TEXT_CONTENT_MAX_LENGTH
-from apps.chat_messages.enums import MessageType
+from apps.chat_messages.constants import TYPE_MAX_LENGTH, TEXT_CONTENT_MAX_LENGTH, MESSAGE_STATUS_MAX_LENGTH
+from apps.chat_messages.enums import MessageType, MessageStatus
 from shared.base_models import BaseSoftDeleteModel
 from apps.chat_messages.message_manager import MessageManager
 
@@ -30,7 +30,12 @@ class Message(BaseSoftDeleteModel):
         null=True,
         blank=True,
     )
-    revoked_at = models.DateTimeField(null=True, blank=True)
+    status = models.CharField(
+        max_length=MESSAGE_STATUS_MAX_LENGTH,
+        choices=MessageStatus.choices,
+        default=MessageStatus.ACTIVE,
+    )
+    recalled_at = models.DateTimeField(null=True, blank=True)
 
     objects: MessageManager = MessageManager()
 

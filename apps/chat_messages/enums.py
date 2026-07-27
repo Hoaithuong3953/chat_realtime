@@ -9,3 +9,8 @@ class MessageType(models.TextChoices):
     SYSTEM = "SYSTEM", "system"
     FILE = "FILE", "file"
     AI = "AI", "ai"
+
+class MessageStatus(models.TextChoices):
+    """Available status for message"""
+    ACTIVE = "ACTIVE", "active"
+    RECALLED = "RECALLED", "recalled"
