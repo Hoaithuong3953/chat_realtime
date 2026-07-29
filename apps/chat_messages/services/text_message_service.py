@@ -59,6 +59,7 @@ class TextMessageService:
                     reply_to=dto.reply_to_message,
                 )
                 Chat.objects.update_last_activity(chat_id=chat.id)
+                Chat.objects.update_last_message(chat_id=chat.id, message_id=message.id)
 
             return SendMessageResponse(
                 id=message.id,

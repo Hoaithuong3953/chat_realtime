@@ -52,6 +52,16 @@ class ChatManager(models.Manager["Chat"]):
 
         chat.save(update_fields=[*fields.keys(), "updated_at"])
         return chat
+    
+    def update_last_message(
+        self,
+        chat_id: UUID,
+        message_id: UUID,
+    ) -> None:
+        """Update the chat's last message"""
+        self.filter(id=chat_id).update(
+            last_message_id=message_id,
+        )
 
     def update_last_activity(self, chat_id: UUID) -> None:
         """Update the chat's last activity timestamp"""
