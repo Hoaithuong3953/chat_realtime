@@ -20,6 +20,13 @@ class Chat(BaseSoftDeleteModel):
     title = models.CharField(max_length=TITLE_MAX_LENGTH, blank=True)
     avatar_url = models.URLField(max_length=AVATAR_URL_MAX_LENGTH, blank=True)
     last_activity_at = models.DateTimeField(default=timezone.now)
+    last_message = models.ForeignKey(
+        "chat_messages.Message",
+        on_delete=models.SET_NULL,
+        related_name="+",
+        null=True,
+        blank=True,
+    )
     private_key = models.CharField(max_length=PRIVATE_KEY_MAX_LENGTH, unique=True, null=True, blank=True)
     participants = models.ManyToManyField(
         "users.User",
@@ -31,3 +38,9 @@ class Chat(BaseSoftDeleteModel):
 
     class Meta:
         db_table = "chats"
+        indexes = [
+            models.Index(
+                fields=["-last_activity_at", "-id"],
+                name="idx_chat_activity",
+            )
+        ]

@@ -41,3 +41,9 @@ class ChatParticipant(models.Model):
                 name="uq_chat_participant",
             )
         ]
+        indexes = [
+            models.Index(
+                fields=["user", "chat"],
+                name="idx_cp_user_chat",
+            ),
+        ]

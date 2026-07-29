@@ -41,3 +41,9 @@ class Message(BaseSoftDeleteModel):
 
     class Meta:
         db_table = "messages"
+        indexes = [
+            models.Index(
+                fields=["chat", "-created_at", "-id"],
+                name="idx_msg_chat_created_id",
+            ),
+        ]
