@@ -148,3 +148,14 @@ class ChatParticipantManager(models.Manager["ChatParticipant"]):
             user_id__in=user_ids,
             left_at__isnull=False,
         )
+
+    def get_other_participants(
+        self,
+        chat_ids: list[UUID],
+        current_user_id: UUID,
+    ):
+        return (
+            self.select_related("user")
+            .exclude(user_id=current_user_id)
+            .filter(chat_id__in=chat_ids)
+        )

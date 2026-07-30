@@ -12,14 +12,6 @@ class GetChatListRequest(BaseModel):
     before: str | None = Field(default=None, description="Previous page's cursor")
     limit: int = Field(description="Number of chat to retrieve")
 
-class PrivateChatParticipantRespone(BaseModel):
-    """Return user information for private chat"""
-    model_config=ConfigDict(frozen=True)
-
-    id: UUID = Field(description="Other participant ID")
-    full_name: str = Field(description="Name of participant")
-    avatar_url: HttpUrl | None = Field(description="Avatar URL of participant")
-
 class LastMessageResponse(BaseModel):
     """Return last message for a chat"""
     model_config=ConfigDict(frozen=True)
@@ -40,7 +32,6 @@ class ChatListItemResponse(BaseModel):
     type: ChatType = Field(description="Chat type")
     title: str | None = Field(description="Title of chat")
     avatar_url: HttpUrl | None = Field(description="Avatar URL of chat")
-    other_participant: PrivateChatParticipantRespone | None = Field(description="Other participant information (with private chat)")
     last_message: LastMessageResponse | None = Field(description="Last message of the chat")
     last_activity_at: datetime = Field(description="The time of last activity")
 
