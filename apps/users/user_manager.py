@@ -3,7 +3,7 @@ from typing import TYPE_CHECKING
 from django.db import models
 
 if TYPE_CHECKING:
-    from apps.users.user_models import User
+    from apps.users.models import User
 
 class UserManager(models.Manager["User"]):
     """Manager for User model"""

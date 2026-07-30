@@ -5,7 +5,7 @@ from apps.users.dtos import (
     GetUsersResponse,
     UserItemResponse,
 )
-from apps.users.user_models import User
+from apps.users.models import User
 from shared.pagination_dto import PaginationResponse
 
 class UserService:

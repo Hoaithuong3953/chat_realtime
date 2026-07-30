@@ -8,8 +8,8 @@ from apps.chat_messages.dtos import (
     SendMessageResponse,
     RecallMessageResponse,
 )
-from apps.chats.chat_models import Chat
-from apps.chat_participants.chat_participants_models import ChatParticipant
+from apps.chats.models import Chat
+from apps.chat_participants.models import ChatParticipant
 from apps.chat_messages.models import Message
 from apps.chat_messages.exceptions import (
     ChatAccessDeniedException,

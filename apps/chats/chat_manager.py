@@ -8,7 +8,7 @@ from typing import TYPE_CHECKING
 from apps.chats.enums import ChatType
 
 if TYPE_CHECKING:
-    from apps.chats.chat_models import Chat
+    from apps.chats.models import Chat
 
 class ChatManager(models.Manager["Chat"]):
     """

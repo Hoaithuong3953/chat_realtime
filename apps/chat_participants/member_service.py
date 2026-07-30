@@ -8,8 +8,8 @@ from apps.chat_participants.dtos import (
     MemberItemResponse,
     TransferOwnershipRequest,
 )
-from apps.chats.chat_models import Chat
-from apps.chat_participants.chat_participants_models import ChatParticipant
+from apps.chats.models import Chat
+from apps.chat_participants.models import ChatParticipant
 from apps.chat_participants.exceptions import (
     GroupNotFoundException,
     AccessDeniedException,
@@ -22,7 +22,7 @@ from apps.chat_participants.exceptions import (
     OwnerMustTransferException,
 )
 from apps.chats.enums import ChatType
-from apps.users.user_models import User
+from apps.users.models import User
 
 class MemberService:
 

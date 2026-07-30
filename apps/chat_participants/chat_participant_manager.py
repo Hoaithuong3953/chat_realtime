@@ -7,7 +7,7 @@ from django.utils import timezone
 from apps.chat_participants.enums import ParticipantRole
 
 if TYPE_CHECKING:
-    from apps.chat_participants.chat_participants_models import ChatParticipant
+    from apps.chat_participants.models import ChatParticipant
 
 class ChatParticipantManager(models.Manager["ChatParticipant"]):
     """
