@@ -1,19 +1,20 @@
-from channels.generic.websocket import AsyncJsonWebsocketConsumer
+from core.websocket.base_consumer import BaseConsumer
+from core.websocket.context import WebSocketContext
+from apps.chat_messages.websocket.events import ChatEvent
+from apps.chat_messages.websocket.handlers import SendMessageHandler
 
-class ChatConsumer(AsyncJsonWebsocketConsumer):
+class ChatConsumer(BaseConsumer):
+    handlers = {
+        ChatEvent.SEND_MESSAGE: SendMessageHandler(),
+    }
 
-    async def connect(self):
-        self.chat_id = self.scope["url_route"]["kwargs"]["chat_id"]
-
-        await self.accept()
-
-        await self.send_json({
-            "event": "CONNECTED",
-            "chat_id": str(self.chat_id),
-        })
-
-    async def disconnect(self, close_code):
-        pass
-
-    async def receive_json(self, content, **kwargs):
-        await self.send_json(content)
+    def build_context(self) -> WebSocketContext:
+        print(
+            "WS USER:",
+            self.scope["user"],
+            self.scope["user"].id,
+        )
+        return WebSocketContext(
+            user=self.scope["user"],
+            chat_id=self.scope["url_route"]["kwargs"]["chat_id"],
+        )
