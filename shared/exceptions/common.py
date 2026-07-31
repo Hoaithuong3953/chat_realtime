@@ -54,3 +54,12 @@ class RateLimitException(AppException):
     error_code = "RATE_LIMIT_EXCEEDED"
     message = "Rate limit exceeded. Please try again later."
     http_status = HTTPStatus.TOO_MANY_REQUESTS
+
+class InternalServerException(AppException):
+    """
+    Exception raised when an unexpected server error occurs
+    HTTP status code: 500 Internal Server Error
+    """
+    error_code = "INTERNAL_SERVER_ERROR"
+    message = "Internal server error."
+    http_status = HTTPStatus.INTERNAL_SERVER_ERROR
