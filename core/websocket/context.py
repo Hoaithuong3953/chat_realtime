@@ -10,4 +10,3 @@ class WebSocketContext:
     """
     user: User
     chat_id: UUID
-    channel_name: str

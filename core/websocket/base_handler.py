@@ -1,7 +1,7 @@
 from typing import Protocol
 
 from core.websocket.context import WebSocketContext
-from backend.core.websocket.base_schema import WebSocketRequest, WebSocketResponse
+from core.websocket.base_schema import WebSocketRequest, WebSocketResponse
 
 class WebSocketHandler(Protocol):
     async def handle(

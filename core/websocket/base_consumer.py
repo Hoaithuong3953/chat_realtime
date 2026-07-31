@@ -31,7 +31,7 @@ class BaseConsumer(AsyncJsonWebsocketConsumer):
             request = self.parse_request(content)
             context = self.build_context()
 
-            return await self.dispatch(
+            return await self.execute_handler(
                 context=context,
                 request=request,
             )
@@ -44,7 +44,7 @@ class BaseConsumer(AsyncJsonWebsocketConsumer):
         except ValidationError as exc:
             raise InvalidPayloadException(details=exc.errors()) from exc
 
-    async def dispatch(
+    async def execute_handler(
         self,
         context: WebSocketContext,
         request: WebSocketRequest,
