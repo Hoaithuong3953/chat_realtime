@@ -24,7 +24,10 @@ class BaseConsumer(AsyncJsonWebsocketConsumer):
         **kwargs: Any,
     ) -> None:
         response = await self.handle_request(content)
-        await self.send_event(response)
+        handled = await self.after_handle(response)
+
+        if not handled:
+            await self.send_event(response)
 
     async def handle_request(self, content: dict[str, Any]) -> WebSocketResponse:
         try:
@@ -56,6 +59,9 @@ class BaseConsumer(AsyncJsonWebsocketConsumer):
             context=context,
             request=request,
         )
+
+    async def after_handle(self, response: WebSocketResponse) -> bool:
+        return False
 
     async def send_event(self, response: WebSocketResponse) -> None:
         await self.send_json(
