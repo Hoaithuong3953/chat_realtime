@@ -3,7 +3,7 @@ Export DTOs for Message module
 """
 from .send_message_dto import SendMessageRequest, SendMessageResponse
 from .get_chat_history_dto import MessageItemResponse, GetChatHistoryRequest, GetChatHistoryResponse, PaginationResponse
-from .recall_message_dto import RecallMessageResponse
+from .recall_message_dto import RecallMessageResponse, RecallMessageRequest
 
 __all__ = [
     "SendMessageResponse",
@@ -13,4 +13,5 @@ __all__ = [
     "GetChatHistoryResponse",
     "PaginationResponse",
     "RecallMessageResponse",
+    "RecallMessageRequest",
 ]

@@ -5,7 +5,7 @@ from shared.logger import logging
 from core.websocket.base_consumer import BaseConsumer
 from core.websocket.context import WebSocketContext
 from apps.chat_messages.websocket.events import ChatEvent
-from apps.chat_messages.websocket.handlers import SendMessageHandler
+from apps.chat_messages.websocket.handlers import SendMessageHandler, RecallMessageHandler
 from apps.chat_messages.websocket.connect_service import ChatConnectService
 from apps.chat_messages.exceptions import ChatAccessDeniedException, ChatNotFoundException
 
@@ -16,6 +16,7 @@ class ChatConsumer(BaseConsumer):
 
     handlers = {
         ChatEvent.SEND_MESSAGE: SendMessageHandler(),
+        ChatEvent.RECALL_MESSAGE: RecallMessageHandler(),
     }
 
     def build_context(self) -> WebSocketContext:

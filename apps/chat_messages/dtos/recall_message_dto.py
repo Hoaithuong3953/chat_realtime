@@ -4,6 +4,12 @@ from pydantic import BaseModel, ConfigDict, Field
 
 from apps.chat_messages.enums import MessageStatus
 
+class RecallMessageRequest(BaseModel):
+    """Request DTO for recalling a message"""
+    model_config=ConfigDict(frozen=True)
+
+    message_id: UUID = Field(description="The ID of the message to be recalled")
+
 class RecallMessageResponse(BaseModel):
     model_config=ConfigDict(frozen=True, from_attributes=True)
 
