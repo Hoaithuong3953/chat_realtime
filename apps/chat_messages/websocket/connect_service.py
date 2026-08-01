@@ -10,6 +10,7 @@ class ChatConnectService:
         chat_id: UUID,
         user_id: UUID,
     ) -> None:
+        """Validate if the chat exists and if the user is a participant of the chat"""
         chat = Chat.objects.get_chat_by_id(chat_id=chat_id)
 
         if chat is None:

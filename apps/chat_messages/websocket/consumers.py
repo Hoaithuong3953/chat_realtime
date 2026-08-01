@@ -1,12 +1,15 @@
 from django.contrib.auth.models import AnonymousUser
 from channels.db import database_sync_to_async
 
+from shared.logger import logging
 from core.websocket.base_consumer import BaseConsumer
 from core.websocket.context import WebSocketContext
 from apps.chat_messages.websocket.events import ChatEvent
 from apps.chat_messages.websocket.handlers import SendMessageHandler
 from apps.chat_messages.websocket.connect_service import ChatConnectService
 from apps.chat_messages.exceptions import ChatAccessDeniedException, ChatNotFoundException
+
+logger = logging.getLogger(__name__)
 
 class ChatConsumer(BaseConsumer):
     group_name: str | None = None
@@ -39,9 +42,11 @@ class ChatConsumer(BaseConsumer):
 
         except ChatNotFoundException:
             await self.close(code=404)
+            logger.info(f"User {user.id} tried to connect to non-existent chat {chat_id}")
             return
         except ChatAccessDeniedException:
             await self.close(code=403)
+            logger.info(f"User {user.id} denied access to chat {chat_id}")
             return
 
         self.group_name = f"chat_{chat_id}"
@@ -51,14 +56,20 @@ class ChatConsumer(BaseConsumer):
             self.channel_name,
         )
         await self.accept()
+        logger.info(f"User {user.id} connected to chat {chat_id}")
 
     async def disconnect(self, code: int) -> None:
         """Handle the WebSocket disconnection"""
+        user = self.scope["user"]
+        chat_id = self.scope["url_route"]["kwargs"]["chat_id"]
+
         if self.group_name is not None:
             await self.channel_layer.group_discard(
                 self.group_name,
                 self.channel_name,
             )
+
+        logger.info(f"User {user.id} disconnected from chat {chat_id} with code {code}")
 
     async def after_handle(self, response):
         """Perform actions after handling send message event"""
