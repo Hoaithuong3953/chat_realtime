@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     "apps.chats",
     "apps.chat_participants",
     "apps.chat_messages",
+    "apps.file_assets",
 ]
 
 MIDDLEWARE = [

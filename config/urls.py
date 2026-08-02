@@ -27,4 +27,8 @@ urlpatterns = [
         "api/v1/chats/<uuid:chat_id>/",
         include("apps.chat_messages.urls")
     ),
+    path(
+        "api/v1/files/",
+        include("apps.file_assets.urls")
+    ),
 ]
