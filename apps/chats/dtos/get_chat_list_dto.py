@@ -17,7 +17,7 @@ class LastMessageResponse(BaseModel):
     model_config=ConfigDict(frozen=True)
 
     id: UUID = Field(description="Last message ID")
-    sender_id: UUID = Field(description="Sender ID")
+    user_id: UUID = Field(description="Sender ID")
     message_type: MessageType = Field(description="Message type")
     text_content: str | None = Field(description="Message content")
     status: MessageStatus = Field(description="Current status of the message")

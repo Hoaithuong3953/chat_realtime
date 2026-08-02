@@ -20,7 +20,7 @@ from apps.chat_messages.exceptions import (
     MessageRecallTimeExpiredException,
     NoPermissionToRecallException,
 )
-from apps.chat_messages.enums import MessageStatus
+from apps.chat_messages.enums import MessageStatus, MessageType
 
 class TextMessageService:
 
@@ -52,10 +52,11 @@ class TextMessageService:
                     raise ReplyMessageNotFoundException()
 
             with transaction.atomic():
-                message = Message.objects.create_text_message(
+                message = Message.objects.create_message(
                     chat_id=chat.id,
-                    sender_id=user_id,
-                    content=dto.text_content,
+                    user_id=user_id,
+                    message_type=MessageType.TEXT,
+                    text_content=dto.text_content,
                     reply_to=dto.reply_to_message,
                 )
                 Chat.objects.update_last_activity(chat_id=chat.id)

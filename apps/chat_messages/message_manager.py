@@ -16,19 +16,20 @@ class MessageManager(models.Manager["Message"]):
 
     Provides method for manager chat message
     """
-    def create_text_message(
+    def create_message(
         self,
         chat_id: UUID,
-        sender_id: UUID,
-        content: str,
+        user_id: UUID,
+        message_type: MessageType,
+        text_content: str | None,
         reply_to: UUID | None,
     ):
         """Add message to chat"""
         return self.create(
             chat_id=chat_id,
-            user_id=sender_id,
-            message_type=MessageType.TEXT,
-            text_content=content,
+            user_id=user_id,
+            message_type=message_type,
+            text_content=text_content,
             reply_to_message_id=reply_to,
         )
 

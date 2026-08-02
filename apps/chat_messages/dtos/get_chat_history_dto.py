@@ -17,8 +17,8 @@ class MessageItemResponse(BaseModel):
 
     id: UUID = Field(description="Message ID")
     chat_id: UUID = Field(description="Chat ID")
-    sender_id: UUID = Field(description="Sender ID")
-    content: str = Field(description="Message content")
+    user_id: UUID = Field(description="Sender ID")
+    text_content: str = Field(description="Message content")
     status: MessageStatus = Field(description="Current status of the message")
     message_type: MessageType = Field(description="Message type")
     created_at: datetime = Field(description="The time of sending message")

@@ -130,7 +130,7 @@ class ChatListService:
 
         return LastMessageResponse(
             id=message.id,
-            sender_id=message.user_id,
+            user_id=message.user_id,
             message_type=message.message_type,
             text_content=message.text_content,
             status=message.status,
