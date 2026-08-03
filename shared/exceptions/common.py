@@ -46,6 +46,15 @@ class ConflictException(AppException):
     message = "Conflict occurred with the current state of the resource."
     http_status = HTTPStatus.CONFLICT
 
+class PayloadTooLargeException(AppException):
+    """
+    Exception raised when the request payload exceeds the server's allowed size
+    HTTP status code: 413 Payload Too Large
+    """
+    error_code = "PAYLOAD_TOO_LARGE"
+    message = "The request payload exceeds the maximum allowed size."
+    http_status = HTTPStatus.REQUEST_ENTITY_TOO_LARGE
+
 class RateLimitException(AppException):
     """
     Exception raised when a user exceeds the allowed number of requests in a given time frame
