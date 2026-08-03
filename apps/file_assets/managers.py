@@ -1,0 +1,28 @@
+from typing import TYPE_CHECKING
+from django.db import models
+
+from apps.file_assets.enums import FileStatus
+
+if TYPE_CHECKING:
+    from apps.file_assets.models import FileAsset
+
+class FileAssetManager(models.Manager["FileAsset"]):
+
+    def create(
+        self,
+        user_id: str,
+        storage_key: str,
+        original_name: str,
+        content_type: str,
+        file_size: int,
+        status: FileStatus,
+    ):
+        """Add a record when upload file"""
+        return self.create(
+            user_id=user_id,
+            storage_key=storage_key,
+            original_name=original_name,
+            content_type=content_type,
+            file_size=file_size,
+            status=status,
+        )

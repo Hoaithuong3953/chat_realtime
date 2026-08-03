@@ -9,6 +9,7 @@ from apps.file_assets.constants import (
     STATUS_MAX_LENGTH,
     REFERENCE_COUNT_DEFAULT,
 )
+from apps.file_assets.managers import FileAssetManager
 
 class FileAsset(BaseSoftDeleteModel):
     user = models.ForeignKey(
@@ -30,6 +31,8 @@ class FileAsset(BaseSoftDeleteModel):
 
     def __str__(self):
         return f"{self.original_name} ({self.storage_key})"
+
+    objects: FileAssetManager = FileAssetManager()
 
     class Meta:
         db_table = "file_assets"
