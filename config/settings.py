@@ -93,6 +93,8 @@ SIMPLE_JWT = {
     "AUTH_HEADER_TYPES": ("Bearer",),
 }
 
+STORAGE_BACKEND = "local"
+
 # Database configuration
 DATABASES = {
     "default": {

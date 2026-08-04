@@ -22,19 +22,19 @@ class EmptyFileException(ValidationException):
 
 class InvalidFileExtensionException(ValidationException):
     """
-    Exception raised when the file is empty
+    Exception raised when the file extension is not supported
     HTTP status code: 400 Bad Request
     """
-    error_code = "EMPTY_FILE"
-    message = "File is empty."
+    error_code = "INVALID_FILE_EXTENSION"
+    message = "File extension is not supported."
 
 class InvalidContentTypeException(ValidationException):
     """
-    Exception raised when the file is empty
+    Exception raised when the file content type is not supported
     HTTP status code: 400 Bad Request
     """
-    error_code = "EMPTY_FILE"
-    message = "File is empty."
+    error_code = "INVALID_CONTENT_TYPE"
+    message = "File content type is not supported."
 
 class FileTooLargeException(PayloadTooLargeException):
     """

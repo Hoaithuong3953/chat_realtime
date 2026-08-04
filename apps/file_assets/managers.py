@@ -8,7 +8,7 @@ if TYPE_CHECKING:
 
 class FileAssetManager(models.Manager["FileAsset"]):
 
-    def create(
+    def create_file(
         self,
         user_id: str,
         storage_key: str,
