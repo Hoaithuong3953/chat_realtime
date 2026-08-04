@@ -1,7 +1,7 @@
 from uuid import UUID
 
 from shared.base_api_view import BaseApiView
-from apps.chat_messages.services import TextMessageService
+from apps.chat_messages.services import MessageService
 
 class MessageRecallView(BaseApiView):
 
@@ -9,7 +9,7 @@ class MessageRecallView(BaseApiView):
         """
         Handle recall message request
         """
-        result = TextMessageService.recall_message(
+        result = MessageService.recall_message(
             chat_id=chat_id,
             user_id=self.current_user.id,
             message_id=message_id,

@@ -5,7 +5,7 @@ from core.websocket.context import WebSocketContext
 from core.websocket.base_handler import WebSocketHandler
 from apps.chat_messages.websocket.events import ChatEvent
 from apps.chat_messages.dtos import RecallMessageRequest
-from apps.chat_messages.services import TextMessageService
+from apps.chat_messages.services import MessageService
 
 class RecallMessageHandler(WebSocketHandler):
     event = ChatEvent.RECALL_MESSAGE
@@ -20,7 +20,7 @@ class RecallMessageHandler(WebSocketHandler):
         )
 
         response = await database_sync_to_async(
-            TextMessageService.recall_message
+            MessageService.recall_message
         )(
             chat_id=context.chat_id,
             user_id=context.user.id,
