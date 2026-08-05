@@ -5,7 +5,7 @@ from core.websocket.base_handler import WebSocketHandler
 from core.websocket.base_schema import WebSocketRequest, WebSocketResponse
 
 from apps.chat_messages.services import TextMessageService
-from apps.chat_messages.dtos import SendMessageRequest
+from apps.chat_messages.dtos import SendTextMessageRequest
 from apps.chat_messages.websocket.events import ChatEvent
 
 class SendMessageHandler(WebSocketHandler):
@@ -16,7 +16,7 @@ class SendMessageHandler(WebSocketHandler):
         context: WebSocketContext,
         request: WebSocketRequest,
     ) -> WebSocketResponse:
-        payload = SendMessageRequest.model_validate(
+        payload = SendTextMessageRequest.model_validate(
             request.data
         )
 

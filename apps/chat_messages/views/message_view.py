@@ -3,7 +3,7 @@ from uuid import UUID
 from shared.base_api_view import BaseApiView
 from apps.chat_messages.services import TextMessageService, ChatHistoryService
 from apps.chat_messages.serializers import SendMessageSerializer, GetChatHistorySerializer
-from apps.chat_messages.dtos import SendMessageRequest, GetChatHistoryRequest
+from apps.chat_messages.dtos import SendTextMessageRequest, GetChatHistoryRequest
 
 class MessageView(BaseApiView):
     def post(self, request, chat_id: UUID):
@@ -13,7 +13,7 @@ class MessageView(BaseApiView):
         serializer = SendMessageSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
-        dto = SendMessageRequest.model_validate(serializer.validated_data)
+        dto = SendTextMessageRequest.model_validate(serializer.validated_data)
 
         result = TextMessageService.add_text_message(
             chat_id=chat_id,

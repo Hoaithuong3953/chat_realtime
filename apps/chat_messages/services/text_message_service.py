@@ -1,8 +1,8 @@
 from uuid import UUID
 
 from apps.chat_messages.dtos import (
-    SendMessageRequest,
-    SendMessageResponse,
+    SendTextMessageRequest,
+    SendTextMessageResponse,
 )
 from apps.chat_messages.enums import MessageType
 from .message_service import MessageService
@@ -10,7 +10,7 @@ from .message_service import MessageService
 class TextMessageService:
 
         @staticmethod
-        def add_text_message(chat_id: UUID, user_id: UUID, dto: SendMessageRequest) -> SendMessageResponse:
+        def add_text_message(chat_id: UUID, user_id: UUID, dto: SendTextMessageRequest) -> SendTextMessageResponse:
             """
             Add a text message in to the chat
             """
@@ -22,7 +22,7 @@ class TextMessageService:
                 reply_to_message=dto.reply_to_message,
             )
 
-            return SendMessageResponse(
+            return SendTextMessageResponse(
                 id=message.id,
                 chat=chat_id,
                 user=user_id,
