@@ -1,5 +1,7 @@
 from django.db import models
 
+from apps.chat_messages.managers import DocumentMessageManager
+
 class DocumentMessage(models.Model):
     """Link a message with a document attachment"""
     message = models.OneToOneField(
@@ -13,6 +15,8 @@ class DocumentMessage(models.Model):
         on_delete=models.CASCADE,
         related_name="document_message",
     )
+
+    objects: DocumentMessageManager = DocumentMessageManager()
 
     class Meta:
         db_table = "document_message"

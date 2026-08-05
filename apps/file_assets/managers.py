@@ -1,4 +1,5 @@
 from typing import TYPE_CHECKING
+from uuid import UUID
 from django.db import models
 
 from apps.file_assets.enums import FileStatus
@@ -25,4 +26,11 @@ class FileAssetManager(models.Manager["FileAsset"]):
             content_type=content_type,
             file_size=file_size,
             status=status,
+        )
+
+    def get_active_by_ids(self, file_ids: list[UUID]):
+        """Get active file by list of IDs"""
+        return self.filter(
+            id__in=file_ids,
+            deleted_at__isnull=True,
         )

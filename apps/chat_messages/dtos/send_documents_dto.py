@@ -8,7 +8,6 @@ class SendDocumentMessageRequest(BaseModel):
     """Request DTO for sending document message"""
     model_config = ConfigDict(frozen=True)
 
-    chat_id: UUID = Field(description="ID of the target chat")
     file_ids: list[UUID] = Field(
         description="List of uploaded file IDs to send as document messages"
     )

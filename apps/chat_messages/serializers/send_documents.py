@@ -4,9 +4,6 @@ from apps.chat_messages.constants import TEXT_CONTENT_MAX_LENGTH
 
 class SendDocumentSerializer(serializers.Serializer):
     """Send document message request serializer"""
-    chat_id = serializers.UUIDField(
-        required=True,
-    )
     file_ids = serializers.ListField(
         child = serializers.UUIDField(),
         allow_empty = False,

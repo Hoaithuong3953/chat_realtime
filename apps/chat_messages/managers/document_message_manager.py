@@ -14,11 +14,11 @@ class DocumentMessageManager(models.Manager["DocumentMessage"]):
     """
     def create_document_message(
         self,
-        chat_id: UUID,
+        message_id: UUID,
         file_asset_id: UUID,
     ):
         """Add document message"""
         return self.create(
-            chat_id=chat_id,
+            message_id=message_id,
             file_asset_id=file_asset_id,
         )

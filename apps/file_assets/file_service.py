@@ -6,6 +6,8 @@ from django.utils import timezone
 
 from apps.file_assets.constants import MAX_UPLOAD_FILE_SIZE, ALLOWED_FILE_TYPES
 from apps.file_assets.exceptions import (
+    FileAccessDeniedException,
+    FileNotReadyException,
     FileTooLargeException,
     EmptyFileException,
     FileNotFoundException,
@@ -55,6 +57,26 @@ class FileService:
         # Check if the content type is not supported
         if file.content_type != expected_content_type:
             raise InvalidContentTypeException()
+
+    @staticmethod
+    def validate_uploaded_file(
+        file_ids: list[UUID],
+        user_id: UUID,
+    ) -> list[FileAsset]:
+        files = FileAsset.objects.get_active_by_ids(file_ids)
+        
+        if len(files) != len(file_ids):
+            raise FileNotFoundException()
+
+        for file in files:
+
+            if file.status != FileStatus.UPLOADED:
+                raise FileNotReadyException()
+
+            if file.user_id != user_id:
+                raise FileAccessDeniedException()
+
+        return files
 
     @staticmethod
     def _generate_storage_key(original_name: str) -> str:

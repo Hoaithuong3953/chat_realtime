@@ -1,4 +1,6 @@
 from shared.exceptions.common import (
+    ConflictException,
+    ForbiddenException,
     NotFoundException,
     ValidationException,
     PayloadTooLargeException,
@@ -47,3 +49,19 @@ class FileTooLargeException(PayloadTooLargeException):
         super().__init__(
             message=f"File size exceeds the maximum allowed size of {max_file_size}."
         )
+
+class FileNotReadyException(ConflictException):
+    """
+    Exception raised when the file exists but is not yet ready for use
+    HTTP status code: 409 Conflict
+    """
+    error_code = "FILE_NOT_READY"
+    message = "File is not ready for use."
+
+class FileAccessDeniedException(ForbiddenException):
+    """
+    Exception raised when the file exists but the user does not have permission to use it
+    HTTP status code: 403 Forbidden
+    """
+    error_code = "FILE_ACCESS_DENIED"
+    message = "You do not have permission to use this file."
