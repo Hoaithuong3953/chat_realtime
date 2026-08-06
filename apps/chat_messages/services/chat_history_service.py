@@ -7,7 +7,7 @@ from apps.chat_messages.dtos import (
     PaginationResponse,
     DocumentResponse,
 )
-from apps.chat_messages.exceptions import ChatAccessDeniedException, ChatNotFoundException
+from shared.exceptions.chat.common import ChatNotFoundException, ChatAccessDeniedException
 from apps.chats.models import Chat
 from apps.chat_participants.models import ChatParticipant
 from apps.chat_messages.message_cursor import MessageCursor

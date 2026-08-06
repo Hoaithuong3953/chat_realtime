@@ -3,7 +3,7 @@ from datetime import datetime
 from uuid import UUID
 from django.core import signing
 
-from apps.chat_messages.exceptions import InvalidCursorException
+from shared.exceptions.chat.pagination import InvalidCursorException
 
 @dataclass(frozen=True)
 class MessageCursorData:

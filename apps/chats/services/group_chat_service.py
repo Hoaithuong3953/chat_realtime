@@ -1,5 +1,4 @@
 from uuid import UUID
-
 from django.db import transaction
 
 from apps.chats.dtos import (
@@ -9,12 +8,8 @@ from apps.chats.dtos import (
     UpdateGroupChatRequest,
     GetGroupChatResponse,
 )
-from apps.chats.exceptions import (
-    InvalidMemberException,
-    GroupNotFoundException,
-    AccessDeniedException,
-    NotGroupOwnerException,
-)
+from shared.exceptions.chat.common import ChatNotFoundException, ChatAccessDeniedException
+from shared.exceptions.chat.group import InvalidMemberException, NotGroupOwnerException
 from apps.users.models import User
 from apps.chats.models import Chat
 from apps.chat_participants.models import ChatParticipant
@@ -75,15 +70,15 @@ class GroupChatService:
         Get a exist group chat
 
         Raises:
-            GroupNotFoundException: if the group chat does not exist
-            AccessDeniedException: if a user is not a member of the group
+            ChatNotFoundException: if the group chat does not exist
+            ChatAccessDeniedException: if a user is not a member of the group
             InvalidChatTypeException: if type of chat is not GROUP
         """
         chat = Chat.objects.get_chat_by_id(chat_id)
 
         # Check if the group is not exist
         if not chat or chat.type != ChatType.GROUP:
-            raise GroupNotFoundException()
+            raise ChatNotFoundException()
 
         # Check if the user is not member
         is_member = ChatParticipant.objects.is_member(
@@ -92,7 +87,7 @@ class GroupChatService:
         )
 
         if is_member == False:
-            raise AccessDeniedException()
+            raise ChatAccessDeniedException()
 
         # Get owner id and count the number of members
         owner = ChatParticipant.objects.get_owner(chat_id=chat.id)
@@ -113,7 +108,7 @@ class GroupChatService:
         Update information for the group chat
 
         Raises:
-            GroupNotFoundException: if the group chat does not exist
+            ChatNotFoundException: if the group chat does not exist
             NotGroupOwnerException: if user is not the owner of the group
             InvalidChatTypeException: if type of chat is not GROUP
         """
@@ -121,7 +116,7 @@ class GroupChatService:
 
         # Check if the group is not exist
         if not chat or chat.type != ChatType.GROUP:
-            raise GroupNotFoundException()
+            raise ChatNotFoundException()
 
         # Check if the user is not owner of group
         is_owner = ChatParticipant.objects.is_owner(

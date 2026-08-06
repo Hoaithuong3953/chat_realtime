@@ -5,9 +5,8 @@ from django.utils import timezone
 
 from apps.chat_messages.dtos import RecallMessageResponse
 from apps.chat_messages.enums import MessageStatus, MessageType
-from apps.chat_messages.exceptions import (
-    ChatAccessDeniedException,
-    ChatNotFoundException,
+from shared.exceptions.chat.common import ChatAccessDeniedException, ChatNotFoundException
+from shared.exceptions.chat.message import (
     MessageAlreadyRecalledException,
     MessageNotFoundException,
     MessageRecallTimeExpiredException,

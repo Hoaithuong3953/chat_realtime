@@ -1,25 +1,4 @@
-from shared.exceptions.base.common import (
-    NotFoundException,
-    ForbiddenException,
-    ValidationException,
-    ConflictException,
-)
-
-class ChatNotFoundException(NotFoundException):
-    """
-    Exception raised when chat not found
-    HTTP status code: 404 Not Found
-    """
-    error_code = "CHAT_NOT_FOUND"
-    message = "Chat not found."
-
-class ChatAccessDeniedException(ForbiddenException):
-    """
-    Exception raised when the user is not part of the chat
-    HTTP status code: 403 Forbidden
-    """
-    error_code = "CHAT_ACCESS_DENIED"
-    message = "You are not part of the chat."
+from shared.exceptions.base.common import ConflictException, ForbiddenException, NotFoundException
 
 class ReplyMessageNotFoundException(NotFoundException):
     """
@@ -28,14 +7,6 @@ class ReplyMessageNotFoundException(NotFoundException):
     """
     error_code = "REPLY_MESSAGE_NOT_FOUND"
     message = "Replied messages not found."
-
-class InvalidCursorException(ValidationException):
-    """
-    Exception raised when the cursor is not in an invalid format
-    HTTP status code: 400 Bad Request
-    """
-    error_code = "INVALID_CURSOR"
-    message = "Invalid pagination cursor."
 
 class MessageNotFoundException(NotFoundException):
     """

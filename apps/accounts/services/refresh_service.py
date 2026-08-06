@@ -4,7 +4,7 @@ from django.db import transaction
 
 from apps.accounts.dtos import RefreshTokenResponse
 from apps.accounts.models import RefreshToken
-from apps.accounts.exceptions import InvalidRefreshTokenException
+from shared.exceptions.auth import InvalidRefreshTokenException
 from shared.security import TokenHasher, RefreshTokenService
 
 class RefreshService:

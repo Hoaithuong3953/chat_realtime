@@ -3,7 +3,7 @@ from uuid import UUID
 from django.core import signing
 from pydantic import BaseModel, ConfigDict
 
-from apps.chats.exceptions import InvalidCursorException
+from shared.exceptions.chat.pagination import InvalidCursorException
 
 class ChatCursorData(BaseModel):
     model_config=ConfigDict(frozen=True)

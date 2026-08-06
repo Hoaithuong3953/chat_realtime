@@ -1,7 +1,7 @@
 from uuid import UUID
 
 from apps.chats.models import Chat
-from apps.chat_messages.exceptions import ChatNotFoundException, ChatAccessDeniedException
+from shared.exceptions.chat.common import ChatNotFoundException, ChatAccessDeniedException
 from apps.chat_participants.models import ChatParticipant
 
 class ChatConnectService:

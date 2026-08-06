@@ -2,11 +2,8 @@ from uuid import UUID
 from django.db import transaction, IntegrityError
 
 from apps.chats.dtos import CreatePrivateChatResponse, CreatePrivateChatRequest
-from apps.chats.exceptions import (
-    TargetUserInactiveException,
-    TargetUserNotFoundException,
-    SelfChatNotAllowedException,
-)
+from shared.exceptions.auth import UserNotFoundException, UserInactiveException
+from shared.exceptions.chat.private import SelfChatNotAllowedException
 from apps.chats.models import Chat
 from apps.chat_participants.models import ChatParticipant
 from apps.users.models import User
@@ -28,10 +25,10 @@ class PrivateChatService:
         key = PrivateChatService.generate_private_chat_key(target_user.id, current_user.id)
 
         if target_user is None:
-            raise TargetUserNotFoundException()
+            raise UserNotFoundException()
         
         if not target_user.account.is_active:
-            raise TargetUserInactiveException()
+            raise UserInactiveException()
         
         if target_user.id == current_user.id:
             raise SelfChatNotAllowedException()

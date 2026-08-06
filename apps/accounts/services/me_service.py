@@ -1,6 +1,6 @@
 from apps.accounts.dtos import MeResponse
 from apps.accounts.models import Account
-from apps.accounts.exceptions import AccountNotFoundException
+from shared.exceptions.auth import AccountNotFoundException
 
 class MeService:
 

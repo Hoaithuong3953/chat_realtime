@@ -5,7 +5,7 @@ from django.db import transaction
 from django.utils import timezone
 
 from apps.file_assets.constants import MAX_UPLOAD_FILE_SIZE, ALLOWED_FILE_TYPES
-from apps.file_assets.exceptions import (
+from shared.exceptions.chat.file import (
     FileAccessDeniedException,
     FileNotReadyException,
     FileTooLargeException,

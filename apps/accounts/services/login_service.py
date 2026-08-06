@@ -2,7 +2,7 @@ from django.db import transaction
 from django.contrib.auth.models import update_last_login
 from rest_framework_simplejwt.tokens import AccessToken
 
-from apps.accounts.exceptions import InvalidCredentialsException, AccountDisabledException
+from shared.exceptions.auth import InvalidCredentialsException, AccountDisabledException
 from apps.accounts.dtos import LoginRequest, LoginResponse
 from apps.accounts.models import Account, RefreshToken
 from shared.security import (

@@ -1,25 +1,5 @@
 from uuid import UUID
-
-from shared.exceptions.base.common import (
-    NotFoundException,
-    ConflictException,
-    ForbiddenException,
-)
-
-class InvalidUserException(NotFoundException):
-    """
-    Exception raised when user is invalid or inactive
-    HTTP status code: 404 Not Found
-    """
-    error_code = "INVALID_USERS"
-    message = "One or more users do not exist or are inactive."
-
-    def __init__(self, *, user_ids: list[UUID]):
-        super().__init__(
-            details={
-                "user_ids": user_ids,
-            }
-        )
+from shared.exceptions.base.common import ConflictException, ForbiddenException, NotFoundException
 
 class GroupNotFoundException(NotFoundException):
     """
@@ -29,14 +9,6 @@ class GroupNotFoundException(NotFoundException):
     error_code = "GROUP_NOT_FOUND"
     message = "Group chat not found."
 
-class AccessDeniedException(ForbiddenException):
-    """
-    Exception raised when user is not a member of group chat
-    HTTP status code: 403 Forbidden
-    """
-    error_code = "ACCESS_DENIED"
-    message = "You are not a member of this group."
-
 class NotGroupOwnerException(ForbiddenException):
     """
     Exception raised when the user is not the owner of the group
@@ -44,6 +16,37 @@ class NotGroupOwnerException(ForbiddenException):
     """
     error_code = "NOT_GROUP_OWNER"
     message = "Only the group owner can perform this action."
+
+class OwnerRequiredException(ConflictException):
+    """
+    Exception raised when remove the last owner from the group
+    HTTP status code: 409 Conflict
+    """
+    error_code = "OWNER_REQUIRED"
+    message = "Cannot remove the last owner from the group."
+
+class OwnerMustTransferException(ConflictException):
+    """
+    Exception raised when member is the group owner and wants to leave group
+    HTTP status code: 409 Conflict
+    """
+    error_code = "OWNER_MUST_TRANSFER"
+    message = "The group owner must transfer ownership before leaving the group."
+
+class InvalidMemberException(NotFoundException):
+    """
+    Exception raised when member is invalid
+    HTTP status code: 404 Not Found
+    """
+    error_code = "INVALID_MEMBERS"
+    
+    def __init__(self, member_ids: list[UUID], message: str):
+        super().__init__(
+            message=message,
+            details={
+                "member_ids": member_ids,
+            }
+        )
 
 class MemberAlreadyExistsException(ConflictException):
     """
@@ -60,14 +63,6 @@ class MemberAlreadyExistsException(ConflictException):
             }
         )
 
-class OwnerRequiredException(ConflictException):
-    """
-    Exception raised when remove the last owner from the group.
-    HTTP status code: 409 Conflict
-    """
-    error_code = "OWNER_REQUIRED"
-    message = "Cannot remove the last owner from the group."
-
 class MemberNotFoundException(NotFoundException):
     """
     Exception raised when cannot find the member in the group
@@ -83,11 +78,3 @@ class MemberAlreadyOwnerException(ConflictException):
     """
     error_code = "MEMBER_ALREADY_OWNER"
     message = "Member is already the group owner."
-
-class OwnerMustTransferException(ConflictException):
-    """
-    Exception raised when member is the group owner and wants to leave group
-    HTTP status code: 409 Conflict
-    """
-    error_code = "OWNER_MUST_TRANSFER"
-    message = "The group owner must transfer ownership before leaving the group."

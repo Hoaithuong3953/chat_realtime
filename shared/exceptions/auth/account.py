@@ -37,14 +37,6 @@ class AccountDisabledException(ForbiddenException):
     error_code = "ACCOUNT_DISABLED"
     message = "Account is disabled."
 
-class InvalidRefreshTokenException(UnauthorizedException):
-    """
-    Exception raised when refresh token is invalid
-    HTTP status code: 401 Unauthorized
-    """
-    error_code = "INVALID_REFRESH_TOKEN"
-    message = "Refresh token is invalid."
-
 class AccountNotFoundException(NotFoundException):
     """
     Exception raised when account can not found
