@@ -1,4 +1,4 @@
-from shared.exceptions.common import ValidationException
+from shared.exceptions.base.common import ValidationException
 
 class UnsupportedEventException(ValidationException):
     """Exception raised when an unsupported websocket event is encountered"""

@@ -1,4 +1,4 @@
-from shared.exceptions.common import (
+from shared.exceptions.base.common import (
     ConflictException,
     UnauthorizedException,
     ForbiddenException,

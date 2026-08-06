@@ -1,5 +1,5 @@
 from http import HTTPStatus
-from .base import AppException
+from .app_exception import AppException
 
 class ValidationException(AppException):
     """

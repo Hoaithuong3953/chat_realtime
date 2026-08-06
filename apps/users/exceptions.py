@@ -1,4 +1,4 @@
-from shared.exceptions.common import NotFoundException
+from shared.exceptions.base.common import NotFoundException
 
 class UserNotFoundException(NotFoundException):
     """

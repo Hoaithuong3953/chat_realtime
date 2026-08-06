@@ -7,7 +7,7 @@ from rest_framework.exceptions import (
 )
 from rest_framework.response import Response
 
-from .base import AppException
+from .app_exception import AppException
 from .common import (
     UnauthorizedException,
     ValidationException,

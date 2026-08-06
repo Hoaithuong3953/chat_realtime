@@ -1,6 +1,6 @@
 from uuid import UUID
 
-from shared.exceptions.common import (
+from shared.exceptions.base.common import (
     NotFoundException,
     ConflictException,
     ForbiddenException,

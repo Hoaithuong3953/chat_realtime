@@ -1,7 +1,7 @@
 """
 Export all exceptions and the custom exception handler for DRF
 """
-from .base import AppException
+from .app_exception import AppException
 from .common import (
     ValidationException,
     NotFoundException,

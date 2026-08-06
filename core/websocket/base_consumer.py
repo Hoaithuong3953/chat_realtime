@@ -2,8 +2,8 @@ from channels.generic.websocket import AsyncJsonWebsocketConsumer
 from pydantic import ValidationError
 from typing import Any
 
-from shared.exceptions.base import AppException
-from shared.exceptions.common import InternalServerException
+from shared.exceptions.base.app_exception import AppException
+from shared.exceptions.base.common import InternalServerException
 from shared.logger import logging
 
 from core.websocket.context import WebSocketContext
