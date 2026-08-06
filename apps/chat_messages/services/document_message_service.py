@@ -22,7 +22,9 @@ class DocumentMessageService:
         user_id: UUID,
         dto: SendDocumentMessageRequest,
     ) -> SendDocumentMessageResponse:
-        """"""
+        """
+        Add document messages and optional text content to the chat
+        """
         files = FileAsset.objects.get_active_by_ids(dto.file_ids)
         FileService.validate_uploaded_file(files, user_id)
 

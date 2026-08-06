@@ -1,8 +1,6 @@
-from datetime import datetime
-from uuid import UUID
 from pydantic import BaseModel, ConfigDict, Field
 
-from apps.chat_messages.enums import MessageType, MessageStatus
+from apps.chat_messages.dtos.message_dto import MessageResponse
 
 class GetChatHistoryRequest(BaseModel):
     """Request DTO for get chat history"""
@@ -10,19 +8,6 @@ class GetChatHistoryRequest(BaseModel):
 
     before: str | None = Field(default=None, description="Previous page's cursor")
     limit: int = Field(description="Number of messages to retrieve")
-
-class MessageItemResponse(BaseModel):
-    """Chat history returned in message list"""
-    model_config=ConfigDict(frozen=True)
-
-    id: UUID = Field(description="Message ID")
-    chat_id: UUID = Field(description="Chat ID")
-    user_id: UUID = Field(description="Sender ID")
-    text_content: str = Field(description="Message content")
-    status: MessageStatus = Field(description="Current status of the message")
-    message_type: MessageType = Field(description="Message type")
-    created_at: datetime = Field(description="The time of sending message")
-    recalled_at: datetime | None = Field("The time that the message was recalled")
 
 class PaginationResponse(BaseModel):
     """Pagination metadata for get chat history"""
@@ -33,5 +18,5 @@ class PaginationResponse(BaseModel):
 
 class GetChatHistoryResponse(BaseModel):
     """Response DTO for display chat message list"""
-    items: list[MessageItemResponse] = Field(description="List of message in a chat")
+    messages: list[MessageResponse] = Field(description="List of messages in a chat")
     pagination: PaginationResponse = Field(description="Pagination metadata for loading older messages")

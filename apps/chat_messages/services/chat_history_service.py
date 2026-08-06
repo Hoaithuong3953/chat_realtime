@@ -3,14 +3,16 @@ from uuid import UUID
 from apps.chat_messages.dtos import (
     GetChatHistoryRequest,
     GetChatHistoryResponse,
-    MessageItemResponse,
+    MessageResponse,
     PaginationResponse,
+    DocumentResponse,
 )
-from apps.chat_messages.exceptions import ChatAccessDeniedException, ChatNotFoundException, InvalidCursorException
+from apps.chat_messages.exceptions import ChatAccessDeniedException, ChatNotFoundException
 from apps.chats.models import Chat
 from apps.chat_participants.models import ChatParticipant
 from apps.chat_messages.message_cursor import MessageCursor
 from apps.chat_messages.models import Message
+from apps.chat_messages.enums import MessageType
 
 class ChatHistoryService:
 
@@ -61,19 +63,32 @@ class ChatHistoryService:
                 message_id=last_message.id,
             )
 
-        return GetChatHistoryResponse(
-            items=[
-                MessageItemResponse(
+        responses: list[MessageResponse] = []
+        for message in messages_list:
+            document = None
+            if message.message_type == MessageType.DOCUMENT:
+                document = DocumentResponse(
+                    file_asset_id=message.document_message.file_asset_id,
+                    original_name=message.document_message.file_asset.original_name,
+                    file_size=message.document_message.file_asset.file_size,
+                )
+
+            responses.append(
+                MessageResponse(
                     id=message.id,
-                    user_id=message.user_id,
-                    chat_id=message.chat_id,
+                    user=message.user_id,
+                    chat=message.chat_id,
                     text_content=message.text_content,
+                    document=document,
                     status=message.status,
                     message_type=message.message_type,
                     created_at=message.created_at,
                     recalled_at=message.recalled_at,
-                ) for message in messages_list
-            ],
+                )
+            )
+
+        return GetChatHistoryResponse(
+            messages=responses,
             pagination=PaginationResponse(
                 has_next=has_next,
                 next_cursor=next_cursor,

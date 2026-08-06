@@ -3,6 +3,7 @@ from uuid import UUID
 from apps.chat_messages.dtos import (
     SendTextMessageRequest,
     SendTextMessageResponse,
+    MessageResponse,
 )
 from apps.chat_messages.enums import MessageType
 from .message_service import MessageService
@@ -22,7 +23,7 @@ class TextMessageService:
                 reply_to_message=dto.reply_to_message,
             )
 
-            return SendTextMessageResponse(
+            response =  MessageResponse(
                 id=message.id,
                 chat=chat_id,
                 user=user_id,
@@ -31,3 +32,5 @@ class TextMessageService:
                 reply_to_message=message.reply_to_message_id,
                 created_at=message.created_at,
             )
+
+            return SendTextMessageResponse(message=response)

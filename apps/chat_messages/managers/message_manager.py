@@ -49,6 +49,10 @@ class MessageManager(models.Manager["Message"]):
         """Get list messages from a chat"""
         qs = (
             self.filter(chat_id=chat_id)
+            .select_related(
+                "document_message",
+                "document_message__file_asset",
+            )
             .order_by("-created_at", "-id")
         )
 
