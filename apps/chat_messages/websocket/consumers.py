@@ -5,7 +5,11 @@ from shared.logger import logging
 from core.websocket.base_consumer import BaseConsumer
 from core.websocket.context import WebSocketContext
 from apps.chat_messages.websocket.events import ChatEvent
-from apps.chat_messages.websocket.handlers import SendMessageHandler, RecallMessageHandler
+from apps.chat_messages.websocket.handlers import (
+    SendTextHandler,
+    RecallMessageHandler,
+    SendDocumentHanlder,
+)
 from apps.chat_messages.websocket.connect_service import ChatConnectService
 from shared.exceptions.chat.common import ChatAccessDeniedException, ChatNotFoundException
 
@@ -15,8 +19,9 @@ class ChatConsumer(BaseConsumer):
     group_name: str | None = None
 
     handlers = {
-        ChatEvent.SEND_MESSAGE: SendMessageHandler(),
+        ChatEvent.SEND_TEXT_MESSAGE: SendTextHandler(),
         ChatEvent.RECALL_MESSAGE: RecallMessageHandler(),
+        ChatEvent.SEND_DOCUMENT_MESSAGE: SendDocumentHanlder(),
     }
 
     def build_context(self) -> WebSocketContext:
@@ -74,7 +79,7 @@ class ChatConsumer(BaseConsumer):
 
     async def after_handle(self, response):
         """Perform actions after handling send message event"""
-        if response.event != ChatEvent.SEND_MESSAGE:
+        if response.event != ChatEvent.SEND_DOCUMENT_MESSAGE:
             return False
 
         await self.channel_layer.group_send(

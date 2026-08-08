@@ -8,8 +8,8 @@ from apps.chat_messages.services import TextMessageService
 from apps.chat_messages.dtos import SendTextMessageRequest
 from apps.chat_messages.websocket.events import ChatEvent
 
-class SendMessageHandler(WebSocketHandler):
-    event = ChatEvent.SEND_MESSAGE
+class SendTextHandler(WebSocketHandler):
+    event = ChatEvent.SEND_TEXT_MESSAGE
 
     async def handle(
         self,
