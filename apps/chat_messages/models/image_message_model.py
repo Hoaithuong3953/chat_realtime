@@ -1,6 +1,8 @@
 import uuid
 from django.db import models
 
+from apps.chat_messages.managers import ImageMessageManager
+
 class ImageMessage(models.Model):
     """Link a message with attached images"""
     id = models.UUIDField(
@@ -21,6 +23,8 @@ class ImageMessage(models.Model):
     position = models.PositiveBigIntegerField()
     width = models.PositiveIntegerField()
     height = models.PositiveIntegerField()
+
+    objects: ImageMessageManager = ImageMessageManager()
 
     class Meta:
         db_table = "image_messages"
