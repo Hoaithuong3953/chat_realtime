@@ -5,6 +5,7 @@ from django.db import transaction
 from django.utils import timezone
 
 from apps.file_assets.constants import MAX_UPLOAD_FILE_SIZE, ALLOWED_FILE_TYPES
+from core.storage.factory import get_storage
 from shared.exceptions.chat.file import (
     FileAccessDeniedException,
     FileNotReadyException,
@@ -13,6 +14,7 @@ from shared.exceptions.chat.file import (
     FileNotFoundException,
     InvalidContentTypeException,
     InvalidFileExtensionException,
+    FileStorageNotFoundException,
 )
 from apps.file_assets.models import FileAsset
 from apps.file_assets.dtos import UploadFileResponse
@@ -64,6 +66,7 @@ class FileService:
         user_id: UUID,
     ) -> list[FileAsset]:
         files = FileAsset.objects.get_active_by_ids(file_ids)
+        storage = get_storage()
         
         if len(files) != len(file_ids):
             raise FileNotFoundException()
@@ -75,6 +78,9 @@ class FileService:
 
             if file.user_id != user_id:
                 raise FileAccessDeniedException()
+
+            if not storage.exist(file.storage_key):
+                raise FileStorageNotFoundException()
 
         return files
 

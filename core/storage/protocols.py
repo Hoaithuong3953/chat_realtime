@@ -10,3 +10,7 @@ class StorageProtocol(Protocol):
     def delete(self, path: str) -> None:
         """Delete file"""
         ...
+
+    def exist(self, path: str) -> bool:
+        """Check if physical file is exist"""
+        ...

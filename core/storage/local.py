@@ -14,3 +14,6 @@ class LocalStorage(StorageProtocol):
 
     def delete(self, path: str) -> None:
         default_storage.delete(path)
+
+    def exist(self, path: str) -> bool:
+        return default_storage.exists(path)

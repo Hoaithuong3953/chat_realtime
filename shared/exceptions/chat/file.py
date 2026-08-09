@@ -73,3 +73,11 @@ class FileAccessDeniedException(ForbiddenException):
     """
     error_code = "FILE_ACCESS_DENIED"
     message = "You do not have permission to use this file."
+
+class FileStorageNotFoundException(NotFoundException):
+    """
+    Exception raised when the file storage cannot found
+    HTTP status code: 403 Forbidden
+    """
+    error_code = "FILE_STORAGE_NOT_FOUND"
+    message = "The physical file was not found."
