@@ -80,7 +80,7 @@ REST_FRAMEWORK = {
         "rest_framework.permissions.IsAuthenticated",
     ),
     "EXCEPTION_HANDLER": (
-        "shared.exceptions.drf_handlers.custom_exception_handler"
+        "shared.exceptions.base.drf_handlers.custom_exception_handler"
     )
 }
 

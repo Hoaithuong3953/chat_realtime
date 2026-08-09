@@ -12,6 +12,8 @@ from apps.chat_messages.models.document_message_model import DocumentMessage
 from apps.chat_messages.enums import MessageType
 from apps.file_assets.models import FileAsset
 from apps.file_assets.file_service import FileService
+from apps.file_assets.constants import DOCUMENT_TYPES
+from shared.exceptions.chat.file import InvalidDocumentFileException
 from .message_service import MessageService
 
 class DocumentMessageService:
@@ -50,6 +52,9 @@ class DocumentMessageService:
                 ))
 
             for file in files:
+                if file.content_type not in DOCUMENT_TYPES.values():
+                    raise InvalidDocumentFileException()
+                
                 document = MessageService.create_message(
                     chat_id=chat_id,
                     user_id=user_id,
