@@ -1,7 +1,7 @@
 from .message_manager import MessageManager
-from .document_message_manager import DocumentMessageManager
+from .file_message_manager import FileMessageManager
 
 __all__ = [
     "MessageManager",
-    "DocumentMessageManager",
+    "FileMessageManager",
 ]

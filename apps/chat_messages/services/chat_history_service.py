@@ -5,7 +5,7 @@ from apps.chat_messages.dtos import (
     GetChatHistoryResponse,
     MessageResponse,
     PaginationResponse,
-    DocumentResponse,
+    FileResponse,
 )
 from shared.exceptions.chat.common import ChatNotFoundException, ChatAccessDeniedException
 from apps.chats.models import Chat
@@ -65,12 +65,12 @@ class ChatHistoryService:
 
         responses: list[MessageResponse] = []
         for message in messages_list:
-            document = None
-            if message.message_type == MessageType.DOCUMENT:
-                document = DocumentResponse(
-                    file_asset_id=message.document_message.file_asset_id,
-                    original_name=message.document_message.file_asset.original_name,
-                    file_size=message.document_message.file_asset.file_size,
+            file = None
+            if message.message_type == MessageType.FILE:
+                file = FileResponse(
+                    file_asset_id=message.file_message.file_asset_id,
+                    original_name=message.file_message.file_asset.original_name,
+                    file_size=message.file_message.file_asset.file_size,
                 )
 
             responses.append(
@@ -79,7 +79,7 @@ class ChatHistoryService:
                     user=message.user_id,
                     chat=message.chat_id,
                     text_content=message.text_content,
-                    document=document,
+                    file=file,
                     status=message.status,
                     message_type=message.message_type,
                     created_at=message.created_at,

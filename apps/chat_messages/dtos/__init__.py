@@ -5,8 +5,7 @@ from .get_chat_history_dto import GetChatHistoryRequest, GetChatHistoryResponse,
 from .recall_message_dto import RecallMessageResponse, RecallMessageRequest
 from .send_file_dto import SendFileMessageRequest, SendFileMessageResponse
 from .send_text_dto import SendTextMessageResponse, SendTextMessageRequest
-from .message_dto import MessageResponse
-from .message_content_dto import DocumentResponse
+from .message_dto import MessageResponse, FileResponse
 
 __all__ = [
     "SendFileMessageRequest",
@@ -19,5 +18,5 @@ __all__ = [
     "SendTextMessageRequest",
     "SendTextMessageResponse",
     "MessageResponse",
-    "DocumentResponse",
+    "FileResponse",
 ]

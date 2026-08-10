@@ -38,14 +38,6 @@ class InvalidContentTypeException(ValidationException):
     error_code = "INVALID_CONTENT_TYPE"
     message = "File content type is not supported."
 
-class InvalidDocumentFileException(ValidationException):
-    """
-    Exception raised when the file is not a document
-    HTTP status code: 400 Bad Request
-    """
-    error_code = "INVALID_DOCUMENT_FILE"
-    message = "File content type is not document type."
-
 class FileTooLargeException(PayloadTooLargeException):
     """
     Exception raised when the file size is too large

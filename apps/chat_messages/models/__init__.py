@@ -2,9 +2,9 @@
 Export models for Message module
 """
 from .message_models import Message
-from .document_message_model import DocumentMessage
+from .file_message_model import FileMessage
 
 __all__ = [
     "Message",
-    "DocumentMessage",
+    "FileMessage",
 ]

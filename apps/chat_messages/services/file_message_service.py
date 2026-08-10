@@ -4,28 +4,26 @@ from django.db import transaction
 from apps.chat_messages.dtos import (
     MessageResponse,
     SendFileMessageResponse,
-    DocumentResponse,
+    FileResponse,
     SendFileMessageRequest
 )
 from apps.chat_messages.dtos.send_file_dto import MessageResponse
-from apps.chat_messages.models.document_message_model import DocumentMessage
+from apps.chat_messages.models.file_message_model import FileMessage
 from apps.chat_messages.enums import MessageType
 from apps.file_assets.models import FileAsset
 from apps.file_assets.file_service import FileService
-from apps.file_assets.constants import DOCUMENT_TYPES
-from shared.exceptions.chat.file import InvalidDocumentFileException
 from .message_service import MessageService
 
-class DocumentMessageService:
+class FileMessageService:
 
     @staticmethod
-    def add_document_mesage(
+    def add_file_message(
         chat_id: UUID,
         user_id: UUID,
         dto: SendFileMessageRequest,
     ) -> SendFileMessageResponse:
         """
-        Add document messages and optional text content to the chat
+        Add file messages and optional text content to the chat
         """
         files = FileAsset.objects.get_active_by_ids(dto.file_ids)
         FileService.validate_uploaded_file(files, user_id)
@@ -52,18 +50,15 @@ class DocumentMessageService:
                 ))
 
             for file in files:
-                if file.content_type not in DOCUMENT_TYPES.values():
-                    raise InvalidDocumentFileException()
-                
                 document = MessageService.create_message(
                     chat_id=chat_id,
                     user_id=user_id,
                     text_content=None,
-                    message_type=MessageType.DOCUMENT,
+                    message_type=MessageType.FILE,
                     reply_to_message=dto.reply_to_message,
                 )
 
-                DocumentMessage.objects.create_document_message(
+                FileMessage.objects.create_file_message(
                     file_asset_id=file.id,
                     message_id=document.id,
                 )
@@ -73,7 +68,7 @@ class DocumentMessageService:
                     chat=document.chat_id,
                     user=document.user_id,
                     message_type=document.message_type,
-                    document=DocumentResponse(
+                    file=FileResponse(
                         file_asset_id=file.id,
                         original_name=file.original_name,
                         file_size=file.file_size,
