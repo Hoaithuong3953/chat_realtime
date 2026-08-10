@@ -6,7 +6,7 @@ from .recall_message_dto import RecallMessageResponse, RecallMessageRequest
 from .send_file_dto import SendFileMessageRequest, SendFileMessageResponse
 from .send_text_dto import SendTextMessageResponse, SendTextMessageRequest
 from .message_dto import MessageResponse
-from .message_content_dto import DocumentResponse, ImageResponse
+from .message_content_dto import DocumentResponse
 
 __all__ = [
     "SendFileMessageRequest",
@@ -20,5 +20,4 @@ __all__ = [
     "SendTextMessageResponse",
     "MessageResponse",
     "DocumentResponse",
-    "ImageResponse",
 ]

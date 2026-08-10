@@ -2,7 +2,7 @@ from django.urls import path
 from apps.chat_messages.views import (
     MessageView,
     MessageRecallView,
-    DocumentMessageView
+    DocumentMessageView,
 )
 
 urlpatterns = [

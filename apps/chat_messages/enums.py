@@ -7,7 +7,6 @@ class MessageType(models.TextChoices):
     """Available type for message"""
     TEXT = "TEXT", "text"
     DOCUMENT = "DOCUMENT", "document"
-    IMAGE = "IMAGE", "image"
 
 class MessageStatus(models.TextChoices):
     """Available status for message"""
