@@ -7,7 +7,6 @@ from apps.file_assets.constants import (
     ORIGINAL_NAME_MAX_LENGTH,
     CONTENT_TYPE_MAX_LENGTH,
     STATUS_MAX_LENGTH,
-    REFERENCE_COUNT_DEFAULT,
 )
 from apps.file_assets.managers import FileAssetManager
 
@@ -26,8 +25,6 @@ class FileAsset(BaseSoftDeleteModel):
         choices=FileStatus.choices,
         default=FileStatus.PENDING,
     )
-    reference_count = models.PositiveIntegerField(default=REFERENCE_COUNT_DEFAULT)
-    expires_at = models.DateTimeField(null=True, blank=True)
 
     def __str__(self):
         return f"{self.original_name} ({self.storage_key})"
