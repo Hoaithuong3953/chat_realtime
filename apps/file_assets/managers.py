@@ -1,6 +1,8 @@
+from datetime import timedelta
 from typing import TYPE_CHECKING
 from uuid import UUID
 from django.db import models
+from django.utils import timezone
 
 from apps.file_assets.enums import FileStatus
 
@@ -33,4 +35,11 @@ class FileAssetManager(models.Manager["FileAsset"]):
         return self.filter(
             id__in=file_ids,
             deleted_at__isnull=True,
+        )
+
+    def update_status(self, file_asset_id: UUID, status: FileStatus):
+        """Update status for a file asset"""
+        return self.filter(id=file_asset_id).update(
+            status=status,
+            updated_at=timezone.now(),
         )

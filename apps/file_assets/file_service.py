@@ -1,7 +1,6 @@
 from pathlib import Path
 from uuid import UUID, uuid4
 from django.core.files.uploadedfile import UploadedFile
-from django.db import transaction
 from django.utils import timezone
 
 from apps.file_assets.constants import MAX_UPLOAD_FILE_SIZE, ALLOWED_FILE_TYPES
@@ -12,6 +11,7 @@ from shared.exceptions.chat.file import (
     FileTooLargeException,
     EmptyFileException,
     FileNotFoundException,
+    FileUploadFailedException,
     InvalidContentTypeException,
     InvalidFileExtensionException,
     FileStorageNotFoundException,
@@ -104,23 +104,29 @@ class FileService:
         FileService._validate_file(file=file)
 
         storage_key = FileService._generate_storage_key(file.name)
-        storage_key = storage.upload(
-            file=file,
-            path=storage_key,
+
+        file_asset = FileAsset.objects.create_file(
+            user_id=user_id,
+            storage_key=storage_key,
+            original_name=file.name,
+            content_type=file.content_type,
+            file_size=file.size,
+            status=FileStatus.PENDING,
         )
 
         try:
-            with transaction.atomic():
-                file_asset = FileAsset.objects.create_file(
-                    user_id=user_id,
-                    storage_key=storage_key,
-                    original_name=file.name,
-                    content_type=file.content_type,
-                    file_size=file.size,
-                    status=FileStatus.UPLOADED,
-                )
+            storage_key = storage.upload(
+                file=file,
+                path=storage_key,
+            )
         except Exception:
+            FileAsset.objects.update_status(file_asset.id, FileStatus.FAILED)
+
             storage.delete(storage_key)
-            raise
+            raise FileUploadFailedException()
+
+        FileAsset.objects.update_status(file_asset.id, FileStatus.UPLOADED)
+        
+        file_asset.refresh_from_db()
 
         return UploadFileResponse.model_validate(file_asset)

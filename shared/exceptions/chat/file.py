@@ -1,3 +1,4 @@
+from shared.exceptions.base.app_exception import AppException
 from shared.exceptions.base.common import (
     ConflictException,
     ForbiddenException,
@@ -73,3 +74,10 @@ class FileStorageNotFoundException(NotFoundException):
     """
     error_code = "FILE_STORAGE_NOT_FOUND"
     message = "The physical file was not found."
+
+class FileUploadFailedException(AppException):
+    """
+    Exception raised when uploading the file to storage fails
+    """
+    error_code = "FILE_UPLOAD_FAILED"
+    message = "File upload failed."
