@@ -5,6 +5,8 @@ from django.utils import timezone
 
 from apps.chat_messages.dtos import RecallMessageResponse
 from apps.chat_messages.enums import MessageStatus, MessageType
+from apps.chat_messages.models.file_message_model import FileMessage
+from apps.file_assets.models import FileAsset
 from shared.exceptions.chat.common import ChatAccessDeniedException, ChatNotFoundException
 from shared.exceptions.chat.message import (
     MessageAlreadyRecalledException,
@@ -66,8 +68,14 @@ class MessageService:
         if not MessageService._can_recall_message(message):
             raise MessageRecallTimeExpiredException()
 
+        if message.message_type == MessageType.FILE:
+            file_id = FileMessage.objects.get_file_id_by_message_id(message_id)
+
         with transaction.atomic():
             message = Message.objects.recall(message=message)
+
+            if file_id:
+                FileAsset.objects.delete_file(file_id=file_id)
 
         return RecallMessageResponse.model_validate(message)
 

@@ -43,3 +43,13 @@ class FileAssetManager(models.Manager["FileAsset"]):
             status=status,
             updated_at=timezone.now(),
         )
+
+    def delete_file(self, file_id: UUID):
+        """Soft delete a file asset"""
+        return self.filter(
+            id=file_id,
+            deleted_at__isnull=True
+        ).update(
+            deleted_at=timezone.now(),
+            updated_at=timezone.now(),
+        )

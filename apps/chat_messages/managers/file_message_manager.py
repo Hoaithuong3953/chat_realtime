@@ -21,3 +21,10 @@ class FileMessageManager(models.Manager["FileMessage"]):
             message_id=message_id,
             file_asset_id=file_asset_id,
         )
+
+    def get_file_id_by_message_id(self, message_id: UUID) -> UUID | None:
+        """Get file id by message id"""
+        return self.filter(message_id=message_id).values_list(
+            "file_asset_id",
+            flat=True,
+        ).first()
