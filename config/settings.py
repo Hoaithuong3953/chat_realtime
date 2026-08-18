@@ -93,7 +93,13 @@ SIMPLE_JWT = {
     "AUTH_HEADER_TYPES": ("Bearer",),
 }
 
-STORAGE_BACKEND = "local"
+# Storage file location
+STORAGE_BACKEND = settings.STORAGE
+
+# AI provider
+AI_PROVIDER = settings.AI_PROVIDER
+GEMINI_MODEL = settings.GEMINI_MODEL
+GEMINI_API_KEY = settings.GEMINI_API_KEY
 
 # Database configuration
 DATABASES = {

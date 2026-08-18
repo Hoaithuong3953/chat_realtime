@@ -76,4 +76,26 @@ class Settings(BaseSettings):
         description="Logging date format (can be overridden by LOG_DATE_FORMAT in .env)"
     )
 
+    # Storage
+    STORAGE: str = Field(
+        default="s3",
+        description="File storage location",
+    )
+
+    # AI providers
+    AI_PROVIDER: str = Field(
+        default="gemini",
+        description="AI provider to use",
+    )
+
+    # Gemini provider
+    GEMINI_MODEL: str = Field(
+        default="gemini-3.1-flash-lite",
+        description="AI model to use",
+    )
+    GEMINI_API_KEY: str = Field(
+        ...,
+        description="API key for the configured AI provider",
+    )
+
 settings = Settings()
