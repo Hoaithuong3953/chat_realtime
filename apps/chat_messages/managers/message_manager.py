@@ -5,7 +5,7 @@ from django.db import models
 from django.db.models import Q
 from django.utils import timezone
 
-from apps.chat_messages.enums import MessageType, MessageStatus
+from apps.chat_messages.enums import MessageType, MessageStatus, SenderType
 
 if TYPE_CHECKING:
     from apps.chat_messages.models import Message
@@ -21,6 +21,7 @@ class MessageManager(models.Manager["Message"]):
         chat_id: UUID,
         user_id: UUID,
         message_type: MessageType,
+        sender_type: SenderType,
         text_content: str | None,
         reply_to: UUID | None,
     ):
@@ -29,6 +30,7 @@ class MessageManager(models.Manager["Message"]):
             chat_id=chat_id,
             user_id=user_id,
             message_type=message_type,
+            sender_type=sender_type,
             text_content=text_content,
             reply_to_message_id=reply_to,
         )

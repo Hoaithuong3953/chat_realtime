@@ -4,7 +4,7 @@ from django.db import transaction
 from django.utils import timezone
 
 from apps.chat_messages.dtos import RecallMessageResponse
-from apps.chat_messages.enums import MessageStatus, MessageType
+from apps.chat_messages.enums import MessageStatus, MessageType, SenderType
 from apps.chat_messages.models.file_message_model import FileMessage
 from apps.file_assets.models import FileAsset
 from shared.exceptions.chat.common import ChatAccessDeniedException, ChatNotFoundException
@@ -89,6 +89,7 @@ class MessageService:
         chat_id: UUID,
         user_id: UUID,
         message_type: MessageType,
+        sender_type: SenderType,
         text_content: str | None,
         reply_to_message: UUID | None,
     ) -> Message:
@@ -122,6 +123,7 @@ class MessageService:
                 chat_id=chat_id,
                 user_id=user_id,
                 message_type=message_type,
+                sender_type=sender_type,
                 text_content=text_content,
                 reply_to=reply_to_message,
             )

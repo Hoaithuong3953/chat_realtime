@@ -12,3 +12,8 @@ class MessageStatus(models.TextChoices):
     """Available status for message"""
     ACTIVE = "ACTIVE", "active"
     RECALLED = "RECALLED", "recalled"
+
+class SenderType(models.TextChoices):
+    """Available type of sender"""
+    USER = "USER", "user"
+    AI = "AI", "ai"

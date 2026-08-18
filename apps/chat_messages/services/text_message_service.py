@@ -5,7 +5,7 @@ from apps.chat_messages.dtos import (
     SendTextMessageResponse,
     MessageResponse,
 )
-from apps.chat_messages.enums import MessageType
+from apps.chat_messages.enums import MessageType, SenderType
 from .message_service import MessageService
 
 class TextMessageService:
@@ -19,6 +19,7 @@ class TextMessageService:
                 chat_id=chat_id,
                 user_id=user_id,
                 message_type=MessageType.TEXT,
+                sender_type=SenderType.USER,
                 text_content=dto.text_content,
                 reply_to_message=dto.reply_to_message,
             )

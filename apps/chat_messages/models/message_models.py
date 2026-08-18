@@ -1,7 +1,7 @@
 from django.db import models
 
 from apps.chat_messages.constants import TYPE_MAX_LENGTH, TEXT_CONTENT_MAX_LENGTH, MESSAGE_STATUS_MAX_LENGTH
-from apps.chat_messages.enums import MessageType, MessageStatus
+from apps.chat_messages.enums import MessageType, MessageStatus, SenderType
 from shared.base_models import BaseSoftDeleteModel
 from apps.chat_messages.managers import MessageManager
 
@@ -21,6 +21,11 @@ class Message(BaseSoftDeleteModel):
         max_length=TYPE_MAX_LENGTH,
         choices=MessageType.choices,
         default=MessageType.TEXT,
+    )
+    sender_type = models.CharField(
+        max_length=TYPE_MAX_LENGTH,
+        choices=SenderType.choices,
+        default=SenderType.USER,
     )
     text_content = models.TextField(max_length=TEXT_CONTENT_MAX_LENGTH, null=True, blank=True)
     reply_to_message = models.ForeignKey(

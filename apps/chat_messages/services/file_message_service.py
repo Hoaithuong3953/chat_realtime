@@ -9,7 +9,7 @@ from apps.chat_messages.dtos import (
 )
 from apps.chat_messages.dtos.send_file_dto import MessageResponse
 from apps.chat_messages.models.file_message_model import FileMessage
-from apps.chat_messages.enums import MessageType
+from apps.chat_messages.enums import MessageType, SenderType
 from apps.file_assets.models import FileAsset
 from apps.file_assets.file_service import FileService
 from .message_service import MessageService
@@ -36,6 +36,7 @@ class FileMessageService:
                     chat_id=chat_id,
                     user_id=user_id,
                     message_type=MessageType.TEXT,
+                    sender_type=SenderType.USER,
                     text_content=dto.text_content,
                     reply_to_message=dto.reply_to_message,
                 )
