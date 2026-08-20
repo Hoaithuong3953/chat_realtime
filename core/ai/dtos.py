@@ -4,7 +4,7 @@ class AIProviderRequest(BaseModel):
     """Request DTO to receive responses from AI service"""
     model_config=ConfigDict(frozen=True)
 
-    instruction: str = Field(description="Instruction that defines how the AI responses")
+    instruction: str | None = Field(default=None, description="Instruction that defines how the AI responses")
     input: str = Field(description="Input content provided to the AI model")
 
 class AIProviderResponse(BaseModel):

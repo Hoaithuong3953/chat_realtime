@@ -21,3 +21,7 @@ class AIManager(models.Manager["AIRequest"]):
             status=status,
             model=model,
         )
+
+    def get_by_id(self, request_id: UUID):
+        """Find request by id"""
+        return self.filter(id=request_id).first()
