@@ -1,6 +1,6 @@
 from google import genai
 
-from core.ai.dtos import AIRequest, AIResponse
+from core.ai.dtos import AIProviderResponse, AIProviderRequest
 from shared.exceptions.ai import AIProviderException
 
 class GeminiProvider:
@@ -8,7 +8,7 @@ class GeminiProvider:
         self.model = model
         self.client = genai.Client(api_key=api_key)
 
-    def generate(self, request: AIRequest) -> AIResponse:
+    def generate(self, request: AIProviderRequest) -> AIProviderResponse:
         try:
             response = self.client.models.generate_content(
                 model=self.model,
@@ -18,7 +18,7 @@ class GeminiProvider:
                 },
             )
 
-            return AIResponse(
+            return AIProviderResponse(
                 content=response.text,
                 model=self.model,
             )

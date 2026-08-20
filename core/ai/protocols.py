@@ -1,8 +1,8 @@
 from typing import Protocol
 
-from .dtos import AIRequest, AIResponse
+from .dtos import AIProviderRequest, AIProviderResponse
 
 class AIProvider(Protocol):
-    def generate(self, request: AIRequest) -> AIResponse:
+    def generate(self, request: AIProviderRequest) -> AIProviderResponse:
         """Generate a response from the AI provider"""
         ...
