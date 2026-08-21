@@ -14,6 +14,8 @@ class Message(BaseSoftDeleteModel):
     )
     user = models.ForeignKey(
         "users.User",
+        null=True,
+        blank=True,
         on_delete=models.CASCADE,
         related_name="messages"
     )

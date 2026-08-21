@@ -87,7 +87,7 @@ class MessageService:
     @staticmethod
     def create_message(
         chat_id: UUID,
-        user_id: UUID,
+        user_id: UUID | None,
         message_type: MessageType,
         sender_type: SenderType,
         text_content: str | None,
@@ -107,15 +107,20 @@ class MessageService:
             raise ChatNotFoundException()
 
         # Check if the user is a part of the chat
-        is_participant = ChatParticipant.objects.is_participant(chat_id, user_id)
-        if not is_participant:
-            raise ChatAccessDeniedException()
+        if sender_type == SenderType.USER:
+            is_participant = ChatParticipant.objects.is_participant(
+                chat_id,
+                user_id,
+            )
+
+            if not is_participant:
+                raise ChatAccessDeniedException()
 
         # Check if the reply message is exist
         if reply_to_message is not None:
-            reply_to_message = Message.objects.get_by_chat_and_id(reply_to_message, chat_id)
+            reply_message = Message.objects.get_by_chat_and_id(reply_to_message, chat_id)
 
-            if reply_to_message is None:
+            if reply_message is None:
                 raise ReplyMessageNotFoundException()
 
         with transaction.atomic():

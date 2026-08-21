@@ -18,7 +18,7 @@ class MessageResponse(BaseModel):
 
     id: UUID = Field(description="ID of the message")
     chat: UUID = Field(description="ID of chat containing the message")
-    user: UUID = Field(description="ID of the sender")
+    user: UUID | None = Field(description="ID of the sender")
     message_type: MessageType = Field(description="Type of message sent")
     text_content: str | None = Field(default=None, description="Text content of the message, if applicable")
     file: FileResponse | None = Field(default=None, description="File information if the message is a file message")

@@ -14,4 +14,6 @@ class AITriggerService:
             model=AITriggerService.DEFAULT_MODEL,
         )
 
-        return AIService.process_request(request_id=request.id)
+        response = AIService.process_request(request_id=request.id)
+
+        return response.content
