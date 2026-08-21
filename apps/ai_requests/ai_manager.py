@@ -17,7 +17,7 @@ class AIManager(models.Manager["AIRequest"]):
     ):
         """Create an AI request"""
         return self.create(
-            input_message=input_message_id,
+            input_message_id=input_message_id,
             status=status,
             model=model,
         )

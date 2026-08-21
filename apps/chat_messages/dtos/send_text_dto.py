@@ -12,4 +12,6 @@ class SendTextMessageRequest(BaseModel):
 class SendTextMessageResponse(BaseModel):
     """Response DTO return successfully send text message to a chat"""
     model_config=ConfigDict(frozen=True)
-    message: MessageResponse = Field(description="The content of text message")
+
+    user_message: MessageResponse = Field(description="The content of user text message")
+    ai_message: MessageResponse | None = Field(default=None, description="The content of AI service message")
