@@ -45,6 +45,7 @@ class FileMessageService:
                     chat=text.chat_id,
                     user=text.user_id,
                     message_type=text.message_type,
+                    sender_type=text.sender_type,
                     text_content=text.text_content,
                     reply_to_message=text.reply_to_message,
                     created_at=text.created_at,
@@ -69,6 +70,7 @@ class FileMessageService:
                     chat=document.chat_id,
                     user=document.user_id,
                     message_type=document.message_type,
+                    sender_type=document.sender_type,
                     file=FileResponse(
                         file_asset_id=file.id,
                         original_name=file.original_name,

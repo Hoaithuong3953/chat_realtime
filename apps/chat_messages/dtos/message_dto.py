@@ -2,7 +2,7 @@ from datetime import datetime
 from uuid import UUID
 from pydantic import BaseModel, ConfigDict, Field
 
-from apps.chat_messages.enums import MessageType
+from apps.chat_messages.enums import MessageType, SenderType
 
 class FileResponse(BaseModel):
     """Information about a sent file"""
@@ -20,6 +20,7 @@ class MessageResponse(BaseModel):
     chat: UUID = Field(description="ID of chat containing the message")
     user: UUID | None = Field(description="ID of the sender")
     message_type: MessageType = Field(description="Type of message sent")
+    sender_type: SenderType
     text_content: str | None = Field(default=None, description="Text content of the message, if applicable")
     file: FileResponse | None = Field(default=None, description="File information if the message is a file message")
     reply_to_message: UUID | None = Field(default=None, description="ID of the replied message")

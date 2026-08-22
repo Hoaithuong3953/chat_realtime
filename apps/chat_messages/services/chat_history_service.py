@@ -81,6 +81,7 @@ class ChatHistoryService:
                     text_content=message.text_content,
                     file=file,
                     status=message.status,
+                    sender_type=message.sender_type,
                     message_type=message.message_type,
                     created_at=message.created_at,
                     recalled_at=message.recalled_at,
