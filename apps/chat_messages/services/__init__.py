@@ -7,6 +7,7 @@ from .message_service import MessageService
 from .file_message_service import FileMessageService
 from .ai_detector import AIDetector
 from .ai_trigger_service import AITriggerService
+from .ai_message_service import AIMessageService
 
 __all__ = [
     "TextMessageService",
@@ -15,4 +16,5 @@ __all__ = [
     "FileMessageService",
     "AIDetector",
     "AITriggerService",
+    "AIMessageService",
 ]
