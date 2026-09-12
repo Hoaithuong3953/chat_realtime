@@ -39,7 +39,7 @@ class AIMessageService:
                 message_type=ai_message.message_type,
                 sender_type=ai_message.sender_type,
                 text_content=ai_message.text_content,
-                reply_to_message=ai_message.reply_to_message_id,
+                reply_to_message=ai_message.reply_to_message.id,
                 created_at=ai_message.created_at,
             )
         )

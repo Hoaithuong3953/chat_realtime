@@ -9,14 +9,16 @@ from core.ai.dtos import AIProviderRequest
 class AIService:
 
     @staticmethod
-    def create_request(dto: CreateAIRequestRequest, model: str) -> CreateAIRequestResponse:
+    def create_request(dto: CreateAIRequestRequest) -> CreateAIRequestResponse:
         """
         Create a request to send to the AI service
         """
+        provider = get_ai_provider()
+
         return AIRequest.objects.create_request(
             input_message_id=dto.message_id,
             status=AIRequestStatus.QUEUED,
-            model=model,
+            model=provider.model,
         )
 
     @staticmethod
