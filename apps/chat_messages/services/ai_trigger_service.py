@@ -1,15 +1,15 @@
-from apps.chat_messages.models import Message
-from apps.ai_requests.ai_service import AIService
+from uuid import UUID
+
+from apps.ai_requests.queue import AIRequestQueue
+from apps.ai_requests.services import AIService
 from apps.ai_requests.dtos import CreateAIRequestRequest
 
 class AITriggerService:
 
     @staticmethod
-    def process(message: Message) -> str | None:
+    def process(message_id: UUID) -> None:
         request = AIService.create_request(
-            dto=CreateAIRequestRequest(message_id=message.id),
+            dto=CreateAIRequestRequest(message_id=message_id),
         )
 
-        response = AIService.process_request(request_id=request.id)
-
-        return response.content
+        AIRequestQueue.enqueue(request_id=request.id)
