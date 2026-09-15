@@ -7,6 +7,7 @@ from .send_file_dto import SendFileMessageRequest, SendFileMessageResponse
 from .send_text_dto import SendTextMessageResponse, SendTextMessageRequest
 from .message_dto import MessageResponse, FileResponse
 from .get_ai_response_dto import SendAIRequestRequest, AITextMessageResponse
+from .create_ai_message_dto import CreateAIMessageRequest
 
 __all__ = [
     "SendFileMessageRequest",
@@ -22,4 +23,5 @@ __all__ = [
     "FileResponse",
     "SendAIRequestRequest",
     "AITextMessageResponse",
+    "CreateAIMessageRequest",
 ]
