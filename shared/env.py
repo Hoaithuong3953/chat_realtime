@@ -98,4 +98,10 @@ class Settings(BaseSettings):
         description="API key for the configured AI provider",
     )
 
+    # Celery
+    CELERY_BROKER_URL: str = Field(
+        default="redis://localhost:6379/0",
+        description="Connection URL for the Celery message broker",
+    )
+
 settings = Settings()

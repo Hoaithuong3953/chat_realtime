@@ -181,3 +181,14 @@ LOGGING = {
         "level": settings.LOG_LEVEL,
     },
 }
+
+# Celery
+CELERY_BROKER_URL = settings.CELERY_BROKER_URL
+CELERY_ACCEPT_CONTENT = [
+    "json",
+]
+
+CELERY_TASK_SERIALIZER = "json"
+CELERY_RESULT_SERIALIZER = "json"
+CELERY_TIMEZONE = TIME_ZONE
+CELERY_ENABLE_UTC = True
