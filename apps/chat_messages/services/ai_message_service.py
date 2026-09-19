@@ -1,36 +1,12 @@
 from apps.chat_messages.dtos import (
     AITextMessageResponse,
     CreateAIMessageRequest,
-    SendAIRequestRequest,
     MessageResponse,
 )
 from apps.chat_messages.enums import MessageType, SenderType
-from apps.chat_messages.services.ai_detector import AIDetector
-from apps.chat_messages.services.ai_trigger_service import AITriggerService
 from apps.chat_messages.services.message_service import MessageService
 
 class AIMessageService:
-
-    @staticmethod
-    def process_ai_request(dto: SendAIRequestRequest) -> AITextMessageResponse | None:
-        user_message = dto.user_message
-
-        detector_result = AIDetector.detect(
-            text_content=user_message.text_content,
-        )
-
-        if not detector_result.detected:
-            return None
-
-        response_text = AITriggerService.process(message_id=user_message.id)
-
-        return AIMessageService.create_ai_message(
-            dto=CreateAIMessageRequest(
-                chat_id=user_message.chat,
-                reply_to_message=user_message.id,
-                text_content=response_text,
-            )
-        )
 
     @staticmethod
     def create_ai_message(dto: CreateAIMessageRequest) -> AITextMessageResponse:

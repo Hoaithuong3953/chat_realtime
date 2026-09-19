@@ -1,9 +1,9 @@
 from uuid import UUID
 
-from .tasks import process_ai_request
-
 class AIRequestQueue:
 
     @staticmethod
     def enqueue(request_id: UUID) -> None:
+        from apps.ai_requests.tasks import process_ai_request
+
         process_ai_request.delay(str(request_id))
