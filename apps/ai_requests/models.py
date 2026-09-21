@@ -22,7 +22,7 @@ class AIRequest(BaseModel):
     status = models.CharField(
         max_length=STATUS_MAX_LENGTH,
         choices=AIRequestStatus,
-        default=AIRequestStatus.PROCESSING,
+        default=AIRequestStatus.QUEUED,
     )
     error_message = models.CharField(
         max_length=ERROR_MESSAGE_MAX_LENGTH,
