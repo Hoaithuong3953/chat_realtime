@@ -7,6 +7,7 @@ from apps.chat_messages.dtos import (
 )
 from apps.chat_messages.enums import MessageType, SenderType
 from .message_service import MessageService
+from apps.chat_messages.services.ai_trigger_service import AITriggerService
 
 class TextMessageService:
 
@@ -23,6 +24,8 @@ class TextMessageService:
                 text_content=dto.text_content,
                 reply_to_message=dto.reply_to_message,
             )
+
+            AITriggerService.process(message_id=message.id)
 
             return SendTextMessageResponse(
                 message=MessageResponse(

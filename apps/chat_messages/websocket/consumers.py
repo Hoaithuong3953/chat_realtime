@@ -1,7 +1,6 @@
 from django.contrib.auth.models import AnonymousUser
 from channels.db import database_sync_to_async
 
-from apps.chat_messages.dtos.message_dto import MessageResponse
 from shared.logger import logging
 from core.websocket.base_consumer import BaseConsumer
 from core.websocket.context import WebSocketContext
@@ -10,7 +9,6 @@ from apps.chat_messages.websocket.handlers import (
     SendTextHandler,
     RecallMessageHandler,
     SendFileHanlder,
-    AIRequestHandler,
 )
 from apps.chat_messages.websocket.connect_service import ChatConnectService
 from shared.exceptions.chat.common import ChatAccessDeniedException, ChatNotFoundException
@@ -25,8 +23,6 @@ class ChatConsumer(BaseConsumer):
         ChatEvent.RECALL_MESSAGE: RecallMessageHandler(),
         ChatEvent.SEND_FILE_MESSAGE: SendFileHanlder(),
     }
-
-    ai_handlers = AIRequestHandler()
 
     def build_context(self) -> WebSocketContext:
         """Build the context for the WebSocket connection"""
@@ -83,36 +79,7 @@ class ChatConsumer(BaseConsumer):
 
     async def after_handle(self, response):
         """Perform actions after handling send message event"""
-        if response.event == ChatEvent.SEND_TEXT_MESSAGE:
-
-            await self.channel_layer.group_send(
-                self.group_name,
-                {
-                    "type": "chat.message",
-                    "message": response.model_dump(mode="json"),
-                },
-            )
-
-            user_message = MessageResponse.model_validate(
-                response.data["message"]
-            )
-
-            ai_response = await self.ai_handlers.handle(
-                user_message=user_message
-            )
-
-            if ai_response:
-                await self.channel_layer.group_send(
-                    self.group_name,
-                    {
-                        "type": "chat.message",
-                        "message": ai_response.model_dump(mode="json"),
-                    },
-                )
-
-            return True
-
-        if response.event == ChatEvent.SEND_FILE_MESSAGE:
+        if response.event == ChatEvent.SEND_TEXT_MESSAGE or response.event == ChatEvent.SEND_FILE_MESSAGE:
 
             await self.channel_layer.group_send(
                 self.group_name,
