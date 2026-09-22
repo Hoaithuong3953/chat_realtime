@@ -11,6 +11,7 @@ from apps.chat_messages.websocket.handlers import (
     SendFileHanlder,
 )
 from apps.chat_messages.websocket.connect_service import ChatConnectService
+from apps.chat_messages.websocket.broadcaster import MessageBroadcaster
 from shared.exceptions.chat.common import ChatAccessDeniedException, ChatNotFoundException
 
 logger = logging.getLogger(__name__)
@@ -81,12 +82,9 @@ class ChatConsumer(BaseConsumer):
         """Perform actions after handling send message event"""
         if response.event == ChatEvent.SEND_TEXT_MESSAGE or response.event == ChatEvent.SEND_FILE_MESSAGE:
 
-            await self.channel_layer.group_send(
-                self.group_name,
-                {
-                    "type": "chat.message",
-                    "message": response.model_dump(mode="json"),
-                },
+            await MessageBroadcaster.broadcast(
+                chat_id=self.scope["url_route"]["kwargs"]["chat_id"],
+                message=response.model_dump(mode="json"),
             )
 
             return True

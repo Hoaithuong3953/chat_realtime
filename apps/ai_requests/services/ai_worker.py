@@ -1,13 +1,16 @@
 from uuid import UUID
-
 from django.db import transaction
+import time
 
 from .ai_service import AIService
 from apps.ai_requests.enums import AIRequestStatus
 from apps.ai_requests.models import AIRequest
 from apps.chat_messages.services.ai_message_service import AIMessageService
 from apps.chat_messages.dtos import CreateAIMessageRequest
+from apps.chat_messages.websocket.broadcaster import MessageBroadcaster
+from shared.logger import logging
 
+logger = logging.getLogger(__name__)
 class AIWorker:
 
     @staticmethod
@@ -19,6 +22,8 @@ class AIWorker:
 
         if not AIRequest.objects.claim_request(request_id=request_id):
             return
+
+        time.sleep(15)
 
         try:
             response = AIService.process_request(request_id=request_id)
@@ -43,3 +48,12 @@ class AIWorker:
                 status=AIRequestStatus.FAILED,
                 error_message=str(e),
             )
+            return
+
+        try:
+            MessageBroadcaster.broadcast_sync(
+                chat_id=ai_request.input_message.chat_id,
+                message=ai_response.model_dump(mode="json"),
+            )
+        except Exception:
+            logger.exception(f"Failed to broadcast AI response for request {request_id}")

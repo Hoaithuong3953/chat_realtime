@@ -71,3 +71,7 @@ class MessageManager(models.Manager["Message"]):
         message.recalled_at = timezone.now()
         message.save(update_fields=["status", "recalled_at"])
         return message
+
+    def get_by_id(self, message_id: UUID):
+        """Get a message by message id"""
+        return self.filter(id=message_id).first()
