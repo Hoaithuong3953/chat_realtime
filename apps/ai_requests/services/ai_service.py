@@ -5,6 +5,7 @@ from apps.ai_requests.models import AIRequest
 from apps.ai_requests.enums import AIRequestStatus
 from core.ai.factory import get_ai_provider
 from core.ai.dtos import AIProviderRequest
+from shared.exceptions.ai import AIRequestNotFoundException
 
 class AIService:
 
@@ -22,15 +23,16 @@ class AIService:
         )
 
     @staticmethod
-    def process_request(request_id: UUID):
+    def process_request(request_id: UUID, input: str):
         """
         Process the request sent to the AI service
         """
         ai_request = AIRequest.objects.get_by_id(request_id=request_id)
 
+        if ai_request is None:
+            raise AIRequestNotFoundException()
+
         provider = get_ai_provider()
-        provider_request = AIProviderRequest(
-            input=ai_request.input_message.text_content,
-        )
+        provider_request = AIProviderRequest(input=input)
 
         return provider.generate(request=provider_request)

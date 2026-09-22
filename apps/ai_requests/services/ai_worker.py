@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 class AIWorker:
 
     @staticmethod
-    def process(request_id: UUID) -> None:
+    def process(request_id: UUID, input: str) -> None:
         ai_request = AIRequest.objects.get_by_id(request_id=request_id)
 
         if ai_request is None:
@@ -23,10 +23,8 @@ class AIWorker:
         if not AIRequest.objects.claim_request(request_id=request_id):
             return
 
-        time.sleep(15)
-
         try:
-            response = AIService.process_request(request_id=request_id)
+            response = AIService.process_request(request_id=request_id, input=input)
 
             with transaction.atomic():
                 dto = CreateAIMessageRequest(

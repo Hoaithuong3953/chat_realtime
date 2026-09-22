@@ -5,7 +5,9 @@ from apps.ai_requests.services.ai_service import AIService
 from apps.ai_requests.dtos import CreateAIRequestRequest
 from apps.chat_messages.models import Message
 from apps.chat_messages.services.ai_detector import AIDetector
+from shared.logger import logging
 
+logger = logging.getLogger(__name__)
 class AITriggerService:
 
     @staticmethod
@@ -13,6 +15,7 @@ class AITriggerService:
         message = Message.objects.get_by_id(message_id=message_id)
 
         if message is None:
+            logger.warning(f"Message not found: {message_id}")
             return
 
         result = AIDetector.detect(
@@ -26,4 +29,9 @@ class AITriggerService:
             dto=CreateAIRequestRequest(message_id=message_id),
         )
 
-        AIRequestQueue.enqueue(request_id=request.id)
+        logger.info(f"AI request queued: request={request.id}, message={message.id}, input={result.input}")
+
+        AIRequestQueue.enqueue(
+            request_id=request.id,
+            input=result.input,
+        )

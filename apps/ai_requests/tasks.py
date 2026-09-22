@@ -4,5 +4,5 @@ from celery import shared_task
 from apps.ai_requests.services.ai_worker import AIWorker
 
 @shared_task
-def process_ai_request(request_id: str) -> None:
-    AIWorker.process(request_id=UUID(request_id))
+def process_ai_request(request_id: str, input: str) -> None:
+    AIWorker.process(request_id=UUID(request_id), input=input)

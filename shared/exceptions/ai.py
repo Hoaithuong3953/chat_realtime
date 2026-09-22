@@ -1,4 +1,5 @@
 from shared.exceptions.base.app_exception import AppException
+from shared.exceptions.base.common import NotFoundException
 
 class AIException(AppException):
     """
@@ -27,3 +28,11 @@ class UnsupportedAIProviderException(AIException):
                 "provider": provider,
             }
         )
+
+class AIRequestNotFoundException(NotFoundException):
+    """
+    Exception raised when AI request not found
+    HTTP status code: 404 Not Found
+    """
+    error_code = "AI_REQUEST_NOT_FOUND"
+    message = "AI request not found."
