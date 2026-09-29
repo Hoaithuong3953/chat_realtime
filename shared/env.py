@@ -104,4 +104,10 @@ class Settings(BaseSettings):
         description="Connection URL for the Celery message broker",
     )
 
+    # Redis
+    REDIS_URL: str = Field(
+        default="redis://localhost:6379/1",
+        description="Connection URL for application Redis",
+    )
+
 settings = Settings()
