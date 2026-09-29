@@ -3,7 +3,7 @@ from shared.exceptions.base.common import NotFoundException
 
 class AIException(AppException):
     """
-    Base exception for AI provider errors
+    Base exception for AI-related errors
     """
     error_code = "AI_ERROR"
     message = "An AI service error occurred."
