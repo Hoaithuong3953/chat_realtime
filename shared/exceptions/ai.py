@@ -29,6 +29,13 @@ class UnsupportedAIProviderException(AIException):
             }
         )
 
+class AIDailyLimitExceededException(AIException):
+    """
+    Exception raised when the user exceeds the daily AI request limit.
+    """
+    error_code = "AI_DAILY_LIMIT_EXCEEDED"
+    message = "The daily AI request limit has been exceeded."
+
 class AIRequestNotFoundException(NotFoundException):
     """
     Exception raised when AI request not found

@@ -3,6 +3,7 @@ from uuid import UUID
 from apps.ai_requests.queue import AIRequestQueue
 from apps.ai_requests.services.ai_service import AIService
 from apps.ai_requests.dtos import CreateAIRequestRequest
+from apps.ai_requests.services.ai_limit_service import AILimitService
 from apps.chat_messages.models import Message
 from apps.chat_messages.services.ai_detector import AIDetector
 from shared.logger import logging
@@ -24,6 +25,8 @@ class AITriggerService:
 
         if not result.detected:
             return
+
+        AILimitService.consume(user_id=message.user.id)
 
         request = AIService.create_request(
             dto=CreateAIRequestRequest(message_id=message_id),
