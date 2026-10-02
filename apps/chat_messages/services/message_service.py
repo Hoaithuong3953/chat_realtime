@@ -5,7 +5,7 @@ from django.utils import timezone
 
 from apps.chat_messages.dtos import RecallMessageResponse
 from apps.chat_messages.enums import MessageStatus, MessageType, SenderType
-from apps.chat_messages.models.file_message_model import FileMessage
+from apps.chat_messages.models.file_message_models import FileMessage
 from apps.file_assets.models import FileAsset
 from shared.exceptions.chat.common import ChatAccessDeniedException, ChatNotFoundException
 from shared.exceptions.chat.message import (

@@ -8,7 +8,7 @@ from apps.chat_messages.dtos import (
     SendFileMessageRequest
 )
 from apps.chat_messages.dtos.send_file_dto import MessageResponse
-from apps.chat_messages.models.file_message_model import FileMessage
+from apps.chat_messages.models.file_message_models import FileMessage
 from apps.chat_messages.enums import MessageType, SenderType
 from apps.file_assets.models import FileAsset
 from apps.file_assets.file_service import FileService
