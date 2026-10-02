@@ -1,5 +1,6 @@
-from .gemini import GeminiProvider
+from .gemini import GeminiProvider, GeminiEmbeddingProvider
 
 __all__ = [
     "GeminiProvider",
+    "GeminiEmbeddingProvider",
 ]

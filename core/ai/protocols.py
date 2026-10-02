@@ -6,3 +6,8 @@ class AIProvider(Protocol):
     def generate(self, request: AIProviderRequest) -> AIProviderResponse:
         """Generate a response from the AI provider"""
         ...
+
+class EmbeddingProvider(Protocol):
+    def embed(self, input: str) -> list[float]:
+        """"""
+        ...

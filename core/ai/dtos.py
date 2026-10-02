@@ -13,3 +13,16 @@ class AIProviderResponse(BaseModel):
 
     content: str = Field(description="Generated content returned by the AI model")
     model: str = Field(description="Model used to generate the response")
+
+class EmbeddingProviderRequest(BaseModel):
+    """Request DTO to embedding request from AI service"""
+    model_config = ConfigDict(frozen=True)
+
+    input: str = Field(description="Text content to generate embedding for")
+
+class EmbeddingProviderResponse(BaseModel):
+    """Response DTO return after successfully embedding request"""
+    model_config = ConfigDict(frozen=True)
+
+    embedding: list[float] = Field(description="Generated embedding vector")
+    model: str = Field(description="Embedding model used")

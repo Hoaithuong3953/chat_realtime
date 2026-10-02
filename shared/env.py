@@ -97,6 +97,15 @@ class Settings(BaseSettings):
         ...,
         description="API key for the configured AI provider",
     )
+    GEMINI_EMBEDDING_MODEL: str = Field(
+        default="gemini-embedding-2",
+        description="Embedding model to use",
+    )
+
+    GEMINI_EMBEDDING_DIMENSION: int = Field(
+        default=768,
+        description="Embedding vector dimension",
+    )
 
     # Celery
     CELERY_BROKER_URL: str = Field(
