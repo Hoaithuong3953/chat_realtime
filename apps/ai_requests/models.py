@@ -24,6 +24,7 @@ class AIRequest(BaseModel):
         choices=AIRequestStatus,
         default=AIRequestStatus.QUEUED,
     )
+    attempt_count = models.PositiveSmallIntegerField(default=0)
     error_message = models.CharField(
         max_length=ERROR_MESSAGE_MAX_LENGTH,
         null=True,

@@ -1,6 +1,7 @@
 from typing import TYPE_CHECKING
 from uuid import UUID
 from django.db import models
+from django.db.models import F
 
 from apps.ai_requests.enums import AIRequestStatus
 
@@ -42,3 +43,11 @@ class AIManager(models.Manager["AIRequest"]):
         )
 
         return updated==1
+
+    def increment_attempt_count(self, request_id: UUID) -> None:
+        self.filter(id=request_id).update(
+            attempt_count=F("attempt_count") + 1,
+        )
+
+    def get_for_update(self, request_id: UUID):
+        return self.select_for_update().get(id=request_id)
