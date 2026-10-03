@@ -1,7 +1,9 @@
 from __future__ import annotations
 from typing import TYPE_CHECKING
+from uuid import UUID
 from django.contrib.auth.base_user import BaseUserManager
 from django.db.models import Q
+from django.utils import timezone
 
 
 from apps.accounts.enums import Role
@@ -48,3 +50,26 @@ class AccountManager(BaseUserManager["Account"]):
     def get_by_id(self, account_id):
         """Get account by id"""
         return self.filter(id=account_id).first()
+
+    def search_accounts(
+        self,
+        q: str | None = None,
+        role: Role | None = None,
+        is_active: bool | None = None,
+    ):
+        queryset = self.select_related("user_profile")
+
+        if q:
+            queryset = queryset.filter(
+                Q(email__icontains=q)
+                | Q(username__icontains=q)
+                | Q(user_profile__full_name__icontains=q)
+            )
+
+        if role is not None:
+            queryset = queryset.filter(role=role)
+
+        if is_active is not None:
+            queryset = queryset.filter(is_active=is_active)
+
+        return queryset.order_by("-created_at")

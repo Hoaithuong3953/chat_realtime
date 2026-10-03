@@ -6,6 +6,7 @@ from .login_service import LoginService
 from .refresh_service import RefreshService
 from .logout_service import LogoutService
 from .me_service import MeService
+from .account_service import AccountService
 
 __all__ = [
     "RegisterService",
@@ -13,4 +14,5 @@ __all__ = [
     "RefreshService",
     "LogoutService",
     "MeService",
+    "AccountService",
 ]
