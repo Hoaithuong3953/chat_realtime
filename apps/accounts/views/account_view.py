@@ -23,7 +23,7 @@ class AccountView(BaseApiView):
             )
         )
 
-        return self.success_respone(
+        return self.success_response(
             message="Get accounts successfully.",
             data=result.model_dump(mode="json"),
         )

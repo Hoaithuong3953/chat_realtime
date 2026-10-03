@@ -9,7 +9,7 @@ class ProfileView(BaseApiView):
         """Handle get user information request"""
         result = ProfileService.get_profile(account_id=request.user.id)
 
-        return self.success_respone(
+        return self.success_response(
             message="Get profile successfully.",
             data=result.model_dump(mode="json")
         )
@@ -26,7 +26,7 @@ class ProfileView(BaseApiView):
             dto=dto,
         )
 
-        return self.success_respone(
+        return self.success_response(
             message="Profile updated successfully.",
             data=result.model_dump(mode="json")
         )

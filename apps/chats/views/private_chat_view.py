@@ -20,7 +20,7 @@ class PrivateChatView(BaseApiView):
             dto=dto,
         )
 
-        return self.success_respone(
+        return self.success_response(
             message="Private chat opened successfully.",
             data=result.model_dump(mode="json"),
         )

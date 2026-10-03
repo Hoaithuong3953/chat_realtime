@@ -19,7 +19,7 @@ class RefreshView(BaseApiView):
             refresh_token=refresh_token,
         )
 
-        response = self.success_respone(
+        response = self.success_response(
             message="Refresh token successfully.",
             data={
                 "access_token": result.access_token,

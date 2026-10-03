@@ -14,6 +14,6 @@ class DeleteGroupMemberView(BaseApiView):
             member_id=member_id,
         )
 
-        return self.success_respone(
+        return self.success_response(
             message="Member removed successfully."
         )

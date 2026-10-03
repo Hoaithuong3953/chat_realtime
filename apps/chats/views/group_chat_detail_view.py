@@ -17,7 +17,7 @@ class GroupChatDetailView(BaseApiView):
             current_user_id=self.current_user,
         )
 
-        return self.success_respone(
+        return self.success_response(
             message="Group information retrieved successfully.",
             data=result.model_dump(mode="json"),
         )
@@ -35,7 +35,7 @@ class GroupChatDetailView(BaseApiView):
             dto=dto,
         )
 
-        return self.success_respone(
+        return self.success_response(
             message="Group information updated successfully.",
             data=result.model_dump(mode="json"),
         )

@@ -24,7 +24,7 @@ class RegisterView(BaseApiView):
             RegisterRequest.model_validate(serializer.validated_data)
         )
 
-        return self.success_respone(
+        return self.success_response(
             message="Register successfully.",
             data=response_dto.model_dump(mode="json"),
             http_status=HTTPStatus.CREATED,

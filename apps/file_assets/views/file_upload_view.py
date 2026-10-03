@@ -12,7 +12,7 @@ class FileUploadView(BaseApiView):
             storage=get_storage(),
         )
 
-        return self.success_respone(
+        return self.success_response(
             message="File upload successfully.",
             data=result.model_dump(mode="json"),
         )

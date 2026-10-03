@@ -20,7 +20,7 @@ class TransferOwnershipView(BaseApiView):
             dto=dto,
         )
 
-        return self.success_respone(
+        return self.success_response(
             message="Group ownership transferred successfully.",
             data=result,
         )

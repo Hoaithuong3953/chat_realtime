@@ -16,7 +16,7 @@ class GetChatListView(BaseApiView):
             dto=dto,
         )
 
-        return self.success_respone(
+        return self.success_response(
             message="Get chat list successfully.",
             data=result.model_dump(mode="json"),
         )

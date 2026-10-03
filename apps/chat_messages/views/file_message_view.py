@@ -21,7 +21,7 @@ class FileMessageView(BaseApiView):
             dto=dto,
         )
 
-        return self.success_respone(
+        return self.success_response(
             message="Send document message successfully.",
             data=result.model_dump(mode="json"),
         )

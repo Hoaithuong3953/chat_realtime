@@ -11,6 +11,6 @@ class LeaveGroupView(BaseApiView):
             current_member_id=self.current_user,
         )
 
-        return self.success_respone(
+        return self.success_response(
             message="Left the group successfully.",
         )

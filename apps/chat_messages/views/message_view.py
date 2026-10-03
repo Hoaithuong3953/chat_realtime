@@ -21,7 +21,7 @@ class MessageView(BaseApiView):
             dto=dto,
         )
 
-        return self.success_respone(
+        return self.success_response(
             message="Send message successfully.",
             data=result.model_dump(mode="json"),
         )
@@ -37,7 +37,7 @@ class MessageView(BaseApiView):
             user_id=self.current_user.id,
         )
 
-        return self.success_respone(
-            message="Get chat history sucessfully.",
+        return self.success_response(
+            message="Get chat history successfully.",
             data=result.model_dump(mode="json"),
         )

@@ -7,7 +7,7 @@ class MeView(BaseApiView):
         """Handle get current account information request"""
         result = MeService.me(account_id=request.user.id)
 
-        return self.success_respone(
+        return self.success_response(
             message="Get current user successfully.",
             data=result.model_dump(mode="json"),
         )

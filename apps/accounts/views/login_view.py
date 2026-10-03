@@ -24,7 +24,7 @@ class LoginView(BaseApiView):
             LoginRequest.model_validate(serializer.validated_data)
         )
 
-        response = self.success_respone(
+        response = self.success_response(
             message="Login successfully.",
             data={"access_token": response_dto.access_token},
         )

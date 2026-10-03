@@ -22,7 +22,7 @@ class CreateGroupChatView(BaseApiView):
             dto=dto,
         )
 
-        return self.success_respone(
+        return self.success_response(
             message="Group chat created successfully.",
             data=result.model_dump(mode="json"),
             http_status=HTTPStatus.CREATED

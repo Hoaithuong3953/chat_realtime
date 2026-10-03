@@ -22,7 +22,7 @@ class UserView(BaseApiView):
             )
         )
 
-        return self.success_respone(
+        return self.success_response(
             message="Get users successfully.",
             data=result.model_dump(mode="json"),
         )

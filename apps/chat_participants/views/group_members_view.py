@@ -12,7 +12,7 @@ class GroupMemberView(BaseApiView):
         """
         result = MemberService.get_all(chat_id=chat_id, user_id=self.current_user)
 
-        return self.success_respone(
+        return self.success_response(
             message="Group members retrieved successfully.",
             data=result.model_dump(mode="json"),
         )
@@ -32,7 +32,7 @@ class GroupMemberView(BaseApiView):
             dto=dto,
         )
 
-        return self.success_respone(
+        return self.success_response(
             message="Members added successfully.",
             data=result.model_dump(mode="json"),
         )

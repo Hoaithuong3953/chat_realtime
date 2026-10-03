@@ -11,7 +11,7 @@ class AccountDetailView(BaseApiView):
         """Handle get account information request"""
         result = AccountService.get_account(account_id=account_id)
 
-        return self.success_respone(
+        return self.success_response(
             message="Get account information successfully.",
             data=result.model_dump(mode="json"),
         )
@@ -25,7 +25,7 @@ class AccountDetailView(BaseApiView):
             is_active=is_active,
         )
 
-        return self.success_respone(
+        return self.success_response(
             message="Update account successfully.",
             data=result.model_dump(mode="json"),
         )

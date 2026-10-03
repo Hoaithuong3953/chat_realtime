@@ -17,7 +17,7 @@ class LogoutView(BaseApiView):
 
         LogoutService.logout(refresh_token)
 
-        response = self.success_respone(
+        response = self.success_response(
             message="Logout successfully.",
         )
 

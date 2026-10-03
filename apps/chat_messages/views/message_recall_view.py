@@ -15,7 +15,7 @@ class MessageRecallView(BaseApiView):
             message_id=message_id,
         )
 
-        return self.success_respone(
+        return self.success_response(
             message="Recall message successfully.",
             data=result.model_dump(mode="json"),
         )
