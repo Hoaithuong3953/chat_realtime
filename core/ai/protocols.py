@@ -9,5 +9,5 @@ class AIProvider(Protocol):
 
 class EmbeddingProvider(Protocol):
     def embed(self, input: str) -> list[float]:
-        """"""
+        """Generate a vector embedding for the given input text"""
         ...

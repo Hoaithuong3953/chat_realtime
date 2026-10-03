@@ -101,7 +101,6 @@ class Settings(BaseSettings):
         default="gemini-embedding-2",
         description="Embedding model to use",
     )
-
     GEMINI_EMBEDDING_DIMENSION: int = Field(
         default=768,
         description="Embedding vector dimension",
