@@ -32,6 +32,16 @@ class Settings(BaseSettings):
     DB_HOST: str = Field(..., description="Database host (required)")
     DB_PORT: int = Field(..., description="Database port (required)")
 
+    # Backup
+    BACKUP_DIR: str = Field(
+        default="backups/database",
+        description="Directory for database backups (default 'backups/database')"
+    )
+    BACKUP_RETENTION_DAYS: int = Field(
+        default=7,
+        description="Number of days to retain backups (default 7 days)"
+    )
+
     # CORS configuration
     CORS_ALLOWED_ORIGINS: list[str] = Field(
         default=[],

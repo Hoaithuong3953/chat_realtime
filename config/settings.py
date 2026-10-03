@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     "apps.chat_messages",
     "apps.file_assets",
     "apps.ai_requests",
+    "apps.system",
 ]
 
 MIDDLEWARE = [
@@ -118,6 +119,9 @@ DATABASES = {
         "PORT": settings.DB_PORT,
     }
 }
+
+BACKUP_DIR = settings.BACKUP_DIR
+BACKUP_RETENTION_DAYS = settings.BACKUP_RETENTION_DAYS
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
