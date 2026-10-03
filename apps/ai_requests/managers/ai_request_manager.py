@@ -8,7 +8,7 @@ from apps.ai_requests.enums import AIRequestStatus
 if TYPE_CHECKING:
     from apps.ai_requests.models import AIRequest
 
-class AIManager(models.Manager["AIRequest"]):
+class AIRequestManager(models.Manager["AIRequest"]):
 
     def create_request(
         self,
@@ -25,7 +25,11 @@ class AIManager(models.Manager["AIRequest"]):
 
     def get_by_id(self, request_id: UUID):
         """Find request by id"""
-        return self.filter(id=request_id).first()
+        return (
+            self.select_related("input_message__chat")
+            .filter(id=request_id)
+            .first()
+        )
     
     def update_request(self, request_id: UUID, **fields):
         """Update fields of an AI request"""

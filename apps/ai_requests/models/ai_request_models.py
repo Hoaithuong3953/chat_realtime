@@ -2,8 +2,12 @@ from django.db import models
 
 from shared.base_models import BaseModel
 from apps.ai_requests.enums import AIRequestStatus
-from apps.ai_requests.constants import STATUS_MAX_LENGTH, ERROR_MESSAGE_MAX_LENGTH, MODEL_MAX_LENGTH
-from apps.ai_requests.ai_manager import AIManager
+from apps.ai_requests.constants import (
+    STATUS_MAX_LENGTH,
+    ERROR_MESSAGE_MAX_LENGTH,
+    MODEL_MAX_LENGTH,
+)
+from apps.ai_requests.managers.ai_request_manager import AIRequestManager
 
 class AIRequest(BaseModel):
     """Represents the request to AI service"""
@@ -32,7 +36,7 @@ class AIRequest(BaseModel):
     )
     model = models.CharField(max_length=MODEL_MAX_LENGTH)
 
-    objects: AIManager = AIManager()
+    objects: AIRequestManager = AIRequestManager()
 
     class Meta:
         db_table = "ai_request"
