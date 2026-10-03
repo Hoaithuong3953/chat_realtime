@@ -52,6 +52,9 @@ def format_chunk(messages: Sequence[AIContextMessage]) -> str:
         else:
             sender = message.full_name or "Unknown User"
 
-        parts.append(f"{sender}: {message.text_content}")
+        parts.append(
+            f"[{message.created_at.isoformat()}] "
+            f"{sender}: {message.text_content}"
+        )
 
     return "\n".join(parts)

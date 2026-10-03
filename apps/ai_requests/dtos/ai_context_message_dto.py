@@ -1,3 +1,4 @@
+from datetime import datetime
 from uuid import UUID
 from pydantic import BaseModel, ConfigDict, Field
 
@@ -18,3 +19,4 @@ class AIContextMessage(BaseModel):
         default=None,
         description="Text content of the message",
     )
+    created_at: datetime = Field(description="Creation timestamp of the message")

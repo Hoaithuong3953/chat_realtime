@@ -2,6 +2,9 @@ from uuid import UUID
 from django.db import transaction
 import time
 
+from core.websocket.base_schema import WebSocketResponse
+from core.websocket.events import WebSocketEvent
+
 from .ai_service import AIService
 from apps.ai_requests.enums import AIRequestStatus
 from apps.ai_requests.models import AIRequest
@@ -14,14 +17,14 @@ logger = logging.getLogger(__name__)
 class AIWorker:
 
     @staticmethod
-    def process(request_id: UUID, input: str) -> None:
+    def process(request_id: UUID) -> None:
         ai_request = AIRequest.objects.get_by_id(request_id=request_id)
 
         if ai_request is None:
             logger.warning(f"AI request not found: {request_id}")
             return
 
-        if ai_request.status in (AIRequestStatus.COMPLETED, AIRequestStatus.COMPLETED):
+        if ai_request.status in (AIRequestStatus.COMPLETED, AIRequestStatus.FAILED):
             return
 
         if ai_request.status == AIRequestStatus.QUEUED:
@@ -70,8 +73,30 @@ class AIWorker:
 
     @staticmethod
     def mark_failed(request_id: UUID, error_message: str) -> None:
+        ai_request = AIRequest.objects.get_by_id(request_id=request_id)
+
+        if ai_request is None:
+            logger.warning(f"AI request not found: {request_id}")
+            return
+
         AIRequest.objects.update_request(
             request_id=request_id,
             status=AIRequestStatus.FAILED,
             error_message=error_message,
         )
+
+        try:
+            MessageBroadcaster.broadcast_sync(
+                chat_id=ai_request.input_message.chat_id,
+                message=WebSocketResponse(
+                    event=WebSocketEvent.ERROR,
+                    data={
+                        "request_id": str(request_id),
+                        "error": error_message,
+                    },
+                ).model_dump(mode="json"),
+            )
+        except Exception:
+            logger.exception(
+                f"Failed to broadcast AI error for request {request_id}"
+            )

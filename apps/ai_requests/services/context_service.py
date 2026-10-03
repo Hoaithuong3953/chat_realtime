@@ -39,7 +39,8 @@ class ContextService:
                 )
 
         context_parts.append(
-            f"User question:\n{query}"
+            f"[{message.created_at.isoformat()}] "
+            f"{sender}: {message.text_content}"
         )
 
         return "\n\n".join(context_parts)
@@ -69,6 +70,7 @@ class ContextService:
                     else None
                 ),
                 text_content=message.text_content,
+                created_at=message.created_at,
             )
             for message in messages
         ]
