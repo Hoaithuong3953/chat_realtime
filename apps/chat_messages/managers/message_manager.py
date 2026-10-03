@@ -6,6 +6,7 @@ from django.db.models import Q
 from django.utils import timezone
 
 from apps.chat_messages.enums import MessageType, MessageStatus, SenderType
+from apps.ai_requests.constants import RECENT_MESSAGE_LIMIT
 
 if TYPE_CHECKING:
     from apps.chat_messages.models import Message
@@ -75,3 +76,17 @@ class MessageManager(models.Manager["Message"]):
     def get_by_id(self, message_id: UUID):
         """Get a message by message id"""
         return self.filter(id=message_id).first()
+
+    def get_recent_messages_for_ai_context(
+        self,
+        chat_id: UUID,
+        limit: int = RECENT_MESSAGE_LIMIT,
+    ):
+        return (
+            self.filter(
+                chat_id=chat_id,
+                status=MessageStatus.ACTIVE,
+            )
+            .select_related("user")
+            .order_by("-created_at", "-id")[:limit]
+        )
