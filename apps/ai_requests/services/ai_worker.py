@@ -37,7 +37,7 @@ class AIWorker:
 
         AIRequest.objects.increment_attempt_count(request_id=request_id)
 
-        response = AIService.process_request(request_id=request_id, input=input)
+        response = AIService.process_request(request_id=request_id)
         
         with transaction.atomic():
             ai_request = AIRequest.objects.get_for_update(request_id=request_id)
