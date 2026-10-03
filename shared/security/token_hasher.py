@@ -13,6 +13,6 @@ class TokenHasher:
     def verify_token(token: str, token_hash: str) -> bool:
         """Verify a raw_token against its hash"""
         return hmac.compare_digest(
-            TokenHasher.hash(token),
+            TokenHasher.hash_token(token),
             token_hash,
         )

@@ -22,7 +22,8 @@ class RefreshView(BaseApiView):
         response = self.success_respone(
             message="Refresh token successfully.",
             data={
-                "access_token": result.access_token
+                "access_token": result.access_token,
+                "expires_in": result.expires_in,
             },
         )
 

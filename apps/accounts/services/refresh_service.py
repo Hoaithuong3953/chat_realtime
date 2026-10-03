@@ -12,6 +12,9 @@ class RefreshService:
     @staticmethod
     @transaction.atomic
     def refresh(refresh_token: str) -> RefreshTokenResponse:
+        if not refresh_token:
+            raise InvalidRefreshTokenException()
+        
         hashed_refresh_token  = TokenHasher.hash_token(refresh_token)
 
         refresh = RefreshToken.objects.find_active_by_hash(hashed_refresh_token)
@@ -30,11 +33,12 @@ class RefreshService:
             expires_in=RefreshTokenService.get_refresh_expiration(),
         )
 
-        access_token = str(
-            AccessToken.for_user(refresh.account)
-        )
+        access_token = AccessToken.for_user(refresh.account)
+
+        expires_in = int(access_token.lifetime.total_seconds())
 
         return RefreshTokenResponse(
-            access_token=access_token,
+            access_token=str(access_token),
+            expires_in=expires_in,
             refresh_token=new_refresh_token,
         )

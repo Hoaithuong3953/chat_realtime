@@ -36,7 +36,7 @@ class APIResponse:
             "status": status,
         }
 
-        if message is not None:
+        if error_code is not None:
             response["error_code"] = error_code
 
         if message is not None:
