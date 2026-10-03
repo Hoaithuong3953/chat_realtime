@@ -37,6 +37,7 @@ class ChatConsumer(BaseConsumer):
         user = self.scope["user"]
         if isinstance(user, AnonymousUser):
             await self.close(code=401)
+            return
 
         chat_id = self.scope["url_route"]["kwargs"]["chat_id"]
         try:
