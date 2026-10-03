@@ -7,6 +7,7 @@ from .refresh_tokens_dto import RefreshTokenResponse
 from .me_dto import MeResponse
 from .get_accounts_dto import GetAccountsRequest, AccountItemResponse, GetAccountsResponse
 from .get_account_dto import GetAccountResponse
+from .update_status_dto import UpdateAccountResponse
 
 __all__ = [
     "RegisterRequest",
@@ -19,4 +20,5 @@ __all__ = [
     "AccountItemResponse",
     "GetAccountsRequest",
     "GetAccountResponse",
+    "UpdateAccountResponse",
 ]

@@ -81,3 +81,15 @@ class AccountManager(BaseUserManager["Account"]):
             .filter(id=account_id)
             .first()
         )
+
+    def update_status(self, account_id: UUID, is_active: bool):
+        """Update account status"""
+        account = self.get_by_id_with_profile(account_id=account_id)
+
+        if not account:
+            return None
+
+        account.is_active = is_active
+        account.save(update_fields=["is_active", "updated_at"])
+
+        return account

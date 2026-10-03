@@ -15,3 +15,17 @@ class AccountDetailView(BaseApiView):
             message="Get account information successfully.",
             data=result.model_dump(mode="json"),
         )
+
+    def patch(self, request, account_id: UUID):
+        """Handle update account request"""
+        is_active = request.data.get("is_active")
+
+        result = AccountService.update_account(
+            account_id=account_id,
+            is_active=is_active,
+        )
+
+        return self.success_respone(
+            message="Update account successfully.",
+            data=result.model_dump(mode="json"),
+        )

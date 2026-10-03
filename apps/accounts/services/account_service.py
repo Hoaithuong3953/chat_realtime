@@ -6,6 +6,7 @@ from apps.accounts.dtos import (
     GetAccountsRequest,
     AccountItemResponse,
     GetAccountsResponse,
+    UpdateAccountResponse,
 )
 from apps.accounts.dtos.get_accounts_dto import GetAccountsRequest
 from apps.accounts.models import Account
@@ -68,4 +69,19 @@ class AccountService:
             avatar_url=account.user_profile.avatar_url,
             created_at=account.created_at,
             updated_at=account.updated_at,
+        )
+
+    @staticmethod
+    def update_account(account_id: UUID, is_active: bool) -> UpdateAccountResponse:
+        account = Account.objects.update_status(
+            account_id=account_id,
+            is_active=is_active,
+        )
+
+        if not account:
+            raise AccountNotFoundException()
+
+        return UpdateAccountResponse(
+            id=account.id,
+            is_active=account.is_active,
         )
