@@ -5,11 +5,10 @@ from apps.ai_requests.services.ai_worker import AIWorker
 from core.ai.retry_policy import AIRetryPolicy
 from apps.ai_requests.constants import (
     RETRY_DELAYS,
-    RETRY_ATTEMPTS,
     CELERY_TIME_LIMIT,
 )
 
-@shared_task(bind=True, max_retries=RETRY_ATTEMPTS, time_limit=CELERY_TIME_LIMIT)
+@shared_task(bind=True, time_limit=CELERY_TIME_LIMIT)
 def process_ai_request(self, request_id: str, input: str) -> None:
     request_uuid = UUID(request_id)
 

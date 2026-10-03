@@ -14,7 +14,7 @@ class GeminiProvider:
         self.client = genai.Client(
             api_key=api_key,
             http_options=types.HttpOptions(
-                retry_options=types.HttpRetryOptions(attempts=1),
+                retry_options=types.HttpRetryOptions(attempts=2),
                 timeout=90_000,
             )
         )
@@ -40,7 +40,7 @@ class GeminiEmbeddingProvider:
         self.client = genai.Client(
             api_key=api_key,
             http_options=types.HttpOptions(
-                retry_options=types.HttpRetryOptions(attempts=1),
+                retry_options=types.HttpRetryOptions(attempts=2),
                 timeout=90_000,
             )
         )

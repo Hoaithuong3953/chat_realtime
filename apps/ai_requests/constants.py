@@ -11,7 +11,6 @@ DAILY_KEY_PREFIX = "ai:limit:daily"
 
 # Retry
 RETRY_DELAYS = (2, 5)
-RETRY_ATTEMPTS = 2
 
 # Timeout
 PROVIDER_TIMEOUT = 90
