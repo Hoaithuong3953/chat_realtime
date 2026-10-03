@@ -177,16 +177,37 @@ LOGGING = {
             "class": "logging.StreamHandler",
             "formatter": "default",
         },
+        "application_file": {
+            "class": "logging.handlers.RotatingFileHandler",
+            "filename": f"{settings.LOG_DIR}/application.log",
+            "maxBytes": 10 * 1024 * 1024,
+            "backupCount": 5,
+            "formatter": "default",
+            "encoding": "utf-8",
+        },
+        "error_file": {
+            "class": "logging.handlers.RotatingFileHandler",
+            "filename": f"{settings.LOG_DIR}/error.log",
+            "maxBytes": 10 * 1024 * 1024,
+            "backupCount": 5,
+            "formatter": "default",
+            "encoding": "utf-8",
+            "level": "ERROR",
+        },
     },
     "loggers": {
         "django.request": {
-            "handlers": ["console"],
+            "handlers": ["console", "error_file"],
             "level": "ERROR",
             "propagate": False,
         },
     },
     "root": {
-        "handlers": ["console"],
+        "handlers": [
+            "console",
+            "application_file",
+            "error_file",
+        ],
         "level": settings.LOG_LEVEL,
     },
 }

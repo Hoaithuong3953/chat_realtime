@@ -85,6 +85,10 @@ class Settings(BaseSettings):
         default="%Y-%m-%d %H:%M:%S",
         description="Logging date format (can be overridden by LOG_DATE_FORMAT in .env)"
     )
+    LOG_DIR: str = Field(
+        default="logs",
+        description="Directory for application logs"
+    )
 
     # Storage
     STORAGE: str = Field(
