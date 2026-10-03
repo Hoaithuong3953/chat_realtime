@@ -73,3 +73,11 @@ class AccountManager(BaseUserManager["Account"]):
             queryset = queryset.filter(is_active=is_active)
 
         return queryset.order_by("-created_at")
+
+    def get_by_id_with_profile(self, account_id):
+        """Get account by id with user profile"""
+        return (
+            self.select_related("user_profile")
+            .filter(id=account_id)
+            .first()
+        )
