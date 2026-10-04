@@ -15,6 +15,12 @@ class RegisterService:
         """
         Register a new user account
 
+        Args: 
+            dto: Registration data
+
+        Returns: 
+            The registered account information
+
         Raises:
             EmailAlreadyExistsException: If the email is already in use
             UsernameAlreadyExistsException: If the username is already in use
@@ -42,6 +48,7 @@ class RegisterService:
                 raise EmailAlreadyExistsException()
             if "username" in str(e):
                 raise UsernameAlreadyExistsException()
+            raise
             
         return RegisterResponse(
             id=account.id,
