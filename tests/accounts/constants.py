@@ -3,6 +3,7 @@ REGISTER_URL = "/api/v1/auth/register"
 LOGIN_URL = "/api/v1/auth/login"
 LOGOUT_URL = "/api/v1/auth/logout"
 REFRESH_URL = "/api/v1/auth/refresh"
+ME_URL = "/api/v1/auth/me"
 
 # Account test data
 TEST_EMAIL = "test@example.com"
@@ -17,6 +18,7 @@ NEW_EMAIL = "new@example.com"
 NEW_USERNAME = "newuser"
 
 INVALID_EMAIL = "invalid-email"
+NON_EXISTENT_ACCOUNT_ID = "00000000-0000-0000-0000-000000000000"
 
 # Login test data
 INVALID_IDENTIFIER = "notfound@example.com"
@@ -32,6 +34,13 @@ REFRESH_TOKEN_EXPIRES_DAYS = 7
 REFRESH_TOKEN_EXPIRED_SECONDS = 1
 OLD_REFRESH_TOKEN = "old-refresh-token"
 VALID_REFRESH_TOKEN = "valid-refresh-token"
+
+# Me test data
+INVALID_ACCESS_TOKEN = "invalid-token"
+UPDATED_USERNAME = "updateduser"
+
+# Auth
+AUTHORIZATION_TYPE = "Bearer"
 
 # Response keys
 ACCESS_TOKEN_KEY = "access_token"

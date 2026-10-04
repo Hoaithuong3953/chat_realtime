@@ -2,6 +2,7 @@ import pytest
 from django.utils import timezone
 from datetime import timedelta
 from rest_framework.test import APIClient
+from rest_framework_simplejwt.tokens import AccessToken
 
 from apps.accounts.models import Account, RefreshToken
 from shared.security import TokenHasher
@@ -35,3 +36,7 @@ def refresh_token(account):
         ),
     )
     return VALID_REFRESH_TOKEN
+
+@pytest.fixture
+def access_token(account):
+    return str(AccessToken.for_user(account))
