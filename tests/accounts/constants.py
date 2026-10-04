@@ -1,5 +1,6 @@
 # URLs
 REGISTER_URL = "/api/v1/auth/register"
+LOGIN_URL = "/api/v1/auth/login"
 
 # Account test data
 TEST_EMAIL = "test@example.com"
@@ -14,6 +15,21 @@ NEW_EMAIL = "new@example.com"
 NEW_USERNAME = "newuser"
 
 INVALID_EMAIL = "invalid-email"
+
+# Login test data
+INVALID_IDENTIFIER = "notfound@example.com"
+WRONG_PASSWORD = "WrongPassword!"
+SHORT_IDENTIFIER = "ab"
+SHORT_PASSWORD = "123"
+
+# Refresh token test data
+REFRESH_TOKEN_EXPIRES_DAYS = 7
+OLD_REFRESH_TOKEN = "old-refresh-token"
+VALID_REFRESH_TOKEN = "valid-refresh-token"
+
+# Response keys
+ACCESS_TOKEN_KEY = "access_token"
+EXPIRES_IN_KEY = "expires_in"
 
 # Error codes
 EMAIL_ALREADY_EXISTS_ERROR_CODE = "EMAIL_ALREADY_EXISTS"
@@ -37,3 +53,9 @@ USER_CREATION_INTEGRITY_ERROR_MESSAGE = (
 HTTP_CREATED = 201
 HTTP_BAD_REQUEST = 400
 HTTP_CONFLICT = 409
+HTTP_UNAUTHORIZED = 401
+HTTP_FORBIDDEN = 403
+HTTP_OK = 200
+
+# Cookie
+REFRESH_COOKIE_PATH = "/api/v1/auth"

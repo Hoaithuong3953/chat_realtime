@@ -20,9 +20,15 @@ class LoginService:
         """
         Authenticate a user and return the login result
 
+        Args:
+            dto: Login credentials
+
+        Returns:
+            The generated access and refresh tokens
+
         Raises:
-            InvalidCredentialsException: If the email/username or password is incorrect
-            AccountDisabledException: If the account is not active (is_active=False)
+            InvalidCredentialsException: If the credentials are invalid
+            AccountDisabledException: If the account is inactive
         """
         account = Account.objects.get_by_identifier(
             dto.identifier,
@@ -34,7 +40,7 @@ class LoginService:
         if not account.check_password(dto.password):
             raise InvalidCredentialsException()
         
-        if account.is_active == False:
+        if not account.is_active:
             raise AccountDisabledException()
         
         access_token = str(AccessToken.for_user(account))
