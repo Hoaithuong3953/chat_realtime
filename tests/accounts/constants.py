@@ -1,6 +1,7 @@
 # URLs
 REGISTER_URL = "/api/v1/auth/register"
 LOGIN_URL = "/api/v1/auth/login"
+LOGOUT_URL = "/api/v1/auth/logout"
 
 # Account test data
 TEST_EMAIL = "test@example.com"
@@ -23,6 +24,7 @@ SHORT_IDENTIFIER = "ab"
 SHORT_PASSWORD = "123"
 
 # Refresh token test data
+INVALID_REFRESH_TOKEN = "invalid-refresh-token"
 REFRESH_TOKEN_EXPIRES_DAYS = 7
 OLD_REFRESH_TOKEN = "old-refresh-token"
 VALID_REFRESH_TOKEN = "valid-refresh-token"
@@ -59,3 +61,4 @@ HTTP_OK = 200
 
 # Cookie
 REFRESH_COOKIE_PATH = "/api/v1/auth"
+REFRESH_COOKIE_MAX_AGE_DELETED = "0"
