@@ -3,6 +3,7 @@ from rest_framework import serializers
 from apps.accounts.enums import Role
 
 class GetAccountsSerializer(serializers.Serializer):
+    """Serializer for filtering accounts"""
     q = serializers.CharField(
         required=False,
         allow_blank=True,
@@ -29,6 +30,7 @@ class GetAccountsSerializer(serializers.Serializer):
     )
 
     def validate(self, attrs):
+        """Set default values for optional filters"""
         attrs.setdefault("q", None)
         attrs.setdefault("role", None)
         attrs.setdefault("is_active", None)

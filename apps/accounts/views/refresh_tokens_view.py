@@ -6,7 +6,10 @@ from shared.security.cookie_service import CookieService
 from shared.base_api_view import BaseApiView
 
 class RefreshView(BaseApiView):
-
+    """
+    Handle refresh token requests
+    Generate a new access token and refresh token
+    """
     permission_classes = [AllowAny]
 
     def post(self, request):

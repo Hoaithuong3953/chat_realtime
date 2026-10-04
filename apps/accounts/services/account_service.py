@@ -8,16 +8,24 @@ from apps.accounts.dtos import (
     GetAccountsResponse,
     UpdateAccountResponse,
 )
-from apps.accounts.dtos.get_accounts_dto import GetAccountsRequest
 from apps.accounts.models import Account
 from shared.exceptions.auth.account import AccountNotFoundException
-from apps.accounts.models import Account
 from shared.pagination_dto import PaginationResponse
 
 class AccountService:
+    """Service for managing user accounts"""
 
     @staticmethod
     def get_all(dto: GetAccountsRequest) -> GetAccountsResponse:
+        """
+        Get a paginated list of accounts
+
+        Args:
+            dto: Search and pagination parameters
+
+        Returns:
+            A paginated list of accounts
+        """
         queryset = Account.objects.search_accounts(
             q=dto.q,
             role=dto.role,
@@ -54,6 +62,18 @@ class AccountService:
 
     @staticmethod
     def get_account(account_id: UUID) -> GetAccountResponse:
+        """
+        Get account information by ID
+
+        Args:
+            account_id: The account ID
+
+        Returns:
+            The account information
+
+        Raises:
+            AccountNotFoundException: If the account does not exist
+        """
         account = Account.objects.get_by_id_with_profile(account_id=account_id)
 
         if not account:
@@ -73,6 +93,19 @@ class AccountService:
 
     @staticmethod
     def update_account(account_id: UUID, is_active: bool) -> UpdateAccountResponse:
+        """
+        Update an account's active status
+
+        Args:
+            account_id: The account ID
+            is_active: The new active status
+
+        Returns:
+            The updated account status
+
+        Raises:
+            AccountNotFoundException: If the account does not exist
+        """
         account = Account.objects.update_status(
             account_id=account_id,
             is_active=is_active,

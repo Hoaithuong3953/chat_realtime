@@ -15,8 +15,6 @@ class AccountView(BaseApiView):
         serializer = GetAccountsSerializer(data=request.query_params)
         serializer.is_valid(raise_exception=True)
 
-        print(serializer.validated_data)
-
         result = AccountService.get_all(
             GetAccountsRequest.model_validate(
                 serializer.validated_data,

@@ -6,7 +6,10 @@ from shared.security.cookie_service import CookieService
 from shared.base_api_view import BaseApiView
 
 class LogoutView(BaseApiView):
-
+    """
+    Handle user logout requests
+    Revoke the refresh token and clear the cookie
+    """
     permission_classes = [AllowAny]
 
     def post(self, request):
