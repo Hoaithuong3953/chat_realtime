@@ -5,6 +5,7 @@ from rest_framework.test import APIClient
 from rest_framework_simplejwt.tokens import AccessToken
 
 from apps.accounts.models import Account, RefreshToken
+from apps.users.models import User
 from shared.security import TokenHasher
 from .constants import (
     TEST_EMAIL,
@@ -25,6 +26,37 @@ def account():
         username=TEST_USERNAME,
         password=TEST_PASSWORD,
     )
+
+@pytest.fixture
+def account_factory():
+    def create_account(
+        email="account@example.com",
+        username="account",
+        role=None,
+        is_active=True,
+        full_name="Test User",
+        avatar_url=None,
+    ):
+        data = {
+            "email": email,
+            "username": username,
+            "is_active": is_active,
+        }
+
+        if role is not None:
+            data["role"] = role
+
+        account = Account.objects.create(**data)
+
+        User.objects.create(
+            account=account,
+            full_name=full_name,
+            avatar_url=avatar_url,
+        )
+
+        return account
+
+    return create_account
 
 @pytest.fixture
 def refresh_token(account):

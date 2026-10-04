@@ -4,6 +4,7 @@ LOGIN_URL = "/api/v1/auth/login"
 LOGOUT_URL = "/api/v1/auth/logout"
 REFRESH_URL = "/api/v1/auth/refresh"
 ME_URL = "/api/v1/auth/me"
+ACCOUNTS_URL = "/api/v1/accounts/"
 
 # Account test data
 TEST_EMAIL = "test@example.com"
@@ -19,6 +20,47 @@ NEW_USERNAME = "newuser"
 
 INVALID_EMAIL = "invalid-email"
 NON_EXISTENT_ACCOUNT_ID = "00000000-0000-0000-0000-000000000000"
+
+# Get all accounts test data
+ACCOUNT_1_EMAIL = "john.doe@example.com"
+ACCOUNT_1_USERNAME = "john123"
+ACCOUNT_1_FULL_NAME = "Jonathan Doe"
+
+ACCOUNT_2_EMAIL = "jane@example.com"
+ACCOUNT_2_USERNAME = "jane123"
+ACCOUNT_2_FULL_NAME = "Jane Doe"
+
+ACCOUNT_3_EMAIL = "john3@example.com"
+ACCOUNT_3_USERNAME = "john789"
+ACCOUNT_3_FULL_NAME = "John Brown"
+
+ACCOUNT_AVATAR_URL = "https://example.com/avatar1.jpg"
+
+SEARCH_JOHN = "john"
+SEARCH_JONATHAN = "jonathan"
+SEARCH_SUPER = "SUPER"
+SEARCH_PARTIAL_EMAIL = "ohn.do"
+SEARCH_NOT_FOUND = "not-found"
+
+PAGINATION_PAGE = 1
+PAGINATION_PAGE_SIZE = 20
+PAGINATION_TEST_PAGE = 2
+PAGINATION_TEST_PAGE_SIZE = 2
+PAGINATION_TOTAL_ITEMS = 5
+PAGINATION_TOTAL_PAGES = 3
+
+# Account view test data
+ADMIN_EMAIL = "admin@example.com"
+ADMIN_USERNAME = "admin"
+ADMIN_FULL_NAME = "Admin User"
+
+INACTIVE_EMAIL = "inactive@example.com"
+INACTIVE_USERNAME = "inactive"
+INACTIVE_FULL_NAME = "Inactive User"
+
+INVALID_VALUE = "invalid"
+MIN_INVALID_PAGE = 0
+MAX_INVALID_PAGE_SIZE = 101
 
 # Login test data
 INVALID_IDENTIFIER = "notfound@example.com"
@@ -72,6 +114,7 @@ HTTP_CONFLICT = 409
 HTTP_UNAUTHORIZED = 401
 HTTP_FORBIDDEN = 403
 HTTP_OK = 200
+HTTP_NOT_FOUND = 404
 
 # Cookie
 REFRESH_COOKIE_PATH = "/api/v1/auth"
