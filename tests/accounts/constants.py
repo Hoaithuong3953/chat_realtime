@@ -2,6 +2,7 @@
 REGISTER_URL = "/api/v1/auth/register"
 LOGIN_URL = "/api/v1/auth/login"
 LOGOUT_URL = "/api/v1/auth/logout"
+REFRESH_URL = "/api/v1/auth/refresh"
 
 # Account test data
 TEST_EMAIL = "test@example.com"
@@ -25,13 +26,17 @@ SHORT_PASSWORD = "123"
 
 # Refresh token test data
 INVALID_REFRESH_TOKEN = "invalid-refresh-token"
+REVOKED_REFRESH_TOKEN = "revoked-refresh-token"
+EXPIRED_REFRESH_TOKEN = "expired-refresh-token"
 REFRESH_TOKEN_EXPIRES_DAYS = 7
+REFRESH_TOKEN_EXPIRED_SECONDS = 1
 OLD_REFRESH_TOKEN = "old-refresh-token"
 VALID_REFRESH_TOKEN = "valid-refresh-token"
 
 # Response keys
 ACCESS_TOKEN_KEY = "access_token"
 EXPIRES_IN_KEY = "expires_in"
+REFRESH_TOKEN_KEY = "refresh_token"
 
 # Error codes
 EMAIL_ALREADY_EXISTS_ERROR_CODE = "EMAIL_ALREADY_EXISTS"

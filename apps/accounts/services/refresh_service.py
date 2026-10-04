@@ -8,10 +8,23 @@ from shared.exceptions.auth import InvalidRefreshTokenException
 from shared.security import TokenHasher, RefreshTokenService
 
 class RefreshService:
+    """Service for refreshing access and refresh tokens"""
 
     @staticmethod
     @transaction.atomic
     def refresh(refresh_token: str) -> RefreshTokenResponse:
+        """
+        Refresh the access token using a valid refresh token
+
+        Args:
+            refresh_token: The current refresh token
+
+        Returns:
+            A new access token and rotated refresh token
+
+        Raises:
+            InvalidRefreshTokenException: If the refresh token is invalid or expired
+        """
         if not refresh_token:
             raise InvalidRefreshTokenException()
         
